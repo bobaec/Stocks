@@ -3,8 +3,7 @@ import withFirebaseAuth from 'react-with-firebase-auth'
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
-import logo from './logo.svg';
-import './App.css';
+import './pages/css/App.css';
 
 import MainPage from "./pages";
 import UsersPage from "./pages/users/users.jsx";
@@ -20,6 +19,7 @@ import { Helmet } from 'react-helmet';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const TITLE = "STONKS";
+
 class App extends Component {
   render() {
     const {
@@ -36,8 +36,8 @@ class App extends Component {
       </Helmet>
         <header className="App-header">
           {
-            user
-              ?
+            user ?
+
               // if user logged in, redirect to dashboard
               // everything in here must be wrapped in the div to avoid
               // adjacent jsx element errors
