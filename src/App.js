@@ -16,9 +16,10 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
+import { Helmet } from 'react-helmet';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-
+const TITLE = "STONKS";
 class App extends Component {
   render() {
     const {
@@ -28,26 +29,32 @@ class App extends Component {
     } = this.props;
 
     return (
+
       <div className="App">
+      <Helmet>
+        <title>{ TITLE }</title>
+      </Helmet>
         <header className="App-header">
           {
             user
-              ? <p>Hello, {user.displayName}</p>
-              : <p>Please sign in.</p>
-          }
-
-          {
-            user
               ?
+              // if user logged in, redirect to dashboard
+              // everything in here must be wrapped in the div to avoid
+              // adjacent jsx element errors
               <Router>
               <Route exact path = '/'>
                 <MainPage user = {this.props.user} signOut = {this.props.signOut}/>
               </Route>
               </Router>
-              
-              : <button onClick={signInWithGoogle}>Sign in with Google</button>
+              : 
+              // if user not logged in, ask to sign in.
+              <div>
+              <p>Please sign in.</p>
+              <button onClick={signInWithGoogle}>Sign in with Google</button>
+              </div>
           }
         </header>
+
       </div>
     );
   }
