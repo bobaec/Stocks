@@ -6,6 +6,17 @@ import firebaseConfig from './firebaseConfig';
 import logo from './logo.svg';
 import './App.css';
 
+import MainPage from "./pages";
+import UsersPage from "./pages/users/users.jsx";
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  Redirect
+} from "react-router-dom";
+
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
@@ -19,7 +30,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           {
             user
               ? <p>Hello, {user.displayName}</p>
@@ -28,7 +38,13 @@ class App extends Component {
 
           {
             user
-              ? <button onClick={signOut}>Sign out</button>
+              ?
+              <Router>
+              <Route exact path = '/'>
+                <MainPage user = {this.props.user} signOut = {this.props.signOut}/>
+              </Route>
+              </Router>
+              
               : <button onClick={signInWithGoogle}>Sign in with Google</button>
           }
         </header>
