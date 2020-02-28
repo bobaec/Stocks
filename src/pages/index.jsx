@@ -15,15 +15,17 @@ class MainPage extends React.Component {
 	render() {
 		return (
 			<div class = "mainContent" 
-			style = {{marginLeft: this.props.marginLeft,
-			transition: this.props.transition}}>		
+			style = {{
+				marginLeft: this.props.marginLeft,
+				transition: this.props.transition
+			}}>		
 			{
 			this.props.user ? 
 			// if logged in, show all content
 			// all content should be inside this div
 				<div class="main">
-					<div className = "sidebar">
-					</div>
+					{/* <div className = "sidebar">
+					</div> */}
 					<div class="navbar">
 						<div class="dropdown">
 							<button class="dropbtn">Welcome, {this.props.user.displayName}  

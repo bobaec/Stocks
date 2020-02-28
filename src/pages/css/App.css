@@ -10,6 +10,9 @@
   width: 100%;
 }
 
+#mySidenav{
+  margin-top: 51px;
+}
 .wrapper{
   /* border: black 1px solid; */
   text-align: center;
@@ -85,8 +88,13 @@
   text-align: left;
 }
 
+.dropdown i{
+  margin-left: 10px;
+}
+
 .dropdown-content a:hover {
   background-color: #ddd;
+  cursor: pointer;
 }
 
 .dropdown:hover .dropdown-content {
