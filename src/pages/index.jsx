@@ -28,7 +28,7 @@ class MainPage extends React.Component {
 							<i class="fa fa-caret-down"></i>
 							</button>
 							<div class="dropdown-content">
-							<a onClick={this.props.signOut}>Sign Out</a>
+								<a onClick={this.props.signOut}>Sign Out</a>
 							</div>
 						</div> 
 					</div>
