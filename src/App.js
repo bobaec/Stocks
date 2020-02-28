@@ -82,6 +82,7 @@ class App extends Component {
               <div class="sign_in">
                 <p>STONKS</p>
                 <button class="login_button" onClick={signInWithGoogle}>Sign in with Google</button>
+
               </div>
           }
         

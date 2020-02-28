@@ -67,7 +67,7 @@
   margin: 0;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
+.navbar .dropdown:hover .dropbtn {
   background-color: #db3d44;
   overflow: hidden;
 }
@@ -76,7 +76,8 @@
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  width: 100%;
+  width: inherit;
+  padding-right: 105px;
 }
 
 .dropdown-content a {
@@ -85,15 +86,14 @@
   padding: 15px 15px;
   display: block;
   overflow: hidden;
-  text-align: left;
+  text-align: right;
 }
 
 .dropdown i{
   margin-left: 10px;
 }
 
-.dropdown-content a:hover {
-  background-color: #ddd;
+.dropdown-content:hover {
   cursor: pointer;
 }
 
