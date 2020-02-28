@@ -62,7 +62,7 @@ class App extends Component {
       <Helmet>
         <title>{ TITLE }</title>
       </Helmet>
-        <header className="App-header">
+        <header className="App-header"></header>
           {
             user ?
               // if user logged in, redirect to dashboard
@@ -75,12 +75,11 @@ class App extends Component {
               </Router>
               : 
               // if user not logged in, ask to sign in.
-              <div>
-              <p>Please sign in.</p>
-              <button onClick={signInWithGoogle}>Sign in with Google</button>
+              <div class="sign_in">
+                <p>STONKS</p>
+                <button class="login_button" onClick={signInWithGoogle}>Sign in with Google</button>
               </div>
           }
-        </header>
         
       </div>
     );
