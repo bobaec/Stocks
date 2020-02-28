@@ -3,4 +3,92 @@
   min-height: 100vh;
   display: flex;
   color: white;
+  width: 100%;
+}
+
+.mainContent{
+  width: 100%;
+}
+
+.wrapper{
+  /* border: black 1px solid; */
+  text-align: center;
+}
+
+.sign_in{
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 25px;
+  margin: auto;
+  text-align: center;
+}
+
+.login_button{
+  background: #282c34;
+  width: 100%;
+  align-items: center;
+  min-width: 200px;
+  height: 40px;
+  border-radius: 21px;
+  border-color: transparent;
+  color: white;
+}
+
+.login_button:hover{
+  background-color: lightgray;
+  color: black;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.dropdown {
+  float: right;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  color: white;
+  padding: 15px 15px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #db3d44;
+  overflow: hidden;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 100%;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 15px 15px;
+  display: block;
+  overflow: hidden;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }

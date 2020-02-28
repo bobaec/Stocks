@@ -14,28 +14,37 @@ import {
 class MainPage extends React.Component {
 	render() {
 		return (
-		<div className = "main">
-		
-		<div id = "mainContent" style = {{marginLeft: this.props.marginLeft,
-			transition: this.props.transition}}>
-	    {
-	      this.props.user ?
-  		  // if logged in, show all content
-  		  // all content should be inside this div
-  		  <div>
-  		  <p>Hello, {this.props.user.displayName}</p>
-	      <h3>Welcome to STONKS</h3>
-	      <button onClick={this.props.signOut}>Sign out</button>
-	      </div>
-	      :
-	      // else, redirect back to login page
-	      <Router>
-              <Route exact path = '/' component = {App}/>
-          </Router>
-	      }
-	      <br/><Link to="/users">test</Link>
-	    </div>
-	    </div>
+			<div class = "mainContent">
+			{
+			this.props.user ? 
+			// if logged in, show all content
+			// all content should be inside this div
+				<div class="main">
+					<div className = "sidebar">
+					</div>
+					<div class="navbar">
+						<div class="dropdown">
+							<button class="dropbtn">Welcome, {this.props.user.displayName}
+							<i class="fa fa-caret-down"></i>
+							</button>
+							<div class="dropdown-content">
+							<a onClick={this.props.signOut}>Sign Out</a>
+							</div>
+						</div> 
+					</div>
+					<div class="wrapper">
+						<center><h1>STONKS</h1></center>
+						<h3>Contents</h3>
+						<Link to="/users">test</Link>
+					</div>
+				</div>
+			:
+				// else, redirect back to login page
+				<Router>
+					<Route exact path = '/' component = {App}/>
+				</Router>
+			}
+			</div>
 		);
 	}
 
