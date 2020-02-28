@@ -14,7 +14,9 @@ import {
 class MainPage extends React.Component {
 	render() {
 		return (
-			<div class = "mainContent">
+			<div class = "mainContent" 
+			style = {{marginLeft: this.props.marginLeft,
+			transition: this.props.transition}}>		
 			{
 			this.props.user ? 
 			// if logged in, show all content

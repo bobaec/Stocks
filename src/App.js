@@ -23,7 +23,7 @@ const TITLE = "STONKS";
 class App extends Component {
 	// sidebar state - whether it is toggled or not.
 	state = {
-		marginLeft:'100px',
+		marginLeft:'0px',
 		transition: '0.2s',
 		toggled: false
 	}
@@ -32,19 +32,19 @@ class App extends Component {
 	// if open, main content moves to right and vice versa
 	onChange = () => {
 		this.setState({
-			marginLeft:'275px',
+			marginLeft:'240px',
 			toggled:true
 		});
 
 		if (this.state.toggled == true) {
 			this.setState({
-				marginLeft: '100px',
+				marginLeft: '0px',
 				toggled: false
 			});
 		}
 		if (this.state.toggled == false) {
 			this.setState({
-			marginLeft:'275px',
+			marginLeft:'240px',
 			toggled: true
 			});
 		}
@@ -70,7 +70,11 @@ class App extends Component {
               // adjacent jsx element errors
               <Router>
               <Route exact path = '/'>
-                <MainPage user = {this.props.user} signOut = {this.props.signOut} marginLeft = {this.state.marginLeft} transition = {this.state.transition}/>
+                <MainPage 
+                user = {this.props.user} 
+                signOut = {this.props.signOut} 
+                marginLeft = {this.state.marginLeft} 
+                transition = {this.state.transition}/>
               </Route>
               </Router>
               : 
