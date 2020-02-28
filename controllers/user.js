@@ -1,7 +1,7 @@
 const path = require('path');
-const Shark = require('../models/user');
+const User = require('../models/user');
 
-// Display users 
+// Display users
 exports.index = function (req, res) {
 	res.sendFile(path.resolve('views/user.html'));
 };
