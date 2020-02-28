@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
 import './pages/css/App.css';
-
+import Sidebar from './pages/Sidebar.jsx';
 import MainPage from "./pages";
 import UsersPage from "./pages/users/users.jsx";
 
@@ -21,6 +21,34 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const TITLE = "STONKS";
 
 class App extends Component {
+	// sidebar state - whether it is toggled or not.
+	state = {
+		marginLeft:'100px',
+		transition: '0.2s',
+		toggled: false
+	}
+
+	// if you click the sidebar button to open, it becomes responsive
+	// if open, main content moves to right and vice versa
+	onChange = () => {
+		this.setState({
+			marginLeft:'275px',
+			toggled:true
+		});
+
+		if (this.state.toggled == true) {
+			this.setState({
+				marginLeft: '100px',
+				toggled: false
+			});
+		}
+		if (this.state.toggled == false) {
+			this.setState({
+			marginLeft:'275px',
+			toggled: true
+			});
+		}
+	}
   render() {
     const {
       user,
@@ -29,21 +57,20 @@ class App extends Component {
     } = this.props;
 
     return (
-
       <div className="App">
+      {user && <Sidebar onChange = {this.onChange}/>}
       <Helmet>
         <title>{ TITLE }</title>
       </Helmet>
         <header className="App-header">
           {
             user ?
-
               // if user logged in, redirect to dashboard
               // everything in here must be wrapped in the div to avoid
               // adjacent jsx element errors
               <Router>
               <Route exact path = '/'>
-                <MainPage user = {this.props.user} signOut = {this.props.signOut}/>
+                <MainPage user = {this.props.user} signOut = {this.props.signOut} marginLeft = {this.state.marginLeft} transition = {this.state.transition}/>
               </Route>
               </Router>
               : 
@@ -54,7 +81,7 @@ class App extends Component {
               </div>
           }
         </header>
-
+        
       </div>
     );
   }
