@@ -13,12 +13,12 @@ import {
 
 class MainPage extends React.Component {
 	render() {
-		return (
+		return (			
 			<div class = "mainContent" 
 			style = {{
 				marginLeft: this.props.marginLeft,
 				transition: this.props.transition
-			}}>		
+			}}>
 			{
 			this.props.user ? 
 			// if logged in, show all content
@@ -26,7 +26,7 @@ class MainPage extends React.Component {
 				<div class="main">
 					{/* <div className = "sidebar">
 					</div> */}
-					<div class="navbar">
+					<div class="navbar" style= {{marginLeft: '0px'}}>
 						<div class="dropdown">
 							<button class="dropbtn">Welcome, {this.props.user.displayName}  
 							<i class="fa fa-caret-down"></i>
@@ -35,7 +35,7 @@ class MainPage extends React.Component {
 								<a onClick={this.props.signOut}>Sign Out</a>
 							</div>
 						</div> 
-					</div>
+						</div>
 					<div class="wrapper">
 						<center><h1>STONKS</h1></center>
 						<h3>Contents</h3>

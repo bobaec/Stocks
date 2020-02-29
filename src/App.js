@@ -27,13 +27,23 @@ class App extends Component {
 		transition: '0.2s',
 		toggled: false
 	}
+	navbarState = {
+		marginLeft:'0px'
+	}
+
+	staticNavbar = () => {
+		this.setState({
+			marginLeft:'0px'
+		});
+	}
 
 	// if you click the sidebar button to open, it becomes responsive
 	// if open, main content moves to right and vice versa
 	onChange = () => {
 		this.setState({
 			marginLeft:'240px',
-			toggled:true
+			toggled:true,
+			navbar:false
 		});
 
 		if (this.state.toggled == true) {
@@ -44,8 +54,8 @@ class App extends Component {
 		}
 		if (this.state.toggled == false) {
 			this.setState({
-			marginLeft:'240px',
-			toggled: true
+				marginLeft:'240px',
+				toggled: true
 			});
 		}
 	}
@@ -58,7 +68,7 @@ class App extends Component {
 
     return (
       <div className="App">
-      {user && <Sidebar onChange = {this.onChange}/>}
+      {user && <Sidebar onChange = {this.onChange} staticNavbar = {this.staticNavbar}/>}
       <Helmet>
         <title>{ TITLE }</title>
       </Helmet>
