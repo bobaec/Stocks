@@ -35,7 +35,7 @@ class MainPage extends React.Component {
 								<a onClick={this.props.signOut}>Sign Out</a>
 							</div>
 						</div> 
-						</div>
+					</div>
 					<div class="wrapper">
 						<center><h1>STONKS</h1></center>
 						<h3>Contents</h3>
