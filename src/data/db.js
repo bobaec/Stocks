@@ -20,3 +20,15 @@ const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${M
 
 mongoose.connect(url, {useNewUrlParser: true});
 
+
+
+// Atlas code
+// const MONGO_PASSWORD_ATLAS = 'tester123';
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD_ATLAS}@470project-b2y4i.mongodb.net/test?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//   const collection = client.db("test").collection("user");
+//   // perform actions on the collection object
+//   client.close();
+// });
