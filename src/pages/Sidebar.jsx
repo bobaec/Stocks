@@ -9,7 +9,7 @@ class Sidebar extends Component {
 			<div>
 			<SideNav id = "mySidenav" 
 		    onSelect={(selected) => { }}>
-		    <SideNav.Toggle onClick = {this.props.onChange, this.props.staticNavbar}/>
+		    <SideNav.Toggle onClick = {this.props.onChange && this.props.staticNavbar}/>
 		    <SideNav.Nav defaultSelected="home">
 		        <NavItem eventKey="home">
 		            <NavIcon>

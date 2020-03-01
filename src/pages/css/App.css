@@ -46,16 +46,18 @@
 .navbar {
   overflow: hidden;
   background-color: #333;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-
+  /*width: 100%;*/
+  /*margin-bottom:auto;*/
+  /*position:absolute;*/
+  /*top: 0;*/
+  /*display:inline-block;*/
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
 }
 
 .dropdown {
   float: right;
   overflow: hidden;
-  /*width:10%;*/
 }
 
 /* welcome, name */
@@ -67,20 +69,24 @@
   background-color: inherit;
   font-family: inherit;  
   width:100%;
+  margin:0;
 }
 
 /* color of welcome, name */
-.navbar .dropdown:hover .dropbtn {
+.dropdown:hover .dropbtn {
   background-color: #db3d44;
   overflow: hidden;
 }
 
-.dropdown .dropdown-content {
+/* signout */
+.dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
   right:0;
   left:auto;
+  z-index:3;
+  /*z-index:100;*/
 }
 
 .dropdown-content a {
@@ -100,6 +106,7 @@
   cursor: pointer;
 }
 
-.dropdown:hover .dropdown-content {
+.navbar .dropdown:hover .dropdown-content {
   display: block;
+
 }

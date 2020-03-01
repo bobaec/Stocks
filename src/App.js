@@ -5,6 +5,7 @@ import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
 import './pages/css/App.css';
 import Sidebar from './pages/Sidebar.jsx';
+import Navbar from './pages/Navbar.jsx';
 import MainPage from "./pages";
 import UsersPage from "./pages/users/users.jsx";
 
@@ -68,7 +69,12 @@ class App extends Component {
 
     return (
       <div className="App">
-      {user && <Sidebar onChange = {this.onChange} staticNavbar = {this.staticNavbar}/>}
+      {user && <Sidebar 
+		      	onChange = {this.onChange} 
+		      	staticNavbar = {this.staticNavbar}
+      		   />
+      }
+      
       <Helmet>
         <title>{ TITLE }</title>
       </Helmet>
@@ -77,8 +83,9 @@ class App extends Component {
             user ?
               // if user logged in, redirect to dashboard
               // everything in here must be wrapped in the div to avoid
-              // adjacent jsx element errors
+              // adjacent jsx element error
               <Router>
+              
               <Route exact path = '/'>
                 <MainPage 
                 user = {this.props.user} 
@@ -86,12 +93,19 @@ class App extends Component {
                 marginLeft = {this.state.marginLeft} 
                 transition = {this.state.transition}/>
               </Route>
+              <Route exact path ='/users'>
+              	<UsersPage
+              		user = {this.props.user}
+              		marginLeft = {this.state.marginLeft}
+              		transition = {this.state.transition}/>
+      			</Route>
+
               </Router>
               : 
               // if user not logged in, ask to sign in.
-              <div class="sign_in">
+              <div className="sign_in">
                 <p>STONKS</p>
-                <button class="login_button" onClick={signInWithGoogle}>Sign in with Google</button>
+                <button className="login_button" onClick={signInWithGoogle}>Sign in with Google</button>
 
               </div>
           }
