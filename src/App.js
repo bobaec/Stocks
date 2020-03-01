@@ -6,8 +6,10 @@ import firebaseConfig from './firebaseConfig';
 import './pages/css/App.css';
 import Sidebar from './pages/Sidebar.jsx';
 import Navbar from './pages/Navbar.jsx';
-import MainPage from "./pages";
+import MainPage from "./pages/index.jsx";
 import UsersPage from "./pages/users/users.jsx";
+import Browse from "./pages/Browse.jsx";
+import { Helmet } from 'react-helmet';
 
 import {
   BrowserRouter as Router,
@@ -16,7 +18,6 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
-import { Helmet } from 'react-helmet';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const TITLE = "STONKS";
@@ -70,8 +71,11 @@ class App extends Component {
     return (
       <div className="App">
       {user && <Sidebar 
+      			user = {this.props.user}
 		      	onChange = {this.onChange} 
 		      	staticNavbar = {this.staticNavbar}
+		      	marginLeft = {this.state.marginLeft} 
+                transition = {this.state.transition}
       		   />
       }
       
@@ -85,21 +89,8 @@ class App extends Component {
               // everything in here must be wrapped in the div to avoid
               // adjacent jsx element error
               <Router>
-              
-              <Route exact path = '/'>
-                <MainPage 
-                user = {this.props.user} 
-                signOut = {this.props.signOut} 
-                marginLeft = {this.state.marginLeft} 
-                transition = {this.state.transition}/>
-              </Route>
-              <Route exact path ='/users'>
-              	<UsersPage
-              		user = {this.props.user}
-              		marginLeft = {this.state.marginLeft}
-              		transition = {this.state.transition}/>
-      			</Route>
-
+              <Navbar user = {this.props.user} 
+              signOut = {this.props.signOut}/>
               </Router>
               : 
               // if user not logged in, ask to sign in.
