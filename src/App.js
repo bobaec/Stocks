@@ -7,7 +7,6 @@ import logo from './logo.svg';
 import './App.css';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-const db = require('./data/db');    // Import database conneciton info
 
 class App extends Component {
   render() {
