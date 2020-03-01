@@ -21,6 +21,13 @@ const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${M
 mongoose.connect(url, {useNewUrlParser: true});
 
 
+process.on('SIGINT', function() {
+    mongoose.connection.close(function() {
+        console.log('Mongoose connection closed')
+        process.exit(0);
+    })
+})
+
 
 // Atlas code
 // const MONGO_PASSWORD_ATLAS = 'tester123';
