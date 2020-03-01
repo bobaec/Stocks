@@ -9,7 +9,7 @@ class Navbar extends Component {
 			<div className="navbar">
 				<div className="dropdown">
 					<button className="dropbtn">Welcome, {this.props.user.displayName}  
-					<i className="fa fa-caret-down"></i>
+						<i className="fa fa-caret-down"></i>
 					</button>
 					<div className="dropdown-content">
 						<a onClick={this.props.signOut}>Sign Out</a>

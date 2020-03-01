@@ -14,7 +14,6 @@
   margin-top: 52px;
 }
 .wrapper{
-  /* border: black 1px solid; */
   text-align: center;
   padding-top:45px;
 }
@@ -45,7 +44,6 @@
 }
 
 .navbar {
-  /*overflow: hidden;*/
   background-color: #333;
   width:100%;
   float:right;
