@@ -21,6 +21,15 @@ const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${M
 mongoose.connect(url, {useNewUrlParser: true});
 
 
+mongoose.connection.on("error", function(err) {
+    console.log('Could not connect to mongo');
+    console.log(err)
+})
+
+mongoose.connection.on('open', function(ref) {
+    console.log('Connected to Mongo server');
+})
+
 process.on('SIGINT', function() {
     mongoose.connection.close(function() {
         console.log('Mongoose connection closed')
@@ -32,10 +41,10 @@ process.on('SIGINT', function() {
 // Atlas code
 // const MONGO_PASSWORD_ATLAS = 'tester123';
 // const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD_ATLAS}@470project-b2y4i.mongodb.net/test?retryWrites=true&w=majority";
+// const uri = "mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD_ATLAS}@470project-b2y4i.mongodb.net/${MONGO_DB}?retryWrites=true&w=majority";
 // const client = new MongoClient(uri, { useNewUrlParser: true });
 // client.connect(err => {
-//   const collection = client.db("test").collection("user");
+  // const collection = client.db("${MONGO_DB}").collection("user");
 //   // perform actions on the collection object
 //   client.close();
 // });
