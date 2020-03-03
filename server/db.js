@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const UserModel = require('./models/user');
 
 // Main Project database
 /*
@@ -21,6 +22,7 @@ const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${M
 const atlas_url = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD_ATLAS}@470project-b2y4i.mongodb.net/${MONGO_DB}?retryWrites=true&w=majority`;
 
 connectToDB();
+addUser();
 queryUser();
 
 function connectToDB() {
@@ -36,37 +38,26 @@ function connectToDB() {
 
     process.on('SIGINT', function() {
         mongoose.connection.close(function() {
-            console.log('\nMongoose connection closed')
+            console.log('\nMongoose connection closed');
             process.exit(0);
         })
     });
 }
 
-function queryUser() {
-    const UserSchema = mongoose.Schema({
-        _id: mongoose.Schema.Types.ObjectId,
-        name: String,
-        email: String
+function addUser() {
+    new UserModel({
+        name: "Fred",
+        email: "fred@hotmail.com"
+    }).save(function(err, data) {
+        if (err) {
+            console.log(`Error occurred while saving: ${err}`)
+        }
+        console.log(data.name + " saved successfully")
     });
-
-    var UserModel = mongoose.model('user', UserSchema)
-
-    var result = UserModel.find(function (err, data) {
-        console.log("Error: " + err + "\tData:", data);
-    })
 }
 
-
-
-
-
-// Atlas code
-// const MONGO_PASSWORD_ATLAS = 'tester123';
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD_ATLAS}@470project-b2y4i.mongodb.net/${MONGO_DB}?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true });
-// client.connect(err => {
-  // const collection = client.db("${MONGO_DB}").collection("user");
-//   // perform actions on the collection object
-//   client.close();
-// });
+function queryUser() {
+    UserModel.find(function (err, data) {
+        console.log(data);
+    });
+}
