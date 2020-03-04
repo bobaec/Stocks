@@ -4,60 +4,92 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
 import './pages/css/App.css';
-
-import MainPage from "./pages";
+import Sidebar from './pages/Sidebar.jsx';
+import Navbar from './pages/Navbar.jsx';
+import MainPage from "./pages/index.jsx";
 import UsersPage from "./pages/users/users.jsx";
+import Browse from "./pages/Browse.jsx";
+import { Helmet } from 'react-helmet';
 
 import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  Redirect
+    BrowserRouter as Router,
+	Route,
+	Switch,
+	Link,
+	Redirect
 } from "react-router-dom";
-import { Helmet } from 'react-helmet';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const TITLE = "STONKS";
 
 class App extends Component {
-  render() {
-    const {
-      user,
-      signOut,
-      signInWithGoogle,
-    } = this.props;
+	// sidebar state - whether it is toggled or not.
+	state = {
+		marginLeft:'0px',
+		transition: '0.2s',
+		toggled: false,
+	}
 
-    return (
+	// if you click the sidebar button to open, it becomes responsive
+	// if open, main content moves to right and vice versa
+	onChange = () => {
 
-      <div className="App">
-      <Helmet>
-        <title>{ TITLE }</title>
-      </Helmet>
-        <header className="App-header">
-          {
-            user ?
+		if (this.state.toggled == true) {
+			this.setState({
+				marginLeft: '0px',
+				toggled: false
+			});
+		}
+		else if (this.state.toggled == false) {
+			this.setState({
+				marginLeft:'240px',
+				toggled: true,
+			});
+		}
+	}
 
-              // if user logged in, redirect to dashboard
-              // everything in here must be wrapped in the div to avoid
-              // adjacent jsx element errors
-              <Router>
-              <Route exact path = '/'>
-                <MainPage user = {this.props.user} signOut = {this.props.signOut}/>
-              </Route>
-              </Router>
-              : 
-              // if user not logged in, ask to sign in.
-              <div>
-              <p>Please sign in.</p>
-              <button onClick={signInWithGoogle}>Sign in with Google</button>
-              </div>
-          }
-        </header>
+  	render() {
+    	const {
+      		user,
+      		signOut,
+      		signInWithGoogle,
+			} = this.props;
 
-      </div>
-    );
-  }
+	    return (
+	      	<div className="App">
+	      		{user && <Sidebar 
+	      			user = {this.props.user}
+			      	onChange = {this.onChange} 
+			      	marginLeft = {this.state.marginLeft} 
+	                transition = {this.state.transition}
+	      		   />
+	      		}
+	      
+		    <Helmet>
+		        <title>{ TITLE }</title>
+		    </Helmet>
+
+	        <header className="App-header"></header>
+	            {
+            	    user ?
+	              	// if user logged in, redirect to dashboard
+	              	// everything in here must be wrapped in the div to avoid
+	              	// adjacent jsx element error
+	              	<Router>
+	              		<Navbar user = {this.props.user} 
+              		  			signOut = {this.props.signOut}
+              		  	/>
+	              	</Router>
+              		: 
+	              	// if user not logged in, ask to sign in.
+	              	<div className="sign_in">
+	                	<p>STONKS</p>
+	                	<button className="login_button" onClick={signInWithGoogle}>Sign in with Google</button>
+	              	</div>
+	          	}
+	      	</div>
+    	);
+  	}
 }
 
 const firebaseAppAuth = firebaseApp.auth();
