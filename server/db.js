@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const UserModel = require('./models/user');
+const StockModel = require('./models/stock');
 
 // Main Project database
 /*
@@ -24,6 +25,7 @@ const atlas_url = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD_ATLAS}@470pr
 connectToDB();
 addUser();
 queryUser();
+addStock();
 
 function connectToDB() {
     mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -47,7 +49,12 @@ function connectToDB() {
 function addUser() {
     new UserModel({
         name: "Fred",
-        email: "fred@hotmail.com"
+        email: "fred@hotmail.com",
+        last_login: Date.now(),
+        stocks: {
+            stock_name: "Tesla",
+            latest_price: 100
+        }
     }).save(function(err, data) {
         if (err) {
             console.log(`Error occurred while saving: ${err}`)
@@ -59,5 +66,19 @@ function addUser() {
 function queryUser() {
     UserModel.find(function (err, data) {
         console.log(data);
+    });
+}
+
+function addStock() {
+    new StockModel({
+        name: "Tesla",
+        latest_price: 100,
+        last_retrieved: Date.now(),
+        api_source: "https://rapidapi.com/apidojo/api/yahoo-finance1"
+    }).save(function(err, data) {
+        if (err) {
+            console.log(`Error occurred while saving: ${err}`)
+        }
+        console.log(data.name + " saved successfully")
     });
 }
