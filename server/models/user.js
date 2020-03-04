@@ -8,7 +8,15 @@ const UserSchema = new Schema({
     stocks: [
         {
             stock_name: String,
-            latest_price: Number
+            stock_symbol: String,
+            latest_stock_price: Number
+        }
+    ],
+    cryptos: [
+        {
+            crypto_name: String,
+            crypto_symbol: String,
+            latest_crypto_price: Number
         }
     ]
 });
