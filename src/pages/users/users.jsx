@@ -1,15 +1,16 @@
 import React from "react";
 
-const UsersPage = () => {
-  return (
-    <div>
-      <ul>
-        {["Alex", "John", "Jaz", "fedrik", "missali"].map((user, idx) => {
-          return <li key={idx}>{user}</li>;
-        })}
-      </ul>
-    </div>
-  );
-};
-
+class UsersPage extends React.Component {
+	render() {
+		return (
+		    <div className = "mainContent">
+				<div className = "wrapper">
+					<center><h1>Your Profile</h1></center>
+					<h3>Hello, {this.props.user.displayName}</h3>
+				</div>
+			</div>
+		);
+	}
+}
+  
 export default UsersPage;

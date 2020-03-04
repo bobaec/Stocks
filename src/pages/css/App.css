@@ -3,4 +3,102 @@
   min-height: 100vh;
   display: flex;
   color: white;
+  width: 100%;
+}
+
+.mainContent{
+  width: 100%;
+}
+
+#mySidenav{
+  margin-top: 52px;
+}
+.wrapper{
+  text-align: center;
+  padding-top:45px;
+}
+
+.sign_in{
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 25px;
+  margin: auto;
+  text-align: center;
+}
+
+.login_button{
+  background: #282c34;
+  width: 100%;
+  align-items: center;
+  min-width: 200px;
+  height: 40px;
+  border-radius: 21px;
+  border-color: transparent;
+  color: white;
+}
+
+.login_button:hover{
+  background-color: lightgray;
+  color: black;
+}
+
+.navbar {
+  background-color: #333;
+  width:100%;
+  float:right;
+  position:absolute;
+}
+
+.dropdown {
+  float: right;
+  overflow: hidden;
+}
+
+/* welcome, name */
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  color: white;
+  padding: 15px 15px;
+  background-color: inherit;
+  font-family: inherit;  
+  width:100%;
+  margin:0;
+}
+
+/* color of welcome, name */
+.dropdown:hover .dropbtn {
+  background-color: #db3d44;
+  overflow: hidden;
+}
+
+/* signout */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  right:0;
+  left:auto;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 15px 15px;
+  display: block;
+  overflow: hidden;
+  text-align: right;
+}
+
+.dropdown i{
+  margin-left: 10px;
+}
+
+.dropdown-content:hover {
+  cursor: pointer;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
