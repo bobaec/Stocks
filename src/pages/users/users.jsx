@@ -40,17 +40,20 @@ class UsersPage extends React.Component {
 								<tr>
 									<td>Alphabet Inc Class A</td>
 									<td>1,295.74 USD</td>
-									<td>
+									<td style={{
+										color: -1 < 0 ? "red" : "green"
+										}}>
 										−19.02%
 										<i className = "fa fa-angle-up"/>
 									</td>
 									<td id="stock_table">1.45%</td>
-									
 								</tr>
 								<tr>
 									<td>Microsoft Corporation</td>
 									<td>161.57 USD</td>
-									<td >
+									<td style={{
+										color: -1 < 0 ? "red" : "green"
+										}}>
 										−4.7%
 										<i className = "fa fa-angle-up"/>
 									</td>
@@ -59,11 +62,16 @@ class UsersPage extends React.Component {
 								<tr>
 									<td>Intel Corporation</td>
 									<td>55.77 USD</td>
-									<td >
+									<td style={{
+										color: -1 < 0 ? "red" : "green"
+										}}>
 										−999.02%
 										<i className = "fa fa-angle-up"/>
 									</td>
 									<td>69.6%</td>
+								</tr>
+								<tr>
+									<td>+ Add New</td>
 								</tr>
 							</table>
 						</div>
