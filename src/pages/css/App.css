@@ -36,7 +36,7 @@
 }
 
 .login_button:hover, .general_button:hover, .user_information table tr:hover
-, .fav_stock_summary table tr:hover{
+, .fav_stock_summary table tr:hover, .users_table tr:hover{
   background-color: lightgray;
   color: black;
 }
@@ -103,5 +103,22 @@
 
 .profile .link, .profile .link:visited{
   color: inherit;
+}
 
+.users{
+  display: table;
+  margin: 0 auto;
+}
+
+.users_table{
+  display: table;
+  border-left: 5px solid #db3d44;
+  border-collapse: collapse;
+  margin-left: 10px;
+  overflow:auto;  
+  margin-left: 10px;
+}
+
+.users_table td{
+  padding: 15px 50px;
 }

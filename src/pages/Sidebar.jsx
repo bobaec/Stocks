@@ -4,9 +4,11 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import 'font-awesome/css/font-awesome.min.css';
 import MainPage from "/";
 import UsersPage from "./users/users.jsx";
+import ProfilePage from "./profile.jsx";
 import App from "../App";
 import Browse from "./Browse.jsx";
 import Trending from "./Trending.jsx";
+
 
 import {
   BrowserRouter as Router,
@@ -64,6 +66,14 @@ class Sidebar extends Component {
 						        </NavItem>
 					        	<NavItem eventKey= "users">
 			                        <NavIcon>
+			                            <i className = "fa fa-fw fa-users" style = {{ fontSize: '1.75em' }} />
+			                        </NavIcon>
+			                        <NavText>
+			                            Users
+			                        </NavText>
+			                    </NavItem>
+								<NavItem eventKey= "profile">
+			                        <NavIcon>
 			                            <i className = "fa fa-fw fa-user" style = {{ fontSize: '1.75em' }} />
 			                        </NavIcon>
 			                        <NavText>
@@ -88,6 +98,8 @@ class Sidebar extends Component {
 			                <Route path= "/browse" component = {props => <Browse user = {this.props.user}/>} />
 			                <Route path= "/trending" component = {props => <Trending user = {this.props.user}/>} />
 			                <Route path= "/users" component = {props => <UsersPage user = {this.props.user}/>} />
+			                <Route path= "/profile" component = {props => <ProfilePage user = {this.props.user}/>} />
+
 			                			            
 			            </main>
 			        </React.Fragment>
