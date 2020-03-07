@@ -14,7 +14,6 @@ class UsersPage extends React.Component {
 							<button class="general_button">Edit</button>
 						</div>
 						<h4>Information</h4>
-						<center>
 							<div className="user_information">
 								<table class="usr_table" id="user_table">
 									<tr>
@@ -27,7 +26,6 @@ class UsersPage extends React.Component {
 									</tr>
 								</table>
 							</div>
-						</center>
 					</div>
 				</div>
 			</div>
