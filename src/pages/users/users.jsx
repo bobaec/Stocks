@@ -1,4 +1,5 @@
 import React from "react";
+import { Table } from "react-bootstrap";
 
 class UsersPage extends React.Component {
 	render() {
@@ -8,8 +9,25 @@ class UsersPage extends React.Component {
 					<center><h1>Your Profile</h1></center>
 					<h3>{this.props.user.displayName}</h3>
 					<div className="profile">
-						<img src={this.props.user.photoURL} class="profile_img"/><br/>
-						<button className="general_button" >Edit</button>
+						<img src={this.props.user.photoURL} class="profile_img"/>
+						<div>
+							<button class="general_button">Edit</button>
+						</div>
+						<h4>Information</h4>
+						<center>
+							<div className="user_information">
+								<table class="usr_table" id="user_table">
+									<tr>
+										<td>Name</td>
+										<td>{this.props.user.displayName}</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td>{this.props.user.email}</td>
+									</tr>
+								</table>
+							</div>
+						</center>
 					</div>
 				</div>
 			</div>
