@@ -1,6 +1,12 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Link,
+	Redirect
+  } from "react-router-dom";
 class UsersPage extends React.Component {
 	render() {
 		return (
@@ -71,13 +77,14 @@ class UsersPage extends React.Component {
 									<td>69.6%</td>
 								</tr>
 								<tr>
-									<td>+ Add New</td>
+									<td><Link to="/browse" style={{color:"inherit"}}>+ Add New</Link></td>
 								</tr>
 							</table>
 						</div>
 					</div>
 				</div>
 			</div>
+			
 		);
 	}
 }

@@ -47,7 +47,7 @@
   width: 100%;
 }
 
-.profile_img{
+.profile .profile_img{
   border-radius: 50%;
   height: 200px;
   margin-bottom: 10px;
@@ -58,33 +58,34 @@
   border-color: transparent;
   color: white;
   border-radius: 15px;
+  cursor: pointer;
 }
 
-.user_information{
+.profile .user_information{
   display: table;
   margin: 0 auto;
 }
 
-.user_information table{
+.profile .user_information table{
   border-left: 5px solid #db3d44;
   border-collapse: collapse;
   width: 100%;
   margin-left: 10px;
 }
 
-.user_information table td{
+.profile .user_information table td{
   padding: 10px 30px;
   width: 100%;
   text-align: left;
 }
 
-.fav_stock_summary{
+.profile .fav_stock_summary{
   margin: auto;
   width: 70%;
   /* background-color: black; */
 }
 
-.fav_stock_summary table{
+.profile .fav_stock_summary table{
   border-left: 5px solid #db3d44;
   border-collapse: collapse;
   width: 100%;
@@ -92,10 +93,15 @@
   overflow:auto;  
 }
 
-.fav_stock_summary table td{
+.profile .fav_stock_summary table td{
   padding: 15px 30px;
 }
 
-.fav_stock_summary i{
+.profile fav_stock_summary i{
   padding-left: 5px;
+}
+
+.profile .link, .profile .link:visited{
+  color: inherit;
+
 }
