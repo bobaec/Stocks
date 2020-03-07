@@ -35,7 +35,7 @@
   color: white;
 }
 
-.login_button:hover{
+.login_button:hover, .general_button:hover{
   background-color: lightgray;
   color: black;
 }
@@ -44,4 +44,22 @@
   position: absolute !important;
   bottom: 0;
   width: 100%;
+}
+
+.profile_img{
+  border-radius: 50%;
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.general_button{
+  background: inherit;
+  border-color: transparent;
+  color: white;
+  border-radius: 15px;
+  font-weight: bold;
+  
+  /* width: 10%; */
+
+  /* align-items: center; */
 }
