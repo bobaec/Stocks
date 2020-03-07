@@ -25,6 +25,10 @@ class Sidebar extends Component {
 			            <SideNav id = "mySidenav"
 			                onSelect = {(selected) => {
 			                    var to = '/' + selected;
+			                    if (selected == undefined) {
+			                    	to = '/';
+			                    	selected = " ";
+			                    }
 								if (selected == " ") {
 		                    		to = '/';
 		                    	}
@@ -66,6 +70,14 @@ class Sidebar extends Component {
 			                            Profile
 			                        </NavText>
 			                    </NavItem>
+			                    <NavItem className = "logoutButton" onClick = {this.props.signOut}>
+			                        <NavIcon>
+			                            <i className = "fa fa-fw fa-sign-out" style = {{ fontSize: '1.75em' }} />
+			                        </NavIcon>
+			                        <NavText>
+			                            Logout
+			                        </NavText>
+			                    </NavItem>
 			                </SideNav.Nav>
 			            </SideNav>
 			            <main className = "mainContent" style = {{
@@ -76,6 +88,7 @@ class Sidebar extends Component {
 			                <Route path= "/browse" component = {props => <Browse user = {this.props.user}/>} />
 			                <Route path= "/trending" component = {props => <Trending user = {this.props.user}/>} />
 			                <Route path= "/users" component = {props => <UsersPage user = {this.props.user}/>} />
+			                			            
 			            </main>
 			        </React.Fragment>
 			    )}/>

@@ -5,7 +5,6 @@ import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
 import './pages/css/App.css';
 import Sidebar from './pages/Sidebar.jsx';
-import Navbar from './pages/Navbar.jsx';
 import MainPage from "./pages/index.jsx";
 import UsersPage from "./pages/users/users.jsx";
 import Browse from "./pages/Browse.jsx";
@@ -62,6 +61,7 @@ class App extends Component {
 			      	onChange = {this.onChange} 
 			      	marginLeft = {this.state.marginLeft} 
 	                transition = {this.state.transition}
+	                signOut = {this.props.signOut}
 	      		   />
 	      		}
 	      
@@ -76,9 +76,6 @@ class App extends Component {
 	              	// everything in here must be wrapped in the div to avoid
 	              	// adjacent jsx element error
 	              	<Router>
-	              		<Navbar user = {this.props.user} 
-              		  			signOut = {this.props.signOut}
-              		  	/>
 	              	</Router>
               		: 
 	              	// if user not logged in, ask to sign in.
