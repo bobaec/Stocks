@@ -13,19 +13,60 @@ class UsersPage extends React.Component {
 						<div>
 							<button class="general_button">Edit</button>
 						</div>
+						<br/>
 						<h4>Information</h4>
-							<div className="user_information">
-								<table class="usr_table" id="user_table">
-									<tr>
-										<td>Name</td>
-										<td>{this.props.user.displayName}</td>
-									</tr>
-									<tr>
-										<td>Email</td>
-										<td>{this.props.user.email}</td>
-									</tr>
-								</table>
-							</div>
+						<div className="user_information">
+							<table>
+								<tr>
+									<td>Name</td>
+									<td>{this.props.user.displayName}</td>
+								</tr>
+								<tr>
+									<td>Email</td>
+									<td>{this.props.user.email}</td>
+								</tr>
+							</table>
+						</div>
+						<br/>
+						<div className="fav_stock_summary">
+							<h4>Favourite Stocks</h4>
+							<table id="stock_table">
+								<thead>
+									<th>Stock</th>
+									<th>Last Price</th>
+									<th>Change</th>
+									<th>% Change</th>
+								</thead>
+								<tr>
+									<td>Alphabet Inc Class A</td>
+									<td>1,295.74 USD</td>
+									<td>
+										−19.02%
+										<i className = "fa fa-angle-up"/>
+									</td>
+									<td id="stock_table">1.45%</td>
+									
+								</tr>
+								<tr>
+									<td>Microsoft Corporation</td>
+									<td>161.57 USD</td>
+									<td >
+										−4.7%
+										<i className = "fa fa-angle-up"/>
+									</td>
+									<td>2.83%</td>
+								</tr>
+								<tr>
+									<td>Intel Corporation</td>
+									<td>55.77 USD</td>
+									<td >
+										−999.02%
+										<i className = "fa fa-angle-up"/>
+									</td>
+									<td>69.6%</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

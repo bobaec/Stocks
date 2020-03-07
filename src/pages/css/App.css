@@ -35,7 +35,8 @@
   color: white;
 }
 
-.login_button:hover, .general_button:hover, .user_information table tr:hover{
+.login_button:hover, .general_button:hover, .user_information table tr:hover
+, .fav_stock_summary table tr:hover{
   background-color: lightgray;
   color: black;
 }
@@ -57,7 +58,6 @@
   border-color: transparent;
   color: white;
   border-radius: 15px;
-  font-weight: bold;
 }
 
 .user_information{
@@ -76,4 +76,24 @@
   padding: 10px 30px;
   width: 100%;
   text-align: left;
+}
+
+.fav_stock_summary{
+  margin: auto;
+  width: 70%;
+  /* background-color: black; */
+}
+
+.fav_stock_summary table{
+  border-left: 5px solid #db3d44;
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: 10px;
+}
+
+.fav_stock_summary table td{
+  padding: 15px 30px;
+}
+.fav_stock_summary i{
+  padding-left: 5px;
 }
