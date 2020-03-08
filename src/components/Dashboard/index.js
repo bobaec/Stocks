@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from "src/components/Chart/index";
+import Chart from "../Chart/index";
 
 export default class Dashboard extends Component {
     constructor() {
@@ -17,12 +17,12 @@ export default class Dashboard extends Component {
         const url = `/stocks/${userId}`;
 
         const response = await fetch(url, {
-            method: 'POST', 
+            method: 'GET', 
             cache: 'no-cache',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            // body: JSON.stringify(data)
           });
 
           console.log(await response.json())

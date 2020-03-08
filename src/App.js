@@ -9,6 +9,7 @@ import MainPage from "./pages/index.jsx";
 import UsersPage from "./pages/users/users.jsx";
 import Browse from "./pages/Browse.jsx";
 import { Helmet } from 'react-helmet';
+import Dashboard  from './components/Dashboard/index'
 
 import {
     BrowserRouter as Router,
@@ -68,6 +69,9 @@ class App extends Component {
 		    <Helmet>
 		        <title>{ TITLE }</title>
 		    </Helmet>
+			<Dashboard>
+
+			</Dashboard>
 
 	        <header className="App-header"></header>
 	            {

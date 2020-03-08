@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Chart from "chart.js";
 
 export default Chart = () => {
-    const data = useState(null); // 
-    chartRef = React.createRef();
-        
+    const [data] = useState(null); // get data from 
+    const chartRef = React.createRef();
+    
     useEffect(() => {
-        const myChartRef = this.chartRef.current.getContext("2d");
+        const myChartRef = chartRef.current.getContext("2d");
         
         new Chart(myChartRef, {
             type: "line",
@@ -14,22 +14,20 @@ export default Chart = () => {
                 labels: ["Jan", "Feb", "March"],
                 datasets: [
                     {
-                        label: "Sales",
+                        label: "Stocks",
                         data: [86, 67, 91],
                     }
                 ]
             },
-            options: {
-                //Customize chart options
-            }
+            options: {}
         });
     });
 
     return (
-        <div className={classes.graphContainer}>
+        <div>
             <canvas
                 id="myChart"
-                ref={this.chartRef}
+                ref={chartRef}
             />
         </div>
     )
