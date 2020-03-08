@@ -1,11 +1,10 @@
-
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react';
 import Chart from "chart.js";
 
-export default class LineGraph extends Component {
+export default Chart = () => {
     chartRef = React.createRef();
-    
-    componentDidMount() {
+        
+    useEffect(() => {
         const myChartRef = this.chartRef.current.getContext("2d");
         
         new Chart(myChartRef, {
@@ -23,15 +22,14 @@ export default class LineGraph extends Component {
                 //Customize chart options
             }
         });
-    }
-    render() {
-        return (
-            <div className={classes.graphContainer}>
-                <canvas
-                    id="myChart"
-                    ref={this.chartRef}
-                />
-            </div>
-        )
-    }
+    });
+
+    return (
+        <div className={classes.graphContainer}>
+            <canvas
+                id="myChart"
+                ref={this.chartRef}
+            />
+        </div>
+    )
 }
