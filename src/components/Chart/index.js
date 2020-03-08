@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Chart from "chart.js";
 
 export default Chart = () => {
+    const data = useState(null); // 
     chartRef = React.createRef();
         
     useEffect(() => {
