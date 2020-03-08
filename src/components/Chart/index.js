@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Chart from "chart.js";
 
 export default Chart = () => {
-    const [data] = useState(null); // get data from 
-    const chartRef = React.createRef();
+    const [data, setData] = useState(null); // get data from 
+    const chartRef = useState(React.createRef());
     
     useEffect(() => {
         const myChartRef = chartRef.current.getContext("2d");
