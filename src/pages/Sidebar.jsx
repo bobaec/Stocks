@@ -8,6 +8,7 @@ import ProfilePage from "./profile.jsx";
 import App from "../App";
 import Browse from "./Browse.jsx";
 import Trending from "./Trending.jsx";
+import './css/App.css';
 
 
 import {

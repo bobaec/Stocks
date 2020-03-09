@@ -74,7 +74,9 @@
 
 .profile .fav_stock_summary{
   margin: 0 auto;
-  width: 80%;
+  /* width: 80%;  */
+  width: 100%; 
+
 }
 
 .profile .fav_stock_summary table{
@@ -90,4 +92,8 @@
 
 .users row{
   margin-top: 10px;
+}
+
+#mySidenav{
+  position: sticky;
 }

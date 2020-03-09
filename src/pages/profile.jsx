@@ -17,8 +17,7 @@ class Profile extends React.Component {
 		return (
 		    <div className = "mainContent">
 				<div className = "wrapper">
-					<center><h2>Your Profile</h2></center>
-					<h5>{this.props.user.displayName}</h5><br/>
+					<center><h4>Your Profile</h4></center>
 					<Container>
 						<Col xs={12} md={12} className="profile">
 							<Image src={this.props.user.photoURL} roundedCircle width={150}/>
@@ -26,7 +25,6 @@ class Profile extends React.Component {
 								<button class="general_button">Edit</button>
 							</div>
 							<br/>
-							<h5>Information</h5>
 							<div className="user_information">
 								<Table  bordered variant="dark">
 									<tr>
@@ -41,7 +39,6 @@ class Profile extends React.Component {
 							</div>
 							<br/>
 							<div className="fav_stock_summary">
-								<h5>Favourite Stocks</h5>
 								<Col xs={12} md={12}>
 									<Table bordered variant="dark" id="stock_table">
 										<thead>
