@@ -26,9 +26,9 @@
 
 .login_button{
   background: #282c34;
-  width: 100%;
+  font-size: 13px;
   align-items: center;
-  min-width: 200px;
+  min-width: 180px;
   height: 40px;
   border-radius: 21px;
   border-color: transparent;
