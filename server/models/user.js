@@ -37,29 +37,26 @@ exports.addNewUser = function (req, res) {
     });
 };
 
-exports.getuserById = function (req, res, id) {
-    var objectId = mongoose.Types.ObjectId(id);   // Convert string to objectId
+exports.getuserById = function (req, res) {
+    var objectId = mongoose.Types.ObjectId(req.params.id);   // Convert string to objectId
     User.find({_id: objectId});
 };
 
 // Get user by name
-exports.getUserByName = function (req, res, name) {
-    User.find({name: name});
+exports.getUserByName = function (req, res) {
+    User.find({name: req.params.name});
 };
 
 // Get all users
 exports.getAllUsers = function (req, res) {
-    User.find(function (err, data) {
-        console.log(data);
-    });
-
-
-    // User.find({}).exec(function (err, data) {
+    // var query = User.find({});
+    // query.exec(function (err, data) {
     //     if (err) {
-    //         console.log(err);
-    //         return res.send(500, err);
+    //         return res.status(500).send(err);
     //     }
-    //     console.log(data);
-    //     return res.send(200, data);
+    //     return res.send(data);
     // });
+
+    var users = User.find({}).exec();
+    res.send(users);
 };

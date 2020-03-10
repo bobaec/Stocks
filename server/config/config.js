@@ -7,6 +7,7 @@ const chalk = require('chalk');
 const router = require('./routes');
 const path = require('path');
 const errorHandler = require('errorhandler');
+const database = require('../db');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -26,4 +27,9 @@ module.exports = (app) =>{
   app.use(errorHandler());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-}
+};
+
+/**
+ * Database setup and connection
+ */
+database.connectToDB();
