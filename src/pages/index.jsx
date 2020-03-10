@@ -23,9 +23,8 @@ class MainPage extends React.Component {
 			// all content should be inside this div
 				<div className="main">
 					<div className="wrapper">
-						<center><h1>Hi, {this.props.user.displayName}</h1></center>
-						<center><h1>Welcome to STONKS</h1></center>
-						<img src={stock_img} alt="Logo" />
+						<center><h3>Welcome to STONKS</h3></center>
+						<img src={stock_img} alt="Logo" fluid width={300}/>
 					</div>
 				</div>
 				:
