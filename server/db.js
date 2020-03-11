@@ -3,7 +3,8 @@ const UserModel = require('./models/user');
 const StockModel = require('./models/stock');
 const CryptoModel = require('./models/crypto');
 
-require('dotenv').config();
+// require('dotenv').config();
+// require('dotenv').config({ path: '.env' });
 
 // Test database
 const MONGO_USERNAME = 'tester';
@@ -17,12 +18,14 @@ const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${M
 const atlas_url = process.env.MONGODB_TEST_URI;
 
 connectToDB();
-addUser();
-queryUser();
-addStock();
-addCrypto();
+// addUser();
+// queryUser();
+// addStock();
+// addCrypto();
 
 function connectToDB() {
+    console.log(atlas_url);
+
     // mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
     mongoose.connect(atlas_url, {useNewUrlParser: true, useUnifiedTopology: true});
 

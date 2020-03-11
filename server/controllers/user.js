@@ -30,3 +30,8 @@ exports.list = function (req, res) {
 		 });
 	});
 };
+
+exports.getAllUsers = function (req, res) {
+    var users = User.getAll();
+    res.send(users);
+};
