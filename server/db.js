@@ -23,10 +23,6 @@ const atlas_url = process.env.MONGODB_TEST_URI;
 // addCrypto();
 
 exports.connectToDB = function connectToDB() {
-    console.log(atlas_url);
-
-    console.log(process.env.MONGODB_TEST_URI)
-
     // mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
     mongoose.connect(process.env.MONGODB_TEST_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 

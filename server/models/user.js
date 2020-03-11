@@ -48,21 +48,15 @@ exports.getUserByName = function (req, res) {
 };
 
 // Get all users
-exports.getAll = function() {
-    // return User.find({});
-    return User.find({}).exec();
+exports.getAll = function () {
+    return User.find({});
+    // return User.find({}).exec();
+    // User.find({name: "Bob"}, function (err, data) {
+    //     if (err) {
+    //         console.log(err);
+    //         return err;
+    //     }
+    //     console.log(data);
+    //     return data;
+    // });
 };
-
-
-// exports.getAllUsers = function (req, res) {
-//     // var query = User.find({});
-//     // query.exec(function (err, data) {
-//     //     if (err) {
-//     //         return res.status(500).send(err);
-//     //     }
-//     //     return res.send(data);
-//     // });
-//
-//     var users = User.find({}).exec();
-//     res.send(users);
-// };
