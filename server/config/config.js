@@ -7,12 +7,11 @@ const chalk = require('chalk');
 const router = require('./routes');
 const path = require('path');
 const errorHandler = require('errorhandler');
-const database = require('../db');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-require('dotenv').config({ path: '.env' });
+require('dotenv').config({path: path.join(__dirname, '../.env')})
 
 /**
  * Export our configuration
@@ -32,4 +31,4 @@ module.exports = (app) =>{
 /**
  * Database setup and connection
  */
-database.connectToDB();
+require('../db').connectToDB();

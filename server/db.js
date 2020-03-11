@@ -17,17 +17,18 @@ const MONGO_PASSWORD_ATLAS = 'tester123';
 const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=${MONGO_DB}`;
 const atlas_url = process.env.MONGODB_TEST_URI;
 
-connectToDB();
 // addUser();
 // queryUser();
 // addStock();
 // addCrypto();
 
-function connectToDB() {
+exports.connectToDB = function connectToDB() {
     console.log(atlas_url);
 
+    console.log(process.env.MONGODB_TEST_URI)
+
     // mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
-    mongoose.connect(atlas_url, {useNewUrlParser: true, useUnifiedTopology: true});
+    mongoose.connect(process.env.MONGODB_TEST_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
     mongoose.connection.on("error", function(err) {
         console.log('\n\nCould not connect to Mongo Server');

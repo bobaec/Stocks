@@ -9,7 +9,7 @@ const path = require('path');
  * Create Express server.
  */
 var app = express();
-require('dotenv').config({path: path.join(__dirname, '.env')});
+
 /**
  * Express configuration.
  */
