@@ -31,6 +31,11 @@ exports.list = function (req, res) {
 	});
 };
 
+exports.getUserByEmail = async (req, res) => {
+	const user = await User.getByEmail(req.params.email);
+	res.send(user);
+};
+
 exports.getUserById = async function (req, res) {
 	const user = await User.getById(req.params.id);
 	res.send(user);

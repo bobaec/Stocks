@@ -30,5 +30,6 @@ app.get('/stocks/:userId', stocksController.user)
 app.get('/user/all', userController.getAllUsers);
 app.get('/user/name/:name', userController.getUserByName);
 app.get('/user/id/:id', userController.getUserById);
+app.get('/user/email/:email', userController.getUserByEmail);
 
 module.exports = app;
