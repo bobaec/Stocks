@@ -115,9 +115,16 @@ class Coin extends React.Component {
     }
 
     render() {
+        let header;
+        if (this.props.coin !== '') {
+            header = this.props.coin + ' Overview'
+        } else {
+            header = ''
+        }
+
         return (
             <div>
-                <center><h1>{this.props.coin} data</h1></center>
+                <center><h1>{header}</h1></center>
                 <center><table id="coin" style={{border: "3px solid white", "border-collapse": "collapse"}}>
                     <tbody>
                         <tr>{this.renderTableHeader()}</tr>
