@@ -31,7 +31,7 @@ exports.list = function (req, res) {
 	});
 };
 
-exports.getAllUsers = function (req, res) {
-	const users = User.getAll();
+exports.getAllUsers = async function (req, res) {
+	const users = await User.getAll();
     res.send(users);
 };

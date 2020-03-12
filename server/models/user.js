@@ -50,13 +50,4 @@ exports.getUserByName = function (req, res) {
 // Get all users
 exports.getAll = async function () {
     return await User.find({});
-    // return User.find({}).exec();
-    // User.find({name: "Bob"}, function (err, data) {
-    //     if (err) {
-    //         console.log(err);
-    //         return err;
-    //     }
-    //     console.log(data);
-    //     return data;
-    // });
 };
