@@ -25,7 +25,7 @@ export default class Dashboard extends Component {
             // body: JSON.stringify(data)
           });
 
-          console.log(await response.json())
+        //   console.log(await response.json())
         //   return await response.json();
     }
 
