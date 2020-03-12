@@ -9,4 +9,12 @@ const StockSchema = new Schema({
     api_source: String
 });
 
-module.exports = mongoose.model('Stock', StockSchema, "stock");
+const Stock = mongoose.model('Stock', StockSchema, "stock");
+
+exports.getById = async function(id) {
+    return await Stock.findById(id);
+};
+
+exports.getAll = async function() {
+    return await Stock.find({});
+};
