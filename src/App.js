@@ -34,7 +34,7 @@ class App extends Component {
 		}
 		else if (this.state.toggled === false) {
 			this.setState({
-				marginLeft:'240px',
+				marginLeft:'1%',
 				toggled: true,
 			});
 		}
