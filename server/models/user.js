@@ -37,14 +37,14 @@ exports.addNewUser = function (req, res) {
     });
 };
 
-exports.getuserById = function (req, res) {
-    var objectId = mongoose.Types.ObjectId(req.params.id);   // Convert string to objectId
-    User.find({_id: objectId});
+// Get user by id
+exports.getById = async function (id) {
+    return await User.findById(id);
 };
 
 // Get user by name
-exports.getUserByName = function (req, res) {
-    User.find({name: req.params.name});
+exports.getByName = async function (name) {
+    return await User.find({name: name});
 };
 
 // Get all users

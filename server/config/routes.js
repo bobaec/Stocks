@@ -24,7 +24,11 @@ app.get('/stocks/:id', stocksController.get)
 app.get('/stocks', stocksController.getAll)
 app.get('/stocks/:userId', stocksController.user)
 
-// Comment this line out for it to work
+/**
+ * User routes
+ */
 app.get('/user/all', userController.getAllUsers);
+app.get('/user/name/:name', userController.getUserByName);
+app.get('/user/id/:id', userController.getUserById);
 
 module.exports = app;
