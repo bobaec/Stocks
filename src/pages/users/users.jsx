@@ -1,15 +1,11 @@
 import React from "react";
 import {
-	Col,
 	Container,
-	Card,
-	CardDeck,
-	ListGroup,
 	Image,
 	Table,
 	Row
 } from 'react-bootstrap';
-import stock_img from '../img/image.png'
+// import stock_img from '../img/image.png'
 
 class UsersPage extends React.Component {
 	render() {
