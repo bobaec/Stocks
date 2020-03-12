@@ -1,5 +1,12 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import {
+    InputGroup,
+    FormControl,
+    Button,
+    Row,
+    Col,
+} from 'react-bootstrap';
 let crypto = require('./crypto.js');
 
 
@@ -42,17 +49,24 @@ class CoinList extends React.Component {
         const coinList = this.state.coinList;
 
         return (
-            <div>
-                <input type="text" list="coinList" onChange={this.updateCoin} />
-                <button type="button" id="refresh" onClick={this.sendCoin} > Get </button>
-                <datalist id="coinList">
+            <div className = "mainContent">
+                <center><h4>Browse Crypto</h4></center>
+                    <InputGroup className="browse_input">
+                        <FormControl placeholder="ex)Bitcoin" type="text" list="coinList" onChange={this.updateCoin}/>
+                        <InputGroup.Append>
+                        <Button variant="outline-secondary" type="button" id="refresh" onClick={this.sendCoin}>Browse</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+
+                <datalist id="coinList" >
                     {
                         Object.keys(coinList).map(key => {
-                            return <option key={key} value={coinList[key]} />
+                            return <option key={key} value={coinList[key]}/>
                         })
                     }
                 </datalist>
             </div>
+
         )
     };
 } 
@@ -258,7 +272,7 @@ class CryptoPage extends React.Component {
                 <div>
                     <Coin coin={this.getCoin(this.state.coin)} />
                 </div>
-                <div style={{ position: "relative", margin: "auto", width: "60vw", height: '30vh' }}>
+                <div style={{ position: "relative", margin: "auto", width: "60vw", height: '30vh'}}>
                     <PriceGraph coin={this.getCoin(this.state.coin)} days='1' />
                 </div>
             </div>

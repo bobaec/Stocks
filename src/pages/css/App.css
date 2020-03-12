@@ -104,3 +104,15 @@
   position: sticky;
   /* position: fixed; */
 }
+
+.browse_input{
+  padding: 50px;
+}
+
+.browse_input button{
+  color: white;
+}
+
+.browse_input coinList{
+  color: rebeccapurple;
+}
