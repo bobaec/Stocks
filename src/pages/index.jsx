@@ -22,7 +22,7 @@ class MainPage extends React.Component {
 				<div className="main">
 					<div className="wrapper">
 						
-						<Dashboard/>
+						<Dashboard className="dashboard"/>
 					</div>
 				</div>
 				:

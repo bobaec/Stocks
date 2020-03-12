@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Chart from "../Chart/index";
+import '../../pages/css/App.css';
 
 export default class Dashboard extends Component {
     constructor() {
@@ -36,11 +37,11 @@ export default class Dashboard extends Component {
             <header>
                 <h1>Dashboard</h1>
             </header>
-            <center><div style = {{width:'50%'}}>
+            <center><div style = {{width:'70%'}}>
                 <Chart 
                     data={data}
-                    labels={labels} /
-                >
+                    labels={labels} 
+                />
             </div></center>
             </div>
         )
