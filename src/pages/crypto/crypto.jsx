@@ -115,15 +115,23 @@ class Coin extends React.Component {
     }
 
     render() {
+        let header;
+        if (this.props.coin !== '') {
+            header = this.props.coin + ' Overview'
+        } else {
+            header = ''
+        }
+
         return (
             <div>
-                <h1>{this.props.coin} data</h1>
-                <table id="coin" style={{border: "3px solid white", "border-collapse": "collapse"}}>
+                <center><h1>{header}</h1></center>
+                <center><table id="coin" style={{border: "3px solid white", "border-collapse": "collapse"}}>
                     <tbody>
                         <tr>{this.renderTableHeader()}</tr>
                         {this.renderTableData()}
                     </tbody>
                 </table>
+                </center>
             </div>
         )
     }
@@ -242,8 +250,9 @@ class CryptoPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
+            
+            <div className = "mainContent">
+                <div className = "wrapper">
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
                 </div>
                 <div>

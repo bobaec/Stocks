@@ -3,14 +3,11 @@ import App from "../App";
 
 // sidebar imports
 import '../pages/css/App.css';
-import stock_img from './img/image.png'
+// import stock_img from './img/image.png'
 
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Link,
-  Redirect
 } from "react-router-dom";
 
 class MainPage extends React.Component {
@@ -24,7 +21,6 @@ class MainPage extends React.Component {
 				<div className="main">
 					<div className="wrapper">
 						<center><h3>Welcome to STONKS</h3></center>
-						<img src={stock_img} alt="Logo" fluid width={300}/>
 					</div>
 				</div>
 				:

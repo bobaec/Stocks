@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import 'font-awesome/css/font-awesome.min.css';
 import MainPage from "/";
+import Browse from "./Browse.jsx"
 import UsersPage from "./users/users.jsx";
 import ProfilePage from "./profile.jsx";
-import App from "../App";
-import Browse from "./Browse.jsx";
+import CryptoPage from "./crypto/crypto.jsx";
 import Trending from "./Trending.jsx";
 import './css/App.css';
 
@@ -14,9 +14,6 @@ import './css/App.css';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Switch,
-  Redirect
 } from "react-router-dom";
 
 class Sidebar extends Component {
@@ -28,11 +25,11 @@ class Sidebar extends Component {
 			            <SideNav id = "mySidenav"
 			                onSelect = {(selected) => {
 			                    var to = '/' + selected;
-			                    if (selected == undefined) {
+			                    if (selected === undefined) {
 			                    	to = '/';
 			                    	selected = " ";
 			                    }
-								if (selected == " ") {
+								if (selected === " ") {
 		                    		to = '/';
 		                    	}
 			                    if (location.pathname !== to) {
@@ -55,6 +52,14 @@ class Sidebar extends Component {
 					            	</NavIcon>
 					            	<NavText>
 					                	Browse
+					            	</NavText>
+					        	</NavItem>
+			                    <NavItem eventKey = "crypto">
+					            	<NavIcon>
+					                	<i className = "fa fa-fw fa-btc" style = {{ fontSize: '1.75em' }} />
+					            	</NavIcon>
+					            	<NavText>
+					                	Crypto
 					            	</NavText>
 					        	</NavItem>
 						        <NavItem eventKey = "trending">
@@ -97,6 +102,7 @@ class Sidebar extends Component {
 						}}>
 			                <Route path= "/" exact component = {props => <MainPage user = {this.props.user}/>} />
 			                <Route path= "/browse" component = {props => <Browse user = {this.props.user}/>} />
+			                <Route path= "/crypto" component = {props => <CryptoPage user = {this.props.user}/>} />
 			                <Route path= "/trending" component = {props => <Trending user = {this.props.user}/>} />
 			                <Route path= "/users" component = {props => <UsersPage user = {this.props.user}/>} />
 			                <Route path= "/profile" component = {props => <ProfilePage user = {this.props.user}/>} />
