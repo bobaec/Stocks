@@ -1,5 +1,6 @@
 import React from "react";
 import App from "../App";
+import Dashboard  from '../components/Dashboard/index'
 
 // sidebar imports
 import '../pages/css/App.css';
@@ -20,7 +21,8 @@ class MainPage extends React.Component {
 			// all content should be inside this div
 				<div className="main">
 					<div className="wrapper">
-						<center><h3>Welcome to STONKS</h3></center>
+						
+						<Dashboard/>
 					</div>
 				</div>
 				:
