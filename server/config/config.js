@@ -11,7 +11,7 @@ const errorHandler = require('errorhandler');
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-require('dotenv').config({ path: '.env' });
+require('dotenv').config({path: path.join(__dirname, '../.env')});
 
 /**
  * Export our configuration

@@ -2,14 +2,7 @@ const mongoose = require('mongoose');
 const UserModel = require('./models/user');
 const StockModel = require('./models/stock');
 
-// Main Project database
-/*
-const MONGO_USERNAME = 'MainUser';
-const MONGO_PASSWORD = 'ProjectUser';
-const MONGO_HOSTNAME = '127.0.0.1';
-const MONGO_PORT = '27017';
-const MONGO_DB = 'project';
-*/
+require('dotenv').config();
 
 // Test database
 const MONGO_USERNAME = 'tester';
@@ -20,7 +13,7 @@ const MONGO_DB = 'test';
 const MONGO_PASSWORD_ATLAS = 'tester123';
 
 const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=${MONGO_DB}`;
-const atlas_url = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD_ATLAS}@470project-b2y4i.mongodb.net/${MONGO_DB}?retryWrites=true&w=majority`;
+const atlas_url = process.env.MONGODB_TEST_URI;
 
 connectToDB();
 addUser();
@@ -28,8 +21,8 @@ queryUser();
 addStock();
 
 function connectToDB() {
-    mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
-    // mongoose.connect(atlas_url, {useNewUrlParser: true, useUnifiedTopology: true});
+    // mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
+    mongoose.connect(atlas_url, {useNewUrlParser: true, useUnifiedTopology: true});
 
     mongoose.connection.on("error", function(err) {
         console.log('\n\nCould not connect to Mongo Server');
