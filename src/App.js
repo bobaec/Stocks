@@ -6,7 +6,6 @@ import firebaseConfig from './firebaseConfig';
 import './pages/css/App.css';
 import Sidebar from './pages/Sidebar.jsx';
 import { Helmet } from 'react-helmet';
-import Dashboard  from './components/Dashboard/index'
 
 import {
     BrowserRouter as Router,
@@ -62,9 +61,6 @@ class App extends Component {
 		    <Helmet>
 		        <title>{ TITLE }</title>
 		    </Helmet>
-			<Dashboard>
-
-			</Dashboard>
 
 	        <header className="App-header"></header>
 	            {

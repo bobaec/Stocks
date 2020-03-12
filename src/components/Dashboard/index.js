@@ -33,13 +33,15 @@ export default class Dashboard extends Component {
         const { data, labels } = this.state;
         return (
             <div>
-                <header>
-                    <h1>Dashboard</h1>
-                </header>
-                <Chart
+            <header>
+                <h1>Dashboard</h1>
+            </header>
+            <center><div style = {{width:'50%'}}>
+                <Chart 
                     data={data}
                     labels={labels} /
                 >
+            </div></center>
             </div>
         )
     }
