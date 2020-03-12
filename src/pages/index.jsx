@@ -3,7 +3,7 @@ import App from "../App";
 
 // sidebar imports
 import '../pages/css/App.css';
-import stock_img from './img/image.png'
+// import stock_img from './img/image.png'
 
 import {
   BrowserRouter as Router,
