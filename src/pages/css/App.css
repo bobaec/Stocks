@@ -26,16 +26,17 @@
 
 .login_button{
   background: #282c34;
-  width: 100%;
+  font-size: 13px;
   align-items: center;
-  min-width: 200px;
+  min-width: 180px;
   height: 40px;
   border-radius: 21px;
   border-color: transparent;
   color: white;
 }
 
-.login_button:hover{
+.login_button:hover, .general_button:hover, .user_information table tr:hover
+, .fav_stock_summary table tr:hover, .users_table tr:hover{
   background-color: lightgray;
   color: black;
 }
@@ -44,4 +45,63 @@
   position: absolute !important;
   bottom: 0;
   width: 100%;
+}
+
+.profile .profile_img{
+  border-radius: 50%;
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.general_button{
+  background: inherit;
+  border-color: transparent;
+  margin-top: 10px;
+  color: white;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.profile .user_information{
+  display: table;
+  margin: 0 auto;
+}
+
+.profile .user_information table{
+  border-left: 5px solid #db3d44;
+  width: 100%;
+}
+
+.profile .fav_stock_summary{
+  margin: 0 auto;
+  /* width: 80%;  */
+  width: 100%; 
+
+}
+
+.profile .fav_stock_summary table{
+  border-left: 5px solid #db3d44;
+  border-collapse: collapse;
+  width: 100%;
+  overflow:auto;  
+}
+
+.users{
+  color: black;
+}
+
+.users row{
+  margin-top: 10px;
+}
+
+.users .users_table{
+  margin: 0 auto;
+  /* width: 80%;  */
+  width: 100%; 
+
+}
+
+#mySidenav{
+  position: sticky;
+  /* position: fixed; */
 }
