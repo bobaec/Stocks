@@ -22,7 +22,7 @@ const UserSchema = new Schema({
 });
 
 const User = mongoose.model('User', UserSchema, "user");
-module.exports = User
+// module.exports = User
 
 // Add new user
 exports.addNewUser = function (req, res) {
@@ -48,8 +48,8 @@ exports.getUserByName = function (req, res) {
 };
 
 // Get all users
-exports.getAll = function () {
-    return User.find({});
+exports.getAll = async function () {
+    return await User.find({});
     // return User.find({}).exec();
     // User.find({name: "Bob"}, function (err, data) {
     //     if (err) {
