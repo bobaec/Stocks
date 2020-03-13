@@ -5,6 +5,7 @@ import {
     FormControl,
     Button,
     Row,
+    Table,
     Col,
 } from 'react-bootstrap';
 let crypto = require('./crypto.js');
@@ -138,8 +139,23 @@ class Coin extends React.Component {
 
         return (
             <div>
-                <center><h1>{header}</h1></center>
-                <center><table id="coin" style={{border: "3px solid white", "border-collapse": "collapse"}}>
+                <center><h4>{header}</h4></center>
+
+                <Table responsive variant="dark" id="coin">
+                    <tbody>
+                        <tr>
+                            {this.renderTableHeader()}
+                        </tr>
+                        {this.renderTableData()}
+                    </tbody>
+                </Table>
+
+
+
+
+
+
+                <center><table id="coin" style={{border: "1px solid white", "border-collapse": "collapse"}}>
                     <tbody>
                         <tr>{this.renderTableHeader()}</tr>
                         {this.renderTableData()}
