@@ -121,7 +121,7 @@ class Coin extends React.Component {
         let c = this.state.coin;
         return Object.keys(c).map((key, index) => {
             const { cad, cad_24h_change, cad_24h_vol, cad_market_cap, last_updated_at } = c[key];
-            const lastUpdate = new Date(last_updated_at*1000).toUTCString()
+            const lastUpdate = new Date(last_updated_at*1000).toString()
             return (
             <tr key={index}>
                 <td style={this.style}>{cad}</td>
