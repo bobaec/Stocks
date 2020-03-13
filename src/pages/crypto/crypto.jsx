@@ -140,9 +140,8 @@ class Coin extends React.Component {
         }
 
         return (
-            <div>
+            <div style={{marginBottom:'10px'}}>
                 <center><h4>{header}</h4></center>
-
                 <Table responsive variant="dark" id="coin_overview_table">
                     <tbody>
                         <tr>
@@ -151,14 +150,6 @@ class Coin extends React.Component {
                         {this.renderTableData()}
                     </tbody>
                 </Table>
-
-                {/* <center><table id="coin" style={{border: "1px solid white", "border-collapse": "collapse"}}>
-                    <tbody>
-                        <tr>{this.renderTableHeader()}</tr>
-                        {this.renderTableData()}
-                    </tbody>
-                </table>
-                </center> */}
             </div>
         )
     }
@@ -213,18 +204,39 @@ class PriceGraph extends React.Component {
 
     
     render() {
+
         const { data, labels } = this.state;
         if (this.props.coin !== '') {
             let graphData = {
                 labels: labels,
-                datasets: [{
-                    label: this.props.coin + ' prices over last 24h',
-                    borderColor: '#FFFFFF',
-                    fill: false,
-                    data: data,
-                }],
+                datasets: [
+                    {
+                        label: this.props.coin + ' prices over last 24h',
+                        backgroundColor: "rgba(255, 10, 10, 0.2)",
+                        borderColor: "#db3d44",
+                        data: data,
+                    }
+                ],
+            
                 options: {
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontColor: 'white'
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: 'white'
+                            }
+                        }],
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: 'white',
+                        }
+                    }
                 }
             }
             return (
@@ -278,8 +290,8 @@ class CryptoPage extends React.Component {
     render() {
         return (
             
-            <div className = "mainContent">
-                <div className = "wrapper">
+            <div>
+                <div>
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
                 </div>
                 <div>
