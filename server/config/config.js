@@ -20,7 +20,7 @@ module.exports = (app) =>{
   /**
    * Express configuration.
    */
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 8000);
   app.use('/', router);
   app.use(logger('dev'));
   app.use(errorHandler());
