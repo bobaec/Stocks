@@ -8,6 +8,8 @@ import {
     Table,
     Col,
 } from 'react-bootstrap';
+import '../css/App.css';
+
 let crypto = require('./crypto.js');
 
 
@@ -141,7 +143,7 @@ class Coin extends React.Component {
             <div>
                 <center><h4>{header}</h4></center>
 
-                <Table responsive variant="dark" id="coin">
+                <Table responsive variant="dark" id="coin_overview_table">
                     <tbody>
                         <tr>
                             {this.renderTableHeader()}
@@ -150,18 +152,13 @@ class Coin extends React.Component {
                     </tbody>
                 </Table>
 
-
-
-
-
-
-                <center><table id="coin" style={{border: "1px solid white", "border-collapse": "collapse"}}>
+                {/* <center><table id="coin" style={{border: "1px solid white", "border-collapse": "collapse"}}>
                     <tbody>
                         <tr>{this.renderTableHeader()}</tr>
                         {this.renderTableData()}
                     </tbody>
                 </table>
-                </center>
+                </center> */}
             </div>
         )
     }

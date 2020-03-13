@@ -118,3 +118,9 @@
   color: rebeccapurple;
 }
 
+#coin_overview_table{
+  width: 80%;
+  margin: 0 auto;
+  font-size: 13px;
+  text-align: center;
+}
