@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     email: {
         type: String,
         lowercase: true,
+        trim: true,
         required: true,
         validate: async (value) => {
             try {
@@ -49,7 +50,7 @@ exports.addNewUser = function (req, res) {
 };
 
 exports.getByEmail = async (email) => {
-    const email_lower = email.toLowerCase();
+    const email_lower = email.toLowerCase().trim();
     return await User.find({email: email_lower});
 };
 
@@ -60,7 +61,8 @@ exports.getById = async function (id) {
 
 // Get user by name
 exports.getByName = async function (name) {
-    return await User.find({name: name});
+    const name_trimmed = name.trim();
+    return await User.find({name: name_trimmed});
 };
 
 // Get all users
