@@ -34,9 +34,6 @@ export default class Dashboard extends Component {
         const { data, labels } = this.state;
         return (
             <div>
-            <header>
-                <h1>Dashboard</h1>
-            </header>
             <center><div style = {{width:'70%'}}>
                 <Chart 
                     data={data}

@@ -36,7 +36,8 @@
 }
 
 .login_button:hover, .general_button:hover, .user_information table tr:hover
-, .fav_stock_summary table tr:hover, .users_table tr:hover{
+, .fav_stock_summary table tr:hover, .users_table tr:hover, 
+.dashboard_table tr:hover{
   background-color: lightgray;
   color: black;
 }
@@ -116,3 +117,4 @@
 .browse_input coinList{
   color: rebeccapurple;
 }
+
