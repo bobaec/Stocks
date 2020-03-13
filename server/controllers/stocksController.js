@@ -10,6 +10,12 @@ exports.getStockById = async function (req, res) {
 };
 
 
+// Get By Name
+exports.getStockByName = async function (req, res) {
+	const stock = await Stock.getByName(req.params.name);
+	res.send(stock);
+};
+
 /**
  * GET /
  *  All stocks.

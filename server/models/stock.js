@@ -11,6 +11,12 @@ const StockSchema = new Schema({
 
 const Stock = mongoose.model('Stock', StockSchema, "stock");
 
+exports.getByName = async function(name) {
+    const name_trimmed = name.trim();
+    return await Stock.find({name: name_trimmed});
+};
+
+
 exports.getById = async function(id) {
     return await Stock.findById(id);
 };

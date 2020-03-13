@@ -20,9 +20,11 @@ app.get('/', homeController.index);
 /**
  * Stock routes.
  */
-app.get('/stocks', stocksController.getAll);
-app.get('/stocks/id/:id', stocksController.getStockById);
-app.get('/stocks/:userId', stocksController.user)
+app.get('/stock/all', stocksController.getAll);
+app.get('/stock/id/:id', stocksController.getStockById);
+app.get('/stock/name/:name', stocksController.getStockByName);
+
+app.get('/stock/:userId', stocksController.user)
 
 /**
  * User routes
