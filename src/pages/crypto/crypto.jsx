@@ -30,7 +30,9 @@ class CoinList extends React.Component {
         this.setState( { coin : e.target.value } );
     }
 
-    sendCoin() {
+    sendCoin(e) {
+        e.preventDefault();
+        e.stopPropagation();
         this.props.updateCoin(this.state.coin);
     }
 
@@ -52,26 +54,17 @@ class CoinList extends React.Component {
         const coinList = this.state.coinList;
 
         return (
-            <div className = "mainContent">
-				<div className = "wrapper">
-                    <center><h4>Browse Crypto</h4></center>
-                        <InputGroup className="browse_input">
-                            <FormControl placeholder="ex)Bitcoin" type="text" list="coinList" onChange={this.updateCoin}/>
-                            <InputGroup.Append>
-                            <Button variant="outline-secondary" type="button" id="refresh" onClick={this.sendCoin}>Browse</Button>
-                            </InputGroup.Append>
-                        </InputGroup>
-
-                    <datalist id="coinList" >
-                        {
-                            Object.keys(coinList).map(key => {
-                                return <option key={key} value={coinList[key]}/>
-                            })
-                        }
-                    </datalist>
-                </div>
-            </div>
-
+            <form onSubmit={this.sendCoin}>
+                <input type="text" list="coinList" onChange={this.updateCoin} autoFocus />
+                <button type="submit" id="refresh" > Get </button>
+                <datalist id="coinList">
+                    {
+                        Object.keys(coinList).map(key => {
+                            return <option key={key} value={coinList[key]} />
+                        })
+                    }
+                </datalist>
+            </form>
         )
     };
 } 
