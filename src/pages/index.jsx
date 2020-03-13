@@ -1,16 +1,14 @@
 import React from "react";
 import App from "../App";
+import Dashboard  from '../components/Dashboard/index'
 
 // sidebar imports
 import '../pages/css/App.css';
-import stock_img from './img/image.png'
+// import stock_img from './img/image.png'
 
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Link,
-  Redirect
 } from "react-router-dom";
 
 class MainPage extends React.Component {
@@ -23,10 +21,8 @@ class MainPage extends React.Component {
 			// all content should be inside this div
 				<div className="main">
 					<div className="wrapper">
-						<center><h1>Hi, {this.props.user.displayName}</h1></center>
-						<center><h1>Welcome to STONKS</h1></center>
-						<img src={stock_img} alt="Logo" />
-						<Link to="/users">test</Link>
+						
+						<Dashboard/>
 					</div>
 				</div>
 				:

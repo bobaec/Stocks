@@ -5,18 +5,10 @@ import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
 import './pages/css/App.css';
 import Sidebar from './pages/Sidebar.jsx';
-import MainPage from "./pages/index.jsx";
-import UsersPage from "./pages/users/users.jsx";
-import Browse from "./pages/Browse.jsx";
 import { Helmet } from 'react-helmet';
-import Dashboard  from './components/Dashboard/index'
 
 import {
     BrowserRouter as Router,
-	Route,
-	Switch,
-	Link,
-	Redirect
 } from "react-router-dom";
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -34,15 +26,15 @@ class App extends Component {
 	// if open, main content moves to right and vice versa
 	onChange = () => {
 
-		if (this.state.toggled == true) {
+		if (this.state.toggled === true) {
 			this.setState({
 				marginLeft: '0px',
 				toggled: false
 			});
 		}
-		else if (this.state.toggled == false) {
+		else if (this.state.toggled === false) {
 			this.setState({
-				marginLeft:'240px',
+				marginLeft:'1%',
 				toggled: true,
 			});
 		}
@@ -51,7 +43,7 @@ class App extends Component {
   	render() {
     	const {
       		user,
-      		signOut,
+      		// signOut,
       		signInWithGoogle,
 			} = this.props;
 
@@ -69,9 +61,6 @@ class App extends Component {
 		    <Helmet>
 		        <title>{ TITLE }</title>
 		    </Helmet>
-			<Dashboard>
-
-			</Dashboard>
 
 	        <header className="App-header"></header>
 	            {

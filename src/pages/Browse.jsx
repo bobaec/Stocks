@@ -5,7 +5,7 @@ class Browse extends React.Component {
 		return (			
 			<div className = "mainContent">
 				<div className = "wrapper">
-					<center><h1>Browse Stocks</h1></center>
+					<center><h4>Browse Stocks</h4></center>
 				</div>
 			</div>
 		);

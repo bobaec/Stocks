@@ -5,7 +5,7 @@ class Trending extends React.Component {
 		return (			
 			<div className = "mainContent">
 				<div className = "wrapper">
-					<center><h1>Trending Stocks</h1></center>
+					<center><h4>Trending Stocks</h4></center>
 				</div>
 			</div>
 		);
