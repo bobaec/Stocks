@@ -297,7 +297,7 @@ class CryptoPage extends React.Component {
                 <div>
                     <Coin coin={this.getCoin(this.state.coin)} />
                 </div>
-                <div style={{ position: "relative", margin: "auto", width: "60vw", height: '30vh'}}>
+                <div id="coin_overview_graph">
                     <PriceGraph coin={this.getCoin(this.state.coin)} days='1' />
                 </div>
             </div>
