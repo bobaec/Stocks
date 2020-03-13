@@ -54,17 +54,26 @@ class CoinList extends React.Component {
         const coinList = this.state.coinList;
 
         return (
-            <form onSubmit={this.sendCoin}>
-                <input type="text" list="coinList" onChange={this.updateCoin} autoFocus />
-                <button type="submit" id="refresh" > Get </button>
-                <datalist id="coinList">
-                    {
-                        Object.keys(coinList).map(key => {
-                            return <option key={key} value={coinList[key]} />
-                        })
-                    }
-                </datalist>
-            </form>
+            <div className = "mainContent">
+                <div className = "wrapper">
+                    <center><h4>Browse Crypto</h4></center>
+                    <form onSubmit={this.sendCoin} className="browse_input">
+                        <InputGroup >
+                            <FormControl type="text" list="coinList" onChange={this.updateCoin} autoFocus />
+                            <InputGroup.Append>
+                                <Button type="submit" id="refresh" style={{backgroundColor:"inherit", borderColor:"white"}}> Browse </Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                        <datalist id="coinList">
+                            {
+                                Object.keys(coinList).map(key => {
+                                    return <option key={key} value={coinList[key]} />
+                                })
+                            }
+                        </datalist>
+                    </form>
+                </div>
+            </div>
         )
     };
 } 
