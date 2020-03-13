@@ -53,21 +53,23 @@ class CoinList extends React.Component {
 
         return (
             <div className = "mainContent">
-                <center><h4>Browse Crypto</h4></center>
-                    <InputGroup className="browse_input">
-                        <FormControl placeholder="ex)Bitcoin" type="text" list="coinList" onChange={this.updateCoin}/>
-                        <InputGroup.Append>
-                        <Button variant="outline-secondary" type="button" id="refresh" onClick={this.sendCoin}>Browse</Button>
-                        </InputGroup.Append>
-                    </InputGroup>
+				<div className = "wrapper">
+                    <center><h4>Browse Crypto</h4></center>
+                        <InputGroup className="browse_input">
+                            <FormControl placeholder="ex)Bitcoin" type="text" list="coinList" onChange={this.updateCoin}/>
+                            <InputGroup.Append>
+                            <Button variant="outline-secondary" type="button" id="refresh" onClick={this.sendCoin}>Browse</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
 
-                <datalist id="coinList" >
-                    {
-                        Object.keys(coinList).map(key => {
-                            return <option key={key} value={coinList[key]}/>
-                        })
-                    }
-                </datalist>
+                    <datalist id="coinList" >
+                        {
+                            Object.keys(coinList).map(key => {
+                                return <option key={key} value={coinList[key]}/>
+                            })
+                        }
+                    </datalist>
+                </div>
             </div>
 
         )
@@ -289,7 +291,6 @@ class CryptoPage extends React.Component {
 
     render() {
         return (
-            
             <div>
                 <div>
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
