@@ -83,7 +83,8 @@ class Coin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            coin: ''
+            coin: '',
+            found: null
         };
     }
 
@@ -100,6 +101,7 @@ class Coin extends React.Component {
             }
 
             if (Object.entries(coin).length !== 0) {
+                this.setState( { found: true } );
                 this.setState( { coin } );
 
                 const key = Object.keys(coin);
@@ -151,24 +153,35 @@ class Coin extends React.Component {
     }
 
     render() {
-        let header;
         if (this.props.coin !== '') {
-            header = this.props.coin + ' Overview'
+            let header = this.props.coin + ' Overview'
+            return (
+                <div style={{marginBottom:'10px'}}>
+                    <center><h4>{header}</h4></center>
+                    <Table responsive variant="dark" id="coin_overview_table">
+                        <tbody>
+                            <tr>
+                                {this.renderTableHeader()}
+                            </tr>
+                            {this.renderTableData()}
+                        </tbody>
+                    </Table>
+                </div>
+            )
+        } 
+
+        let message;
+        if (this.state.found !== true) {
+            message = 'Select an option from the list.'
         } else {
-            header = ''
+            message = 'Error searching for coin. Please choose a coin from the list.'
         }
 
         return (
-            <div style={{marginBottom:'10px'}}>
-                <center><h4>{header}</h4></center>
-                <Table responsive variant="dark" id="coin_overview_table">
-                    <tbody>
-                        <tr>
-                            {this.renderTableHeader()}
-                        </tr>
-                        {this.renderTableData()}
-                    </tbody>
-                </Table>
+            <div style={{padding: "15px"}}>
+               <center>
+                   <h3>{message}</h3>
+               </center>
             </div>
         )
     }
