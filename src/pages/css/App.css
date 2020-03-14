@@ -1,0 +1,133 @@
+.App {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  color: white;
+  width: 100%;
+}
+
+.mainContent{
+  width: 100%;
+}
+
+.wrapper{
+  text-align: center;
+  padding-top:45px;
+}
+
+.sign_in{
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 25px;
+  margin: auto;
+  text-align: center;
+}
+
+.login_button{
+  background: #282c34;
+  font-size: 13px;
+  align-items: center;
+  min-width: 180px;
+  height: 40px;
+  border-radius: 21px;
+  border-color: transparent;
+  color: white;
+}
+
+.login_button:hover, .general_button:hover, .user_information table tr:hover
+, .fav_stock_summary table tr:hover, .users_table tr:hover, 
+.dashboard_table tr:hover{
+  background-color: lightgray;
+  color: black;
+}
+
+.logoutButton {
+  position: absolute !important;
+  bottom: 0;
+  width: 100%;
+}
+
+.profile .profile_img{
+  border-radius: 50%;
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.general_button{
+  background: inherit;
+  border-color: transparent;
+  margin-top: 10px;
+  color: white;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.profile .user_information{
+  display: table;
+  margin: 0 auto;
+}
+
+.profile .user_information table{
+  border-left: 5px solid #db3d44;
+  width: 100%;
+}
+
+.profile .fav_stock_summary{
+  margin: 0 auto;
+  /* width: 80%;  */
+  width: 100%; 
+
+}
+
+.profile .fav_stock_summary table{
+  border-left: 5px solid #db3d44;
+  border-collapse: collapse;
+  width: 100%;
+  overflow:auto;  
+}
+
+.users{
+  color: black;
+}
+
+.users row{
+  margin-top: 10px;
+}
+
+.users .users_table{
+  margin: 0 auto;
+  /* width: 80%;  */
+  width: 100%; 
+}
+
+#mySidenav{
+  position: sticky;
+  /* position: fixed; */
+}
+
+.browse_input{
+  padding: 50px;
+}
+
+.browse_input button{
+  color: white;
+}
+
+.browse_input coinList{
+  color: rebeccapurple;
+}
+
+#coin_overview_table{
+  width: 80%;
+  margin: 0 auto;
+  font-size: 12px;
+  text-align: center;
+  overflow: auto;
+  /* table-layout: fixed */
+}
+
+#coin_overview_graph{
+  width: 60%;
+  margin: 0 auto;
+}
