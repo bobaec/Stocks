@@ -102,6 +102,7 @@ class Coin extends React.Component {
 
             if (Object.entries(coin).length !== 0) {
                 this.setState( { found: true } );
+                this.props.updateFoundCoin(true);
                 this.setState( { coin } );
 
                 const key = Object.keys(coin);
@@ -116,7 +117,9 @@ class Coin extends React.Component {
                         this.props.updateMarketCap(true);
                     }
                 }
-            }
+            } 
+        } else {
+            this.props.updateFoundCoin(false);
         }
     }
 
@@ -236,6 +239,7 @@ class PriceGraph extends React.Component {
 
     
     render() {
+        if (this.props.found !== true) return(<div></div>)
         if (this.props.validMarketCap === false) {
             return (
                 <div style={{padding: "15px"}}>
@@ -302,12 +306,14 @@ class CryptoPage extends React.Component {
         this.state = {
             coinList: {},
             coin: '',
-            validMarketCap: true
+            validMarketCap: true,
+            foundCoin: null
         }
         this.updateCoin = this.updateCoin.bind(this);
         this.updateList = this.updateList.bind(this);
         this.getCoin = this.getCoin.bind(this);
         this.updateMarketCap = this.updateMarketCap.bind(this);
+        this.updateFoundCoin = this.updateFoundCoin.bind(this);
     }
 
 
@@ -321,6 +327,10 @@ class CryptoPage extends React.Component {
 
     updateMarketCap(c) {
         this.setState( { validMarketCap: c } );
+    }
+
+    updateFoundCoin(c) {
+        this.setState( { foundCoin: c } );
     }
 
     getCoin(c) {
@@ -341,10 +351,11 @@ class CryptoPage extends React.Component {
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
                 </div>
                 <div>
-                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} />
+                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
                 </div>
                 <div id="coin_overview_graph">
-                    <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} />
+                    <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} 
+                        found={this.state.foundCoin} />
                 </div>
             </div>
         )
