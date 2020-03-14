@@ -102,8 +102,24 @@ class Coin extends React.Component {
 
             if (Object.entries(coin).length !== 0) {
                 this.setState( { found: true } );
+                this.props.updateFoundCoin(true);
                 this.setState( { coin } );
-            }
+
+                const key = Object.keys(coin);
+                if (key.length > 0) {
+                    const vals = coin[key];
+                    const cap = Object.keys(vals)[1];
+                    const capVal = vals[cap]
+
+                    if (capVal < 1) {
+                        this.props.updateMarketCap(false);
+                    } else {
+                        this.props.updateMarketCap(true);
+                    }
+                }
+            } 
+        } else {
+            this.props.updateFoundCoin(false);
         }
     }
 
@@ -123,6 +139,7 @@ class Coin extends React.Component {
 
     renderTableData() {
         let c = this.state.coin;
+
         return Object.keys(c).map((key, index) => {
             const { cad, cad_24h_change, cad_24h_vol, cad_market_cap, last_updated_at } = c[key];
             const lastUpdate = new Date(last_updated_at*1000).toString()
@@ -222,8 +239,18 @@ class PriceGraph extends React.Component {
 
     
     render() {
+        if (this.props.found !== true) return(<div></div>)
+        if (this.props.validMarketCap === false) {
+            return (
+                <div style={{padding: "15px"}}>
+                    <center>
+                        <h3>Price graph not available for {this.props.coin}</h3>
+                    </center>
+                </div>
+            )
+        }
 
-        const { data, labels } = this.state;
+        const { data, labels } = this.state;        
         if (this.props.coin !== '') {
             let graphData = {
                 labels: labels,
@@ -278,11 +305,15 @@ class CryptoPage extends React.Component {
         super(props);
         this.state = {
             coinList: {},
-            coin: ''
+            coin: '',
+            validMarketCap: true,
+            foundCoin: null
         }
         this.updateCoin = this.updateCoin.bind(this);
         this.updateList = this.updateList.bind(this);
         this.getCoin = this.getCoin.bind(this);
+        this.updateMarketCap = this.updateMarketCap.bind(this);
+        this.updateFoundCoin = this.updateFoundCoin.bind(this);
     }
 
 
@@ -292,6 +323,14 @@ class CryptoPage extends React.Component {
 
     updateList(l) {
         this.setState( { coinList: l } );
+    }
+
+    updateMarketCap(c) {
+        this.setState( { validMarketCap: c } );
+    }
+
+    updateFoundCoin(c) {
+        this.setState( { foundCoin: c } );
     }
 
     getCoin(c) {
@@ -312,10 +351,11 @@ class CryptoPage extends React.Component {
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
                 </div>
                 <div>
-                    <Coin coin={this.getCoin(this.state.coin)} />
+                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
                 </div>
                 <div id="coin_overview_graph">
-                    <PriceGraph coin={this.getCoin(this.state.coin)} days='1' />
+                    <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} 
+                        found={this.state.foundCoin} />
                 </div>
             </div>
         )
