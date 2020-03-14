@@ -1,5 +1,15 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import {
+    InputGroup,
+    FormControl,
+    Button,
+    Row,
+    Table,
+    Col,
+} from 'react-bootstrap';
+import '../css/App.css';
+
 let crypto = require('./crypto.js');
 
 
@@ -20,7 +30,9 @@ class CoinList extends React.Component {
         this.setState( { coin : e.target.value } );
     }
 
-    sendCoin() {
+    sendCoin(e) {
+        e.preventDefault();
+        e.stopPropagation();
         this.props.updateCoin(this.state.coin);
     }
 
@@ -42,16 +54,25 @@ class CoinList extends React.Component {
         const coinList = this.state.coinList;
 
         return (
-            <div>
-                <input type="text" list="coinList" onChange={this.updateCoin} />
-                <button type="button" id="refresh" onClick={this.sendCoin} > Get </button>
-                <datalist id="coinList">
-                    {
-                        Object.keys(coinList).map(key => {
-                            return <option key={key} value={coinList[key]} />
-                        })
-                    }
-                </datalist>
+            <div className = "mainContent">
+                <div className = "wrapper">
+                    <center><h4>Browse Crypto</h4></center>
+                    <form onSubmit={this.sendCoin} className="browse_input">
+                        <InputGroup >
+                            <FormControl type="text" list="coinList" onChange={this.updateCoin} autoFocus />
+                            <InputGroup.Append>
+                                <Button type="submit" id="refresh" style={{backgroundColor:"inherit", borderColor:"white"}}> Browse </Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                        <datalist id="coinList">
+                            {
+                                Object.keys(coinList).map(key => {
+                                    return <option key={key} value={coinList[key]} />
+                                })
+                            }
+                        </datalist>
+                    </form>
+                </div>
             </div>
         )
     };
@@ -116,13 +137,14 @@ class Coin extends React.Component {
 
         return Object.keys(c).map((key, index) => {
             const { cad, cad_24h_change, cad_24h_vol, cad_market_cap, last_updated_at } = c[key];
+            const lastUpdate = new Date(last_updated_at*1000).toString()
             return (
             <tr key={index}>
                 <td style={this.style}>{cad}</td>
                 <td style={this.style}>{cad_24h_change}</td>
                 <td style={this.style}>{cad_24h_vol}</td>
                 <td style={this.style}>{cad_market_cap}</td>
-                <td style={this.style}>{last_updated_at}</td>
+                <td style={this.style}>{lastUpdate}</td>
             </tr>
             )
         })
@@ -137,15 +159,16 @@ class Coin extends React.Component {
         }
 
         return (
-            <div>
-                <center><h1>{header}</h1></center>
-                <center><table id="coin" style={{border: "3px solid white", "border-collapse": "collapse"}}>
+            <div style={{marginBottom:'10px'}}>
+                <center><h4>{header}</h4></center>
+                <Table responsive variant="dark" id="coin_overview_table">
                     <tbody>
-                        <tr>{this.renderTableHeader()}</tr>
+                        <tr>
+                            {this.renderTableHeader()}
+                        </tr>
                         {this.renderTableData()}
                     </tbody>
-                </table>
-                </center>
+                </Table>
             </div>
         )
     }
@@ -214,14 +237,34 @@ class PriceGraph extends React.Component {
         if (this.props.coin !== '') {
             let graphData = {
                 labels: labels,
-                datasets: [{
-                    label: this.props.coin + ' prices over last 24h',
-                    borderColor: '#FFFFFF',
-                    fill: false,
-                    data: data,
-                }],
+                datasets: [
+                    {
+                        label: this.props.coin + ' prices over last 24h',
+                        backgroundColor: "rgba(255, 10, 10, 0.2)",
+                        borderColor: "#db3d44",
+                        data: data,
+                    }
+                ],
+            
                 options: {
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontColor: 'white'
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: 'white'
+                            }
+                        }],
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: 'white',
+                        }
+                    }
                 }
             }
             return (
@@ -280,15 +323,14 @@ class CryptoPage extends React.Component {
 
     render() {
         return (
-            
-            <div className = "mainContent">
-                <div className = "wrapper">
+            <div>
+                <div>
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
                 </div>
                 <div>
                     <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} />
                 </div>
-                <div style={{ position: "relative", margin: "auto", width: "60vw", height: '30vh' }}>
+                <div id="coin_overview_graph">
                     <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} />
                 </div>
             </div>
