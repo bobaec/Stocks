@@ -36,7 +36,8 @@
 }
 
 .login_button:hover, .general_button:hover, .user_information table tr:hover
-, .fav_stock_summary table tr:hover, .users_table tr:hover{
+, .fav_stock_summary table tr:hover, .users_table tr:hover, 
+.dashboard_table tr:hover{
   background-color: lightgray;
   color: black;
 }
@@ -98,10 +99,35 @@
   margin: 0 auto;
   /* width: 80%;  */
   width: 100%; 
-
 }
 
 #mySidenav{
   position: sticky;
   /* position: fixed; */
+}
+
+.browse_input{
+  padding: 50px;
+}
+
+.browse_input button{
+  color: white;
+}
+
+.browse_input coinList{
+  color: rebeccapurple;
+}
+
+#coin_overview_table{
+  width: 80%;
+  margin: 0 auto;
+  font-size: 12px;
+  text-align: center;
+  overflow: auto;
+  /* table-layout: fixed */
+}
+
+#coin_overview_graph{
+  width: 60%;
+  margin: 0 auto;
 }
