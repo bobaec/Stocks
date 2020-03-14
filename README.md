@@ -16,3 +16,7 @@ How to update server-side without restarting it:
     To launch the react app: "npm start"
 
     To launch the server with nodemon: "npm dev"
+
+To run both frontend & backend with a single command use:
+
+    `npm run launch-all`
