@@ -299,6 +299,65 @@ class PriceGraph extends React.Component {
     }
 }
 
+class CryptoList extends React.Component {
+
+    constructor(){
+        super();
+        this.state = {
+            data: []
+        };
+    }
+
+    async componentDidMount() {
+        const response = await fetch('/crypto/all');
+        const json = await response.json();
+        this.setState({ data: json });
+    }
+
+    renderTableData() {
+        let data = this.state.data;
+        let i = 1;
+
+        return Object.keys(data).map((key, index) => {
+            const { _id, name, id, symbol, latest_price, last_retrieved, src, image } = data[key];
+            return (
+            <tr key={i} style={{padding:'10px'}}>
+                <td>{i++}</td>
+                <td><div><img style={{display:'inline-block', width:'10%', height:'10%'}} alt={symbol} src={image}  align='left' /></div><div style={{paddingLeft:'20%'}}>{name}</div></td>
+                <td>{name}</td>
+                <td>${latest_price}</td>
+                <td>{last_retrieved}</td>
+            </tr>
+            )
+        })
+    }
+
+    render() {
+        return(
+            <div>
+                <center>
+                    <h3>Top 500 Cryptocurrencies</h3>
+                    <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Coin</th>
+                                <th>Symbol</th>
+                                <th>Price</th>
+                                <th>Last Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderTableData()}
+                        </tbody>
+                    </Table>
+                </center>
+                <br /><br />
+            </div>
+        )
+    }
+}
+
 class CryptoPage extends React.Component {
 
     constructor(props) {
@@ -352,6 +411,9 @@ class CryptoPage extends React.Component {
                 </div>
                 <div>
                     <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
+                </div>
+                <div>
+                    <CryptoList />
                 </div>
                 <div id="coin_overview_graph">
                     <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} 
