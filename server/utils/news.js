@@ -1,4 +1,5 @@
-const apiKey = fbb08fd56b9f492ea1270344e3d2b931;
+const apiKey = 'fbb08fd56b9f492ea1270344e3d2b931';
+const axios = require('axios');
 
 news = {
     getURL: (query) => {
@@ -7,7 +8,7 @@ news = {
                 'sortBy=popularity&' +
                 `apiKey=${apiKey}`;
     },
-    query: async query => await (await fetch(getURL(query))).json()
+    query: async query => await (await axios.get(news.getURL(query))).data
 }
 
 module.exports = news;
