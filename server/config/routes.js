@@ -10,7 +10,8 @@ const app = express.Router();
  */
 const homeController = require('../controllers/home');
 const stocksController = require('../controllers/stocksController');
-const userController = require('../controllers/user');
+const userController = require('../controllers/userController');
+const newsController = require('../controllers/newsController');
 
 /**
  * Primary app routes.
@@ -33,5 +34,11 @@ app.get('/user/all', userController.getAllUsers);
 app.get('/user/name/:name', userController.getUserByName);
 app.get('/user/id/:id', userController.getUserById);
 app.get('/user/email/:email', userController.getUserByEmail);
+
+
+/**
+ * News routes
+ */
+app.get('/news/top/:q', newsController.query);
 
 module.exports = app;
