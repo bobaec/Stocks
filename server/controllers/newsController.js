@@ -10,9 +10,8 @@ exports.query = async (req, res) =>  {
     try {
         const news = await newsapi.query(query);
 
-        console.log(news);
+        res.json(news);
     } catch (error) {
         console.log(error.message)
     }
-
 };

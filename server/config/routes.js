@@ -39,6 +39,7 @@ app.get('/user/email/:email', userController.getUserByEmail);
 /**
  * News routes
  */
-app.get('/news/top/:q', newsController.query);
+app.get('/news/top/:query', newsController.query);
+
 
 module.exports = app;
