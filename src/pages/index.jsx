@@ -14,6 +14,7 @@ import {
 } from 'react-bootstrap';
 
 class MainPage extends React.Component {
+
 	render() {
 		return (			
 			<div className = "mainContent">
