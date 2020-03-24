@@ -21,7 +21,7 @@ module.exports = (app) =>{
    * Express configuration.
    */
   app.set('port', process.env.PORT || 8000);
-  app.use('/', router);
+  app.use('/api/v1/', router);
   app.use(logger('dev'));
   app.use(errorHandler());
   app.use(express.json());
