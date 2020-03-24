@@ -20,6 +20,17 @@ axios.get('http://localhost:8001/user/all').then(function(response){
 	}
 })
 
+// use when deploying live
+// async function getUser() {
+// 	try {
+// 		const allUsers = await axios.get('/api/v1/user/all');
+// 		console.log(allUsers);
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// }
+// getUser();
+
 function tableGenerate() {
 	var htmlAdd = "";
 	for (let i in allUsers) {
@@ -40,17 +51,6 @@ function tableGenerate() {
 	document.getElementById("generate").innerHTML += (htmlAdd);
 }
 
-// use when deploying live
-// async function getUser() {
-// 	try {
-// 		const response = await axios.get('/api/v1/user/all');
-// 		console.log(response);
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// }
-// getUser();
-
 class UsersPage extends React.Component {
 	componentDidMount() {
 		tableGenerate();
@@ -62,7 +62,6 @@ class UsersPage extends React.Component {
 					<center><h4>Users</h4></center>
 					<Container className="users">
 						<Row style={{marginTop: "10px"}}>
-
 							<Table responsive variant="dark" className="users_table" >
 							<thead>
 								<th>Name</th>
