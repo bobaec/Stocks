@@ -6,6 +6,7 @@ news = {
         return  'http://newsapi.org/v2/everything?' +
                 `q=${query}&` +
                 'sortBy=popularity&' +
+                'language=en&' + 
                 `apiKey=${apiKey}`;
     },
     query: async query => await (await axios.get(news.getURL(query))).data
