@@ -18,16 +18,17 @@ export default function News() {
     }, []);
 
     return (
-        <>
+        <><br/>
+        <h4>News</h4><br/>
             <CardDeck>
                 {data
                 .filter((i, index) => (index < 3))
                 .map(article => (
                     <Card>
-                        <Card.Img variant="top" src={article.urlToImage} />
-                        <Card.Body>
-                        <Card.Title>{article.title}</Card.Title>
-                        <Card.Text>
+                        <Card.Img variant="top" src={article.urlToImage} style = {{width:'100%',height:'50%'}}/>
+                        <Card.Body style = {{ overflow:'hidden'}}>
+                        <Card.Title style = {{color:'black'}}>{article.title}</Card.Title>
+                        <Card.Text style = {{color:'black'}}>
                             {`${article.description.slice(0, 100)} ...`}
                         </Card.Text>
                         </Card.Body>
@@ -38,7 +39,7 @@ export default function News() {
                         </Card.Footer>
                     </Card> 
                 ))}
-            </CardDeck>
+            </CardDeck><br/>
         </>
       )
 }
