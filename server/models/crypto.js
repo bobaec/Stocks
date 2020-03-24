@@ -10,4 +10,12 @@ const CryptoSchema = new Schema({
     api_source: String
 });
 
-module.exports = mongoose.model('Crypto', CryptoSchema, "crypto");
+const Crypto = mongoose.model('Crypto', CryptoSchema, "crypto");
+
+exports.getById = async function(id) {
+    return await Crypto.findById(id);
+};
+
+exports.getAll = async function() {
+    return await Crypto.find({});
+};
