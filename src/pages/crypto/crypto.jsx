@@ -309,8 +309,10 @@ class CryptoList extends React.Component {
     }
 
     async componentDidMount() {
-        const response = await fetch('/crypto/all');
+        const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d';
+        const response = await fetch(url);
         const json = await response.json();
+        console.log(json)
         this.setState({ data: json });
     }
 
@@ -319,14 +321,45 @@ class CryptoList extends React.Component {
         let i = 1;
 
         return Object.keys(data).map((key, index) => {
-            const { _id, name, id, symbol, latest_price, last_retrieved, src, image } = data[key];
+            let { name, id, symbol, current_price, last_updated, image, price_change_percentage_1h_in_currency, price_change_percentage_24h_in_currency, price_change_percentage_7d_in_currency } = data[key];
+            const styleRed = {color: '#EF9A9A'};
+            const styleGreen = {color: '#A5D6A7'};
+            let style1h = styleGreen,
+                style24h = styleGreen,
+                style7d = styleGreen;
+
+            if (price_change_percentage_1h_in_currency === null) {
+                price_change_percentage_1h_in_currency = 0;
+                style1h = {color: '#E0E0E0'};
+            }
+            if (price_change_percentage_24h_in_currency === null) {
+                price_change_percentage_24h_in_currency = 0;
+                style24h = {color: '#E0E0E0'};
+            }
+            if (price_change_percentage_7d_in_currency === null) {
+                price_change_percentage_7d_in_currency = 0;
+                style7d = {color: '#E0E0E0'};
+            }
+
+            if (price_change_percentage_1h_in_currency < 0) {
+                style1h = styleRed;
+            }
+            if (price_change_percentage_24h_in_currency < 0) {
+                style24h = styleRed;
+            }
+            if (price_change_percentage_7d_in_currency < 0) {
+                style7d = styleRed;
+            }
             return (
-            <tr key={i} style={{padding:'10px'}}>
+            <tr key={id} style={{padding:'10px'}}>
                 <td>{i++}</td>
                 <td><div><img style={{display:'inline-block', width:'10%', height:'10%'}} alt={symbol} src={image}  align='left' /></div><div style={{paddingLeft:'20%'}}>{name}</div></td>
                 <td>{name}</td>
-                <td>${latest_price}</td>
-                <td>{last_retrieved}</td>
+                <td>${current_price}</td>
+                <td style={style1h}>{Number(price_change_percentage_1h_in_currency).toFixed(4)}%</td>
+                <td style={style24h}>{Number(price_change_percentage_24h_in_currency).toFixed(4)}%</td>
+                <td style={style7d}>{Number(price_change_percentage_7d_in_currency).toFixed(4)}%</td>
+                <td>{last_updated}</td>
             </tr>
             )
         })
@@ -336,7 +369,7 @@ class CryptoList extends React.Component {
         return(
             <div>
                 <center>
-                    <h3>Top 500 Cryptocurrencies</h3>
+                    <h3>Top 100 Cryptocurrencies</h3>
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
@@ -344,6 +377,9 @@ class CryptoList extends React.Component {
                                 <th>Coin</th>
                                 <th>Symbol</th>
                                 <th>Price</th>
+                                <th>1h</th>
+                                <th>24h</th>
+                                <th>7d</th>
                                 <th>Last Updated</th>
                             </tr>
                         </thead>
@@ -412,12 +448,12 @@ class CryptoPage extends React.Component {
                 <div>
                     <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
                 </div>
-                <div>
-                    <CryptoList />
-                </div>
                 <div id="coin_overview_graph">
                     <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} 
                         found={this.state.foundCoin} />
+                </div>
+                <div>
+                    <CryptoList />
                 </div>
             </div>
         )
