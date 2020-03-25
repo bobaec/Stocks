@@ -1,5 +1,12 @@
 const Stock = require('../models/stock');
 
+
+// Add a new stock
+exports.createNewStock = async (req, res) => {
+	await Stock.addNewStock(req.body);
+	res.sendStatus(200);
+};
+
 /**
  * GET /
  *  Stock By Id.

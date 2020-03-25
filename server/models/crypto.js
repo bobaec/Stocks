@@ -12,6 +12,10 @@ const CryptoSchema = new Schema({
 
 const Crypto = mongoose.model('Crypto', CryptoSchema, "crypto");
 
+exports.addNewCrypto = async (cryto) => {
+    await new Crypto(cryto).save((err) => { if (err) throw err; });
+};
+
 exports.getByName = async function(name) {
     const name_trimmed = name.trim();
     return await Crypto.find({name: name_trimmed});
@@ -32,4 +36,4 @@ exports.getAll = async function() {
 
 exports.getBasics = async () => {
     return await Crypto.find({}, {_id:1, name:1});
-}
+};

@@ -36,17 +36,8 @@ const UserSchema = new Schema({
 });
 const User = mongoose.model('User', UserSchema, "user");
 
-// Add new user
-exports.addNewUser = function (req, res) {
-    new User(req.body).save(function (err) {
-        if (err) {
-            res.status(400).send('Unable to save a new user to database');
-            console.log("Failed to save user");
-            console.log(err);
-        } else {
-            res.status(200).send("Successfully added new user");
-        }
-    });
+exports.addNewUser = async (user) => {
+    await new User(user).save((err) => { if (err) throw err; });
 };
 
 exports.getByEmail = async (email) => {
