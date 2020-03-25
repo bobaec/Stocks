@@ -94,7 +94,9 @@ class Coin extends React.Component {
 
         if (c !== '') {
             try {
-                coin = await crypto.getCoin(c);
+                const response = await fetch('/crypto/id/' + c);
+                coin = await response.json()
+                // coin = await crypto.getCoin(c);
             } catch (err) {
                 console.log('API error:', err);
             }
@@ -104,17 +106,12 @@ class Coin extends React.Component {
                 this.props.updateFoundCoin(true);
                 this.setState( { coin } );
 
-                const key = Object.keys(coin);
-                if (key.length > 0) {
-                    const vals = coin[key];
-                    const cap = Object.keys(vals)[1];
-                    const capVal = vals[cap]
+                console.log(coin)
 
-                    if (capVal < 1) {
-                        this.props.updateMarketCap(false);
-                    } else {
-                        this.props.updateMarketCap(true);
-                    }
+                if (coin.day_val < 1) {
+                    this.props.updateMarketCap(false);
+                } else {
+                    this.props.updateMarketCap(true);
                 }
             } 
         } else {
@@ -122,49 +119,63 @@ class Coin extends React.Component {
         }
     }
 
-    style = {
-        border: "1px solid white"
-    }
-
     // https://dev.to/abdulbasit313/an-easy-way-to-create-a-customize-dynamic-table-in-react-js-3igg
-    renderTableHeader() {
-        let c = this.state.coin;
-        return Object.keys(c).map(coin => {
-            return Object.keys(c[coin]).map((key, index) => {
-                return <th key={index} style={this.style}>{key.toUpperCase()}</th>
-            })
-        })
-     }
+    // renderTableHeader() {
+    //     let c = this.state.coin;
+    //     return Object.keys(c).map(coin => {
+    //         return Object.keys(c[coin]).map((key, index) => {
+    //             return <th key={index} style={this.style}>{key.toUpperCase()}</th>
+    //         })
+    //     })
+    //  }
 
     renderTableData() {
         let c = this.state.coin;
+        let style = {
+            border: "1px solid white"
+        }
 
-        return Object.keys(c).map((key, index) => {
-            const { cad, cad_24h_change, cad_24h_vol, cad_market_cap, last_updated_at } = c[key];
-            const lastUpdate = new Date(last_updated_at*1000).toString()
-            return (
-            <tr key={index}>
-                <td style={this.style}>{cad}</td>
-                <td style={this.style}>{cad_24h_change}</td>
-                <td style={this.style}>{cad_24h_vol}</td>
-                <td style={this.style}>{cad_market_cap}</td>
-                <td style={this.style}>{lastUpdate}</td>
-            </tr>
-            )
-        })
+        const styleRed = {color: '#EF9A9A'};
+        const styleGreen = {color: '#A5D6A7'};
+        let changeStyle= styleGreen;
+
+        if (c.day_change === null || c.day_change === 0) {
+            changeStyle = {color: '#E0E0E0'};
+        }
+
+        if (c.day_change < 0) {
+            changeStyle = styleRed;
+        }
+
+        const lastUpdate = new Date(c.last_updated_at).toString()
+        return (
+        <tr>
+            <td style={style}>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
+            <td style={{...style, ...changeStyle}}>{Number(c.day_change).toFixed(4)}%</td>
+            <td style={style}>${Number(c.day_vol).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
+            <td style={style}>${Number(c.market_cap).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
+            <td style={style}>{lastUpdate}</td>
+        </tr>
+        )
     }
 
     render() {
         if (this.props.coin !== '') {
-            let header = this.props.coin + ' Overview'
+            let header = this.state.coin.name + ' Overview'
             return (
                 <div style={{marginBottom:'10px'}}>
                     <center><h4>{header}</h4></center>
                     <Table responsive variant="dark" id="coin_overview_table">
-                        <tbody>
+                        <thead>
                             <tr>
-                                {this.renderTableHeader()}
+                                <th>Latest Price</th>
+                                <th>24h Change</th>
+                                <th>24h Trading Volume</th>
+                                <th>Market Cap</th>
+                                <th>Last Update</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             {this.renderTableData()}
                         </tbody>
                     </Table>
@@ -388,7 +399,7 @@ class CryptoList extends React.Component {
                         </tbody>
                     </Table>
                 </center>
-                <br /><br />
+                <br />
             </div>
         )
     }
@@ -451,6 +462,7 @@ class CryptoPage extends React.Component {
                 <div id="coin_overview_graph">
                     <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} 
                         found={this.state.foundCoin} />
+                    <br /><br />
                 </div>
                 <div>
                     <CryptoList />

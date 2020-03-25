@@ -120,7 +120,7 @@ let crypto = {
             historicalCoinData.uri = coinAPI + '/coins/' + id + '/market_chart';
 
             let historicalData = await rp(historicalCoinData);
-            let filteredData = historicalData['prices'].filter((elem, ind) =>
+            let filteredData = historicalData.prices.filter((elem, ind) =>
                 ind % 12 === 0 // data in 5 min increments
             );
 
