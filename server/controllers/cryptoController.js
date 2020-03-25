@@ -1,7 +1,7 @@
 const Crypto = require('../models/crypto');
 
 exports.getCoinById = async function (req, res) {
-	const coin = await Crypto.getById(req.params.id);
+	const coin = await Crypto.getByCryptoId(req.params.id);
 	res.send(coin);
 };
 

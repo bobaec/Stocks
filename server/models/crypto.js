@@ -17,6 +17,11 @@ exports.getById = async function(id) {
     return await Crypto.findById(id);
 };
 
+exports.getByCryptoId = async function(id) {
+    const id_trimmed = id.trim();
+    return await Crypto.find({crypto_id: id_trimmed});
+};
+
 exports.getAll = async function() {
     return await Crypto.find({});
 };
