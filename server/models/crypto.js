@@ -29,3 +29,7 @@ exports.getById = async function(id) {
 exports.getAll = async function() {
     return await Crypto.find({});
 };
+
+exports.getBasics = async () => {
+    return await Crypto.find({}, {_id:1, name:1});
+}

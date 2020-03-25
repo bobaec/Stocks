@@ -20,3 +20,7 @@ exports.getCryptoByName = async function (req, res) {
 exports.getAll = async (req, res) => {
      res.send(await Crypto.getAll());
  };
+
+exports.getNameId = async (req, res) => {
+	res.send(await Crypto.getBasics());
+}

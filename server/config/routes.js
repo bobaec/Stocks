@@ -42,5 +42,6 @@ app.get('/crypto/all', cryptoController.getAll);
 app.get('/crypto/id/:id', cryptoController.getCryptoById);
 app.get('/crypto/crypto_id/:crypto_id', cryptoController.getCryptoByCryptoId);
 app.get('/crypto/name/:name', cryptoController.getCryptoByName);
+app.get('/crypto/basics', cryptoController.getNameId);
 
 module.exports = app;
