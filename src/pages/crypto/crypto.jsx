@@ -4,10 +4,9 @@ import {
     InputGroup,
     FormControl,
     Button,
-    Row,
-    Table,
-    Col,
+    Table
 } from 'react-bootstrap';
+import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
 
 let crypto = require('./crypto.js');
@@ -37,17 +36,17 @@ class CoinList extends React.Component {
     }
 
     async componentDidMount() {
-        let list;
-        try {
-            list = await crypto.getCoins();
-        } catch (err) {
-            console.log('API error:', err);
-        }
+        const response = await fetch('/crypto/all');
+        const json = await response.json();
+        let list = {};
+        
+        Object.keys(json).forEach((key, index) => {
+            const { crypto_id, name } = json[key];
+            list[crypto_id] = name;
+        });
 
-        if (Object.entries(list).length !== 0) {
-            this.setState( { coinList : list } );
-            this.props.updateList(list);
-        }
+        this.setState({ coinList: list });
+        this.props.updateList(list);
     }
 
 	render() {
@@ -59,7 +58,7 @@ class CoinList extends React.Component {
                     <center><h4>Browse Crypto</h4></center>
                     <form onSubmit={this.sendCoin} className="browse_input">
                         <InputGroup >
-                            <FormControl type="text" list="coinList" onChange={this.updateCoin} autoFocus />
+                            <FormControl type="text" list="coinList" onChange={this.updateCoin} />
                             <InputGroup.Append>
                                 <Button type="submit" id="refresh" style={{backgroundColor:"inherit", borderColor:"white"}}> Browse </Button>
                             </InputGroup.Append>
@@ -312,7 +311,6 @@ class CryptoList extends React.Component {
         const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d';
         const response = await fetch(url);
         const json = await response.json();
-        console.log(json)
         this.setState({ data: json });
     }
 
@@ -352,6 +350,7 @@ class CryptoList extends React.Component {
             }
             return (
             <tr key={id} style={{padding:'10px'}}>
+                <td><i className='fa fa-fw fa-star' /></td>
                 <td>{i++}</td>
                 <td><div><img style={{display:'inline-block', width:'10%', height:'10%'}} alt={symbol} src={image}  align='left' /></div><div style={{paddingLeft:'20%'}}>{name}</div></td>
                 <td>{name}</td>
@@ -373,6 +372,7 @@ class CryptoList extends React.Component {
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>#</th>
                                 <th>Coin</th>
                                 <th>Symbol</th>
