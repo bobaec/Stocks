@@ -24,7 +24,7 @@ exports.getByCryptoId = async function(id) {
     const id_trimmed = id.trim();
     let dbCoin = await Crypto.find({crypto_id: id_trimmed});
     const now = Date.now();
-    if (new Date(dbCoin.last_retrieved) < now || dbCoin.last_retrieved === undefined) {
+    if (new Date(dbCoin.last_retrieved) + (3600 * 1000) < now || dbCoin.last_retrieved === undefined) {
         let newCoin = await crypto.getCoin(id);
         newCoin = newCoin[id];
         const filter = {crypto_id: id};
