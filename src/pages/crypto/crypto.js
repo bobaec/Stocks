@@ -114,7 +114,7 @@ let crypto = {
         return coinName;
     },
 
-    getHistoricalData: async (id, days = 1) => {
+    getHistoricalData: async (id, days) => {
         try {
             historicalCoinData.qs.days = days;
             historicalCoinData.uri = coinAPI + '/coins/' + id + '/market_chart';

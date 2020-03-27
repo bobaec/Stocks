@@ -4,7 +4,8 @@ import {
     InputGroup,
     FormControl,
     Button,
-    Table
+    Table,
+    ButtonGroup
 } from 'react-bootstrap';
 import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
@@ -106,7 +107,6 @@ class Coin extends React.Component {
                 this.props.updateFoundCoin(true);
                 this.setState( { coin } );
 
-                console.log(coin)
 
                 if (coin.day_val < 1) {
                     this.props.updateMarketCap(false);
@@ -203,9 +203,20 @@ class PriceGraph extends React.Component {
         };
     }
 
+    updateDays(e, d) {
+        e.preventDefault();
+        this.props.updateDays(d);
+    }
+
+
+    componentDidMount() {
+        this.setState({ days: this.props.days });
+    }
+
     async componentDidUpdate(prevProp) {
         const c = this.props.coin;
-        if (c === prevProp.coin) return;
+        const d = this.props.days;
+        if (c === prevProp.coin && d === prevProp.days) return;
 
         let dayData;
         if (c !== '') {
@@ -226,7 +237,7 @@ class PriceGraph extends React.Component {
                     const minutes = date.getMinutes();
                     const seconds = date.getSeconds();
     
-                    if (this.props.days > 1) {
+                    if (this.state.days > 1) {
                         return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
                     } else {
                         return hours + ":" + minutes + ":" + seconds;
@@ -259,7 +270,7 @@ class PriceGraph extends React.Component {
                 labels: labels,
                 datasets: [
                     {
-                        label: this.props.coin + ' prices over last 24h',
+                        label: this.props.coin + ' prices over last ' + this.props.days + ' day(s)',
                         backgroundColor: "rgba(255, 10, 10, 0.2)",
                         borderColor: "#db3d44",
                         data: data,
@@ -289,6 +300,11 @@ class PriceGraph extends React.Component {
             }
             return (
                 <div>
+                    <ButtonGroup style={{float: 'right'}} className='mb2'>
+                        <Button variant="secondary" onClick={(e) => this.updateDays(e, 1)}>24H</Button>
+                        <Button variant="secondary" onClick={(e) => this.updateDays(e, 7)}>7D</Button>
+                        <Button variant="secondary" onClick={(e) => this.updateDays(e, 30)}>30D</Button>
+                    </ButtonGroup>
                     <Line data={graphData} />
                 </div>
             )
@@ -406,13 +422,15 @@ class CryptoPage extends React.Component {
             coinList: {},
             coin: '',
             validMarketCap: true,
-            foundCoin: null
+            foundCoin: null,
+            days: 1
         }
         this.updateCoin = this.updateCoin.bind(this);
         this.updateList = this.updateList.bind(this);
         this.getCoin = this.getCoin.bind(this);
         this.updateMarketCap = this.updateMarketCap.bind(this);
         this.updateFoundCoin = this.updateFoundCoin.bind(this);
+        this.updateDays = this.updateDays.bind(this);
     }
 
 
@@ -430,6 +448,10 @@ class CryptoPage extends React.Component {
 
     updateFoundCoin(c) {
         this.setState( { foundCoin: c } );
+    }
+
+    updateDays(d) {
+        this.setState({ days: d });
     }
 
     getCoin(c) {
@@ -453,8 +475,8 @@ class CryptoPage extends React.Component {
                     <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
                 </div>
                 <div id="coin_overview_graph">
-                    <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} 
-                        found={this.state.foundCoin} />
+                    <PriceGraph coin={this.getCoin(this.state.coin)} days={this.state.days} validMarketCap={this.state.validMarketCap} 
+                        found={this.state.foundCoin} updateDays={this.updateDays} />
                     <br /><br />
                 </div>
                 <div>
