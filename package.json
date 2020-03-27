@@ -61,6 +61,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
-  },
-  "proxy": "http://localhost:8001"
+  }
 }

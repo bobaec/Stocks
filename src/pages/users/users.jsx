@@ -1,7 +1,6 @@
 import React from "react";
 import {
 	Container,
-	Image,
 	Table,
 	Row
 } from 'react-bootstrap';
@@ -11,7 +10,7 @@ const axios = require('axios');
 
 var allUsers;
 
-// testing in localhost
+// testing in localhost only
 axios.get('http://localhost:8001/user/all').then(function(response){
 	allUsers = response.data
 	console.log(allUsers[0].stocks.length);
@@ -20,16 +19,14 @@ axios.get('http://localhost:8001/user/all').then(function(response){
 	}
 })
 
-// use when deploying live
-// async function getUser() {
-// 	try {
-// 		const allUsers = await axios.get('/api/v1/user/all');
-// 		console.log(allUsers);
-// 	} catch (error) {
-// 		console.log(error);
+// use when deployed to gcp
+// axios.get('/api/v1/user/all').then(function(response){
+// 	allUsers = response.data
+// 	console.log(allUsers[0].stocks.length);
+// 	for (let i = 0; i < allUsers.length; i++) {
+// 		console.log(allUsers[i])
 // 	}
-// }
-// getUser();
+// })
 
 function tableGenerate() {
 	var htmlAdd = "";
@@ -47,7 +44,7 @@ function tableGenerate() {
 				"</td>"+
 			"</tr>"
 	}
-	console.log("aa");
+	
 	document.getElementById("generate").innerHTML += (htmlAdd);
 }
 
@@ -72,7 +69,6 @@ class UsersPage extends React.Component {
 							</tbody>
 							</Table>
 						</Row>
-
 					</Container>
 				</div>
 			</div>
