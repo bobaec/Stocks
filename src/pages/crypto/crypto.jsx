@@ -152,7 +152,7 @@ class Coin extends React.Component {
     }
 
     render() {
-        if (this.props.coin !== '') {
+        if (this.state.coin !== '') {
             let header = this.props.coin.toUpperCase() + ' Overview'
             return (
                 <div style={{marginBottom:'10px'}}>
