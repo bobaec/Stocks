@@ -334,6 +334,12 @@ class CryptoList extends React.Component {
         this.setState({ data: json });
     }
 
+    sendCoin(e, c) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.updateCoin(c);
+    }
+
     renderTableData() {
         let data = this.state.data;
         let i = 1;
@@ -369,7 +375,7 @@ class CryptoList extends React.Component {
                 style7d = styleRed;
             }
             return (
-            <tr key={id} style={{padding:'10px'}}>
+            <tr key={id} style={{padding:'10px'}} onClick={(e) => {this.sendCoin(e, id)}} >
                 <td><i className='fa fa-fw fa-star' /></td>
                 <td>{i++}</td>
                 <td><div><img style={{display:'inline-block', width:'10%', height:'10%'}} alt={symbol} src={image}  align='left' /></div><div style={{paddingLeft:'20%'}}>{name}</div></td>
@@ -473,6 +479,7 @@ class CryptoPage extends React.Component {
                 </div>
                 <div>
                     <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
+                    <br />
                 </div>
                 <div id="coin_overview_graph">
                     <PriceGraph coin={this.getCoin(this.state.coin)} days={this.state.days} validMarketCap={this.state.validMarketCap} 
@@ -480,7 +487,7 @@ class CryptoPage extends React.Component {
                     <br /><br />
                 </div>
                 <div>
-                    <CryptoList />
+                    <CryptoList updateCoin={this.updateCoin} />
                 </div>
             </div>
         )
