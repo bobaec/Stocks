@@ -1,57 +1,13 @@
 import React from "react";
 import {
 	Container,
+	Image,
 	Table,
 	Row
 } from 'react-bootstrap';
 // import stock_img from '../img/image.png'
 
-const axios = require('axios');
-
-var allUsers;
-
-// testing in localhost only
-axios.get('http://localhost:8001/user/all').then(function(response){
-	allUsers = response.data
-	console.log(allUsers[0].stocks.length);
-	for (let i = 0; i < allUsers.length; i++) {
-		console.log(allUsers[i])
-	}
-})
-
-// use when deployed to gcp
-// axios.get('/api/v1/user/all').then(function(response){
-// 	allUsers = response.data
-// 	console.log(allUsers[0].stocks.length);
-// 	for (let i = 0; i < allUsers.length; i++) {
-// 		console.log(allUsers[i])
-// 	}
-// })
-
-function tableGenerate() {
-	var htmlAdd = "";
-	for (let i in allUsers) {
-		htmlAdd += 
-			"<tr>" + 
-				"<td>" + 
-					allUsers[i].name + 
-				"</td>"+
-				"<td>"+ 
-					allUsers[i].email + 
-				"</td>"+
-				"<td>" +
-					allUsers[i].stocks.length + 
-				"</td>"+
-			"</tr>"
-	}
-	
-	document.getElementById("generate").innerHTML += (htmlAdd);
-}
-
 class UsersPage extends React.Component {
-	componentDidMount() {
-		tableGenerate();
-	}
 	render() {
 		return (
 		    <div className = "mainContent">
@@ -59,16 +15,48 @@ class UsersPage extends React.Component {
 					<center><h4>Users</h4></center>
 					<Container className="users">
 						<Row style={{marginTop: "10px"}}>
-							<Table responsive variant="dark" className="users_table" >
+							<Table responsive variant="dark" className="users_table">
 							<thead>
+								<th></th>
 								<th>Name</th>
 								<th>Email</th>
 								<th>Stocks</th>
 							</thead>
-							<tbody id = "generate">
+							<tbody>
+								<tr>
+								<td>
+									<Image src={this.props.user.photoURL} roundedCircle width={50}/>
+								</td>
+								<td>
+									{this.props.user.displayName}
+								</td>
+								<td>{this.props.user.email}</td>
+								<td>2</td>
+								</tr>
+								<tr>
+								<td>
+									<Image src={this.props.user.photoURL} roundedCircle width={50}/>
+								</td>
+								<td>
+									{this.props.user.displayName}
+								</td>
+								<td>{this.props.user.email}</td>
+								<td>2</td>
+								</tr>
+								<tr>
+								<td>
+									<Image src={this.props.user.photoURL} roundedCircle width={50}/>
+								</td>
+								<td>
+									{this.props.user.displayName}
+								</td>
+								<td>{this.props.user.email}</td>
+								<td>2</td>
+								</tr>
 							</tbody>
 							</Table>
 						</Row>
+
 					</Container>
 				</div>
 			</div>
