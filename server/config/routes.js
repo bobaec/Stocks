@@ -1,10 +1,10 @@
 // require express
 const express = require('express');
 const path    = require('path');
-
+var cors = require('cors')
 // create our router object
 const app = express.Router();
-
+app.use(cors());
 /**
  * Controllers (route handlers).
  */
