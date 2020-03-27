@@ -120,15 +120,6 @@ class Coin extends React.Component {
     }
 
     // https://dev.to/abdulbasit313/an-easy-way-to-create-a-customize-dynamic-table-in-react-js-3igg
-    // renderTableHeader() {
-    //     let c = this.state.coin;
-    //     return Object.keys(c).map(coin => {
-    //         return Object.keys(c[coin]).map((key, index) => {
-    //             return <th key={index} style={this.style}>{key.toUpperCase()}</th>
-    //         })
-    //     })
-    //  }
-
     renderTableData() {
         let c = this.state.coin;
         let style = {
@@ -161,7 +152,7 @@ class Coin extends React.Component {
 
     render() {
         if (this.props.coin !== '') {
-            let header = this.state.coin.name + ' Overview'
+            let header = this.props.coin.toUpperCase() + ' Overview'
             return (
                 <div style={{marginBottom:'10px'}}>
                     <center><h4>{header}</h4></center>
