@@ -36,6 +36,7 @@ exports.getByCryptoId = async function(id) {
     const coinFormat = {
         id: dbCoin.crypto_id,
         name: dbCoin.name,
+        symbol: dbCoin.symbol,
         latest_price: dbCoin.latest_price,
         market_cap: dbCoin.market_cap,
         day_vol: dbCoin.day_vol,

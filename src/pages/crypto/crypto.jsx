@@ -141,6 +141,7 @@ class Coin extends React.Component {
         const lastUpdate = new Date(c.last_updated_at).toString()
         return (
         <tr>
+            <td style={style}>{String(c.symbol).toUpperCase()}</td>
             <td style={style}>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
             <td style={{...style, ...changeStyle}}>{Number(c.day_change).toFixed(4)}%</td>
             <td style={style}>${Number(c.day_vol).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
@@ -159,6 +160,7 @@ class Coin extends React.Component {
                     <Table responsive variant="dark" id="coin_overview_table">
                         <thead>
                             <tr>
+                                <th>Symbol</th>
                                 <th>Latest Price</th>
                                 <th>24h Change</th>
                                 <th>24h Trading Volume</th>
