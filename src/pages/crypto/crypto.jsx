@@ -237,7 +237,7 @@ class PriceGraph extends React.Component {
                     const minutes = date.getMinutes();
                     const seconds = date.getSeconds();
     
-                    if (this.state.days > 1) {
+                    if (this.props.days > 1) {
                         return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
                     } else {
                         return hours + ":" + minutes + ":" + seconds;
