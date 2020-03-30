@@ -22,17 +22,8 @@ exports.getById = async function(id) {
 
 exports.getByCryptoId = async function(id) {
     const id_trimmed = id.trim();
-    let dbCoin = await Crypto.find({crypto_id: id_trimmed});
-    const now = Date.now();
-    if (new Date(dbCoin.last_retrieved) + (3600 * 1000) < now || dbCoin.last_retrieved === undefined) {
-        let newCoin = await crypto.getCoin(id);
-        newCoin = newCoin[id];
-        const filter = {crypto_id: id};
-        const update = {latest_price: newCoin.cad, market_cap: newCoin.cad_market_cap, day_vol: newCoin.cad_24h_vol, day_change: newCoin.cad_24h_change, last_retrieved: newCoin.last_updated_at*1000};
-
-        dbCoin = await Crypto.findOneAndUpdate(filter, update, {new: true});
-    }
-
+    let dbCoin = await getUpdatedCoin(id_trimmed);
+    
     const coinFormat = {
         id: dbCoin.crypto_id,
         name: dbCoin.name,
@@ -45,6 +36,20 @@ exports.getByCryptoId = async function(id) {
     };
 
     return coinFormat;
+};
+
+const getUpdatedCoin = async function(id) {
+    let dbCoin = await Crypto.find({crypto_id: id});
+    const now = Date.now();
+    if (new Date(dbCoin.last_retrieved) + (3600 * 1000) < now || dbCoin.last_retrieved === undefined) {
+        let coin = await crypto.getCoin(id);
+        coin = coin[id];
+        const filter = {crypto_id: id};
+        const update = {latest_price: coin.cad, market_cap: coin.cad_market_cap, day_vol: coin.cad_24h_vol, day_change: coin.cad_24h_change, last_retrieved: coin.last_updated_at*1000};
+        dbCoin = await Crypto.findOneAndUpdate(filter, update, {new: true});
+    }
+
+    return dbCoin;
 };
 
 exports.getAll = async function() {
