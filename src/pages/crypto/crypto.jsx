@@ -374,8 +374,10 @@ class CryptoList extends React.Component {
             if (price_change_percentage_7d_in_currency < 0) {
                 style7d = styleRed;
             }
+            const yOffset = 220;
+
             return (
-            <tr key={id} style={{padding:'10px'}} onClick={(e) => {this.sendCoin(e, id)}} >
+            <tr key={id} style={{padding:'10px'}} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset);}} >
                 <td><i className='fa fa-fw fa-star' /></td>
                 <td>{i++}</td>
                 <td><div><img style={{display:'inline-block', width:'10%', height:'10%'}} alt={symbol} src={image}  align='left' /></div><div style={{paddingLeft:'20%'}}>{name}</div></td>
