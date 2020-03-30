@@ -118,6 +118,19 @@
   color: rebeccapurple;
 }
 
+.scrollButton {
+  position: fixed;
+  opacity: 30%;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+  width: 50px;
+}
+
+.scrollButton:hover {
+  opacity: 100%;
+}
+
 #coin_overview_table{
   width: 80%;
   margin: 0 auto;

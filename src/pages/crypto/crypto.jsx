@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap';
 import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
+import ScrollButton from '../../components/ScrollButton';
 
 let crypto = require('./crypto.js');
 
@@ -490,6 +491,9 @@ class CryptoPage extends React.Component {
                 </div>
                 <div>
                     <CryptoList updateCoin={this.updateCoin} />
+                </div>
+                <div>
+                    <ScrollButton />
                 </div>
             </div>
         )
