@@ -24,6 +24,8 @@ class CoinList extends React.Component {
         };
         this.updateCoin = this.updateCoin.bind(this);
         this.sendCoin = this.sendCoin.bind(this);
+
+        this._isMounted = false;
     }
 
     updateCoin(e) {
@@ -38,6 +40,7 @@ class CoinList extends React.Component {
     }
 
     async componentDidMount() {
+        this._isMounted = true;
         const response = await fetch('/crypto/all');
         const json = await response.json();
         let list = {};
@@ -47,8 +50,14 @@ class CoinList extends React.Component {
             list[crypto_id] = name;
         });
 
-        this.setState({ coinList: list });
-        this.props.updateList(list);
+        if (this._isMounted) {
+            this.setState({ coinList: list });
+            this.props.updateList(list);
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
 	render() {
@@ -297,8 +306,9 @@ class PriceGraph extends React.Component {
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: 'Price in CAD'
-                              }
+                                labelString: 'Price in CAD',
+                                fontColor: 'white'
+                            }
                         }],
                         xAxes: [{
                             ticks: {
