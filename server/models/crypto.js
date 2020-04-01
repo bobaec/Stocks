@@ -22,7 +22,10 @@ exports.getById = async function(id) {
 exports.getByCryptoId = async function(id) {
     const id_trimmed = id.trim();
     let dbCoin = await getUpdatedCoin(id_trimmed);
-    dbCoin = dbCoin[0]
+    
+    if (Array.isArray(dbCoin)) {
+        dbCoin = dbCoin[0];
+    }
     
     const coinFormat = {
         id: dbCoin.crypto_id,
@@ -34,7 +37,6 @@ exports.getByCryptoId = async function(id) {
         day_change: dbCoin.day_change,
         last_updated_at: dbCoin.last_retrieved
     };
-
     return coinFormat;
 };
 

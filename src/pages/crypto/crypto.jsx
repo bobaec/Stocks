@@ -98,7 +98,6 @@ class Coin extends React.Component {
             try {
                 const response = await fetch('/crypto/id/' + c);
                 coin = await response.json()
-                // coin = await crypto.getCoin(c);
             } catch (err) {
                 console.log('API error:', err);
             }
@@ -109,7 +108,7 @@ class Coin extends React.Component {
                 this.setState( { coin } );
 
 
-                if (coin.day_val < 1) {
+                if (coin.market_cap < 1) {
                     this.props.updateMarketCap(false);
                 } else {
                     this.props.updateMarketCap(true);
@@ -215,6 +214,15 @@ class PriceGraph extends React.Component {
         this.setState({ days: this.props.days });
     }
 
+    addZero(t) {
+        return '0' + t;
+    }
+
+    formatTime(hours, minutes, seconds) {
+        return (hours < 10 ? this.addZero(hours) : hours) + ":" + (minutes < 10 ? this.addZero(minutes) : minutes)
+            + ":" + (seconds < 10 ? this.addZero(seconds) : seconds);
+    }
+
     async componentDidUpdate(prevProp) {
         const c = this.props.coin;
         const d = this.props.days;
@@ -238,11 +246,12 @@ class PriceGraph extends React.Component {
                     const hours = date.getHours();
                     const minutes = date.getMinutes();
                     const seconds = date.getSeconds();
+                    const formattedTime = this.formatTime(hours, minutes, seconds);
     
                     if (this.props.days > 1) {
-                        return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+                        return year + "-" + month + "-" + day + " " + formattedTime;
                     } else {
-                        return hours + ":" + minutes + ":" + seconds;
+                        return formattedTime
                     }
                 });
     
@@ -383,7 +392,7 @@ class CryptoList extends React.Component {
             const yOffset = 220;
 
             return (
-            <tr key={id} style={{padding:'10px'}} onClick={(e) => {this.sendCoin(e, name); window.scrollTo(0, yOffset)}} >
+            <tr key={id} style={{padding:'10px'}} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset)}} >
                 <td><i className='fa fa-fw fa-star' /></td>
                 <td>{i++}</td>
                 <td><div><img style={{display:'inline-block', width:'10%', height:'10%'}} alt={symbol} src={image}  align='left' /></div><div style={{paddingLeft:'20%'}}>{name}</div></td>
@@ -449,7 +458,6 @@ class CryptoPage extends React.Component {
 
 
     updateCoin(c) {
-        console.log(c)
         this.setState( { coin: c } );
     }
 
@@ -472,7 +480,7 @@ class CryptoPage extends React.Component {
     getCoin(c) {
         const coinList = this.state.coinList;
         for (let coin in coinList) {
-            if (c === coinList[coin]) {
+            if (c === coinList[coin] || c === coin) {
                 return coin;
             }
         }
