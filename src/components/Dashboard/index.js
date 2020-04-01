@@ -44,8 +44,8 @@ export default class Dashboard extends Component {
     render() {
         const { data, labels, stock} = this.state;
         return (
-            
             <div>
+            <h6>ID: {this.state.selected_id}</h6>
             <center><div style = {{width:'60%'}}>
                 <Chart 
                     data={data}

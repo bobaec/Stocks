@@ -19,7 +19,6 @@ class MainPage extends React.Component {
         this.state = {
 			selected_id: "none"
 		}
-
 		this.getID = this.getID.bind(this);
 	}
 	
@@ -29,16 +28,11 @@ class MainPage extends React.Component {
 	
 	update_graph = event => {
 		const id = event.target.getAttribute('data-item');
-		
 		this.setState({selected_id: id});
-
 		Dashboard.selected_id=this.state.selected_id;
 		this.setState({
 			showComponenet: true
 		});
-		// return (
-		// 	<Dashboard selected_id={this.state.selected_id}/>
-		// )
 	}
 	
 	render() {
