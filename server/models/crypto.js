@@ -9,7 +9,7 @@ const CryptoSchema = new Schema({
     },
     crypto_id: {
         type: String,
-        uppercase: true,
+        lowercase: true,
         trim: true,
         required: true,
         validate: async (value) => {
