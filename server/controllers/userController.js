@@ -12,23 +12,35 @@ exports.createNewUser = async (req, res) => {
 };
 
 exports.getUserByEmail = async (req, res) => {
-	const user = await User.getByEmail(req.params.email);
-	res.send(user);
+	try {
+		res.status(200).send(await User.getByEmail(req.params.email));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.getUserById = async function (req, res) {
-	const user = await User.getById(req.params.id);
-	res.send(user);
+	try {
+		res.status(200).send(await User.getById(req.params.id));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.getUserByName = async function (req, res) {
-	const user = await User.getByName(req.params.name);
-	res.send(user);
+	try {
+		res.status(200).send(await User.getByName(req.params.name));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.getAllUsers = async function (req, res) {
-	const users = await User.getAll();
-    res.send(users);
+	try {
+		res.status(200).send(await User.getAll());
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.addStock = async (req, res) => {
