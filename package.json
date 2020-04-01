@@ -8,9 +8,11 @@
     "@testing-library/user-event": "^7.1.2",
     "@trendmicro/react-sidenav": "^0.5.0",
     "algoliasearch": "^4.0.3",
+    "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "chalk": "^3.0.0",
     "chart.js": "^2.9.3",
+    "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
@@ -37,7 +39,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "launch-all": "concurrently \"npm run dev\" \"npm start\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -57,5 +60,5 @@
   "devDependencies": {
     "nodemon": "^2.0.2"
   },
-  "proxy": "http://localhost:3000"
+  "proxy": "http://localhost:8001"
 }

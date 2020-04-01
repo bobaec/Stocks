@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Chart from "../Chart/index";
+import News from "../News/index";
+import '../../pages/css/App.css';
 
 export default class Dashboard extends Component {
     constructor() {
@@ -9,12 +11,13 @@ export default class Dashboard extends Component {
 
     state = {
         data: {},
-        labels: {}
+        labels: {},
+        stock: 'bitcoin'
     }
 
     async componentDidMount(){
         const userId = "1"; // Get current userId
-        const url = `/stocks/${userId}`;
+        const url = `/api/v1/stock/${userId}`;
 
         const response = await fetch(url, {
             method: 'GET', 
@@ -30,17 +33,17 @@ export default class Dashboard extends Component {
     }
 
     render() {
-        const { data, labels } = this.state;
+        const { data, labels, stock} = this.state;
         return (
             <div>
-            <header>
-                <h1>Dashboard</h1>
-            </header>
-            <center><div style = {{width:'50%'}}>
+            <center><div style = {{width:'60%'}}>
                 <Chart 
                     data={data}
-                    labels={labels} /
-                >
+                    labels={labels} 
+                />
+                <News 
+                    stock={stock}
+                />
             </div></center>
             </div>
         )

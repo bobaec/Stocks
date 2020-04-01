@@ -8,10 +8,11 @@ const app = express.Router();
 /**
  * Controllers (route handlers).
  */
-const homeController = require('../controllers/home');
-const stocksController = require('../controllers/stock');
-const userController = require('../controllers/user');
-const cryptoController = require('../controllers/crypto');
+const homeController = require('../controllers/homeController');
+const stocksController = require('../controllers/stocksController');
+const userController = require('../controllers/userController');
+const cryptoController = require('../controllers/cryptoController');
+const newsController = require('../controllers/newsController');
 
 /**
  * Primary app routes.
@@ -52,5 +53,12 @@ app.get('/crypto/crypto_id/:crypto_id', cryptoController.getCryptoByCryptoId);
 app.get('/crypto/symbol/:symbol', cryptoController.getCryptoBySymbol);
 app.get('/crypto/name/:name', cryptoController.getCryptoByName);
 app.get('/crypto/basics', cryptoController.getNameId);
+
+
+/**
+ * News routes
+ */
+app.get('/news/top/:query', newsController.query);
+
 
 module.exports = app;
