@@ -31,11 +31,3 @@ exports.getStockByName = async function (req, res) {
      const stocks = await Stock.getAll();
      res.send(stocks);
  };
-
-/**
- * GET /
- *  Favourite Stocks for a user.
- */
-exports.user = (req, res) => {
-    res.send('Stock: ' + req.params.userId);
-};

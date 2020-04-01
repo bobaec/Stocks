@@ -2,11 +2,16 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const StockSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
     symbol: {
         type: String,
         uppercase: true,
         trim: true,
+        required: true,
         validate: async (value) => {
             try {
                 const result = await Stock.findOne({symbol: value});
