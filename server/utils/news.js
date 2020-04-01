@@ -5,7 +5,7 @@ news = {
     getURL: (query) => {
         return  'http://newsapi.org/v2/everything?' +
                 `q=${query}&` +
-                'sortBy=popularity&' +
+                'sortBy=publishedAt&' +
                 'language=en&' + 
                 `apiKey=${apiKey}`;
     },
