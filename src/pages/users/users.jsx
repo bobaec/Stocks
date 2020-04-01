@@ -10,7 +10,7 @@ const axios = require('axios');
 
 var allUsers;
 
-axios.get('/api/v1/user/all').then(function(response){
+axios.get('/user/all').then(function(response){
 	allUsers = response.data
 	console.log(allUsers[0].stocks.length);
 	for (let i = 0; i < allUsers.length; i++) {
