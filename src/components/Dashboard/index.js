@@ -7,13 +7,12 @@ import MainPage from '../../pages';
 export default class Dashboard extends Component {
     constructor() {
         super();
-        this.state = {}
-    }
-    state = {
-        selected_id: MainPage.getID,
-        data: {},
-        labels: {},
-        stock: 'bitcoin'
+        this.state = {
+            selected_id: '',
+            data: {},
+            labels: {},
+            stock: 'bitcoin'
+        };
     }
 
 
@@ -34,6 +33,12 @@ export default class Dashboard extends Component {
         //   console.log(await response.json())
         //   return await response.json();
         console.log(this.props.selected_id);
+    }
+
+    componentDidUpdate(prevProp) {
+        if (this.state.selected_id === '' || prevProp.selected_id !== this.props.selected_id) {
+            this.setState({selected_id: this.props.selected_id});
+        }
     }
 
     render() {
