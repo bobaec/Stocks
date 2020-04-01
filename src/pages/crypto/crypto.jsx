@@ -143,7 +143,7 @@ class Coin extends React.Component {
         const lastUpdate = new Date(c.last_updated_at).toString()
         return (
         <tr>
-            <td style={style}>{String(c.symbol).toUpperCase()}</td>
+            <td style={style}>{String(c.symbol)}</td>
             <td style={style}>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
             <td style={{...style, ...changeStyle}}>{Number(c.day_change).toFixed(4)}%</td>
             <td style={style}>${Number(c.day_vol).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
@@ -383,11 +383,11 @@ class CryptoList extends React.Component {
             const yOffset = 220;
 
             return (
-            <tr key={id} style={{padding:'10px'}} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset);}} >
+            <tr key={id} style={{padding:'10px'}} onClick={(e) => {this.sendCoin(e, name); window.scrollTo(0, yOffset)}} >
                 <td><i className='fa fa-fw fa-star' /></td>
                 <td>{i++}</td>
                 <td><div><img style={{display:'inline-block', width:'10%', height:'10%'}} alt={symbol} src={image}  align='left' /></div><div style={{paddingLeft:'20%'}}>{name}</div></td>
-                <td>{name}</td>
+                <td>{symbol.toUpperCase()}</td>
                 <td>${current_price}</td>
                 <td style={style1h}>{Number(price_change_percentage_1h_in_currency).toFixed(4)}%</td>
                 <td style={style24h}>{Number(price_change_percentage_24h_in_currency).toFixed(4)}%</td>
@@ -449,6 +449,7 @@ class CryptoPage extends React.Component {
 
 
     updateCoin(c) {
+        console.log(c)
         this.setState( { coin: c } );
     }
 
