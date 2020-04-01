@@ -13,29 +13,53 @@ exports.createNewCrypto = async (req, res) => {
 
 // Get crypto by id
 exports.getCryptoById = async function (req, res) {
-	res.send(await Crypto.getById(req.params.id));
+	try {
+		res.status(200).send(await Crypto.getById(req.params.id));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 // Get by crypto_id
 exports.getCryptoByCryptoId = async function (req, res) {
-	res.send(await Crypto.getByCryptoId(req.params.crypto_id));
+	try {
+		res.status(200).send(await Crypto.getByCryptoId(req.params.crypto_id));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 // Get by symbol
 exports.getCryptoBySymbol = async (req, res) => {
-	res.send(await Crypto.getBySymbol(req.params.symbol));
+	try {
+		res.status(200).send(await Crypto.getBySymbol(req.params.symbol));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 // Get by Name
 exports.getCryptoByName = async function (req, res) {
-	res.send(await Crypto.getByName(req.params.name));
+	try {
+		res.status(200).send(await Crypto.getByName(req.params.name));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 // Get all cryptos
 exports.getAll = async (req, res) => {
-     res.send(await Crypto.getAll());
- };
+	try {
+		res.status(200).send(await Crypto.getAll());
+	} catch (err) {
+		res.sendStatus(500);
+	}
+};
 
 exports.getNameId = async (req, res) => {
-	res.send(await Crypto.getBasics());
+	try {
+		res.status(200).send(await Crypto.getBasics());
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
