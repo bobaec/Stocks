@@ -30,7 +30,7 @@ class MainPage extends React.Component {
 	update_graph = event => {
 		const id = event.target.getAttribute('data-item');
 		
-		this.state.selected_id = id;
+		this.setState({selected_id: id});
 
 		Dashboard.selected_id=this.state.selected_id;
 		this.setState({
@@ -63,7 +63,7 @@ class MainPage extends React.Component {
 								<th>Last 7 Days</th>
 							</thead>
 							<tbody>
-								<tr onClick={this.update_data} >
+								<tr onClick={(e) => this.update_graph(e)} >
 									<td data-item={"FAKEID_BTC"}>
 										<Image src="https://assets.coingecko.com/coins/images/1/thumb_2x/bitcoin.png?1547033579" roundedCircle width={25}  style={{marginRight:'5px'}}/>
 										BTC
@@ -75,7 +75,7 @@ class MainPage extends React.Component {
 										<Image src="https://www.coingecko.com/coins/1/sparkline" roundedCircle width={90}/>
 									</td>
 								</tr>
-								<tr onClick={this.update_graph}>
+								<tr onClick={(e) => this.update_graph(e)}>
 									<td data-item={"FAKEID_ETH"}>
 										<Image src="https://assets.coingecko.com/coins/images/279/thumb_2x/ethereum.png?1547034048" roundedCircle width={25}  style={{marginRight:'5px'}}/>
 										ETH
