@@ -11,28 +11,12 @@ const CryptoSchema = new Schema({
         type: String,
         lowercase: true,
         trim: true,
-        required: true,
-        validate: async (value) => {
-            try {
-                const result = await Crypto.findOne({crypto_id: value});
-                if (result) throw new Error("Duplicate Crypto ID: " + value);
-            } catch (error) {
-                throw new Error(error);
-            }
-        }
+        required: true
     },
     symbol: {
         type: String,
         uppercase: true,
-        trim: true,
-        validate: async (value) => {
-            try {
-                const result = await Crypto.findOne({symbol: value});
-                if (result) throw new Error("Duplicate Crypto symbol: " + value);
-            } catch (error) {
-                throw new Error(error);
-            }
-        }
+        trim: true
     },
     latest_price: Number,
     market_cap: Number,
@@ -45,7 +29,17 @@ const CryptoSchema = new Schema({
 const Crypto = mongoose.model('Crypto', CryptoSchema, "crypto");
 
 exports.addNewCrypto = async (cryto) => {
+    // Check if crypto_id exists
+    const cryptoId = await Crypto.findOne({crypto_id: cryto.crypto_id});
+    if (cryptoId != null) return "Duplicate crypto id :" + cryto.crypto_id;
+
+    // Check if symbol exists
+    const symbol = await Crypto.findOne({symbol: cryto.symbol});
+    if (symbol != null) return "Duplicate symbol :" + cryto.symbol;
+
+    // Add new crypto
     await new Crypto(cryto).save((err) => { if (err) throw err; });
+    return null;
 };
 
 exports.getByName = async function(name) {

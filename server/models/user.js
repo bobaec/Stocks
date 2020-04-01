@@ -44,8 +44,8 @@ const User = mongoose.model('User', UserSchema, "user");
 
 exports.addNewUser = async (user) => {
     // Check if email exists
-    const existingEmail = await User.findOne({email: user.email});
-    if (existingEmail != null) return "Duplicate email: newemail@email.com";
+    const email = await User.findOne({email: user.email});
+    if (email != null) return "Duplicate email: " + user.email;
 
     // Add the new user
     await new User(user).save((err) => { if (err) throw err; });
