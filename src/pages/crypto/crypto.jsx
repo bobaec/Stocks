@@ -116,6 +116,7 @@ class Coin extends React.Component {
                 }
             } 
         } else {
+            this.setState( {found: false, coin: ''} );
             this.props.updateFoundCoin(false);
         }
     }
@@ -284,7 +285,11 @@ class PriceGraph extends React.Component {
                         yAxes: [{
                             ticks: {
                                 fontColor: 'white'
-                            }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Price in CAD'
+                              }
                         }],
                         xAxes: [{
                             ticks: {
