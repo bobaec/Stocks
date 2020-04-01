@@ -4,9 +4,14 @@ const User = require('../models/user');
 // Add a new user
 exports.createNewUser = async (req, res) => {
 	try {
-		await User.addNewUser(req.body);
-		res.sendStatus(200);
-	} catch (err) {
+		// Try to handle duplicate email error
+		const result = await User.addNewUser(req.body);
+		if (result != null) {
+			res.status(500).send(result);
+		} else {
+			res.sendStatus(200);
+		}
+	} catch (e) {
 		res.sendStatus(500);
 	}
 };

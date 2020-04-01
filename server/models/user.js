@@ -8,15 +8,7 @@ const UserSchema = new Schema({
         type: String,
         lowercase: true,
         trim: true,
-        required: true,
-        validate: async (value) => {
-            try {
-                const result = await User.findOne({email: value});
-                if (result) throw new Error("Duplicate email: " + value);
-            } catch (error) {
-                throw new Error(error);
-            }
-        }
+        required: true
     },
     last_login: Date,
     stocks: [
@@ -51,7 +43,13 @@ const UserSchema = new Schema({
 const User = mongoose.model('User', UserSchema, "user");
 
 exports.addNewUser = async (user) => {
+    // Check if email exists
+    const existingEmail = await User.findOne({email: user.email});
+    if (existingEmail != null) return "Duplicate email: newemail@email.com";
+
+    // Add the new user
     await new User(user).save((err) => { if (err) throw err; });
+    return null;
 };
 
 exports.getByEmail = async (email) => {

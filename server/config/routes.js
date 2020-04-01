@@ -1,9 +1,12 @@
 // require express
 const express = require('express');
-const path    = require('path');
 
 // create our router object
 const app = express.Router();
+
+// For json body parsing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
 /**
  * Controllers (route handlers).
