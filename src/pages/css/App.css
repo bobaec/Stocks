@@ -145,3 +145,12 @@
   width: 60%;
   margin: 0 auto;
 }
+
+#crypto_table{
+  text-align: center;
+}
+
+#crypto_table2 td{
+  border: 1px solid white;
+  border-collapse: collapse;
+}

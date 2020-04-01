@@ -5,7 +5,8 @@ import {
     FormControl,
     Button,
     Table,
-    ButtonGroup
+    ButtonGroup,
+    Image
 } from 'react-bootstrap';
 import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
@@ -132,9 +133,7 @@ class Coin extends React.Component {
     // https://dev.to/abdulbasit313/an-easy-way-to-create-a-customize-dynamic-table-in-react-js-3igg
     renderTableData() {
         let c = this.state.coin;
-        let style = {
-            border: "1px solid white"
-        }
+
 
         const styleRed = {color: '#EF9A9A'};
         const styleGreen = {color: '#A5D6A7'};
@@ -150,13 +149,13 @@ class Coin extends React.Component {
 
         const lastUpdate = new Date(c.last_updated_at).toString()
         return (
-        <tr>
-            <td style={style}>{String(c.symbol)}</td>
-            <td style={style}>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
-            <td style={{...style, ...changeStyle}}>{Number(c.day_change).toFixed(4)}%</td>
-            <td style={style}>${Number(c.day_vol).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
-            <td style={style}>${Number(c.market_cap).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
-            <td style={style}>{lastUpdate}</td>
+        <tr id="crypto_table2">
+            <td>{String(c.symbol)}</td>
+            <td>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
+            <td style={{...changeStyle}}>{Number(c.day_change).toFixed(4)}%</td>
+            <td>${Number(c.day_vol).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
+            <td>${Number(c.market_cap).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
+            <td>{lastUpdate}</td>
         </tr>
         )
     }
@@ -194,9 +193,9 @@ class Coin extends React.Component {
         }
 
         return (
-            <div style={{padding: "15px"}}>
+            <div>
                <center>
-                   <h3>{message}</h3>
+                   <h4>{message}</h4>
                </center>
             </div>
         )
@@ -402,10 +401,17 @@ class CryptoList extends React.Component {
             const yOffset = 220;
 
             return (
-            <tr key={id} style={{padding:'10px'}} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset)}} >
+            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset)}} >
                 <td><i className='fa fa-fw fa-star' /></td>
                 <td>{i++}</td>
-                <td><div><img style={{display:'inline-block', width:'10%', height:'10%'}} alt={symbol} src={image}  align='left' /></div><div style={{paddingLeft:'20%'}}>{name}</div></td>
+                <td>
+                    <div>
+                        <Image roundedCircle width={25} alt={symbol} src={image} align='left'/>
+                    </div>
+                    <div>
+                        {name}
+                    </div>
+                </td>
                 <td>{symbol.toUpperCase()}</td>
                 <td>${current_price}</td>
                 <td style={style1h}>{Number(price_change_percentage_1h_in_currency).toFixed(4)}%</td>
@@ -421,10 +427,10 @@ class CryptoList extends React.Component {
         return(
             <div>
                 <center>
-                    <h3>Top 100 Cryptocurrencies</h3>
+                    <h4>Top 100 Cryptocurrencies</h4><br/>
                     <Table striped bordered hover variant="dark">
                         <thead>
-                            <tr>
+                            <tr id="crypto_table">
                                 <th></th>
                                 <th>#</th>
                                 <th>Coin</th>
