@@ -3,8 +3,12 @@ const Crypto = require('../models/crypto');
 
 // Add a new crypto
 exports.createNewCrypto = async (req, res) => {
-	await Crypto.addNewCrypto(req.body);
-	res.sendStatus(200);
+	try {
+		await Crypto.addNewCrypto(req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 // Get crypto by id

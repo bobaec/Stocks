@@ -3,8 +3,12 @@ const User = require('../models/user');
 
 // Add a new user
 exports.createNewUser = async (req, res) => {
-	await User.addNewUser(req.body);
-	res.sendStatus(200);
+	try {
+		await User.addNewUser(req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.getUserByEmail = async (req, res) => {
@@ -28,21 +32,37 @@ exports.getAllUsers = async function (req, res) {
 };
 
 exports.addStock = async (req, res) => {
-	await User.addFavouriteStock(req.params.id, req.body);
-	res.sendStatus(200);
+	try {
+		await User.addFavouriteStock(req.params.id, req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.removeStock = async (req, res) => {
-	await User.removeFavouriteStock(req.params.id, req.body);
-	res.sendStatus(200);
+	try {
+		await User.removeFavouriteStock(req.params.id, req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.addCrypto = async (req, res) => {
-	await User.addFavouriteCrypto(req.params.id, req.body);
-	res.sendStatus(200);
+	try {
+		await User.addFavouriteCrypto(req.params.id, req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.removeCrypto = async (req, res) => {
-	await User.removeFavouriteCrypto(req.params.id, req.body);
-	res.sendStatus(200);
+	try {
+		await User.removeFavouriteCrypto(req.params.id, req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };

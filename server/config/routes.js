@@ -22,7 +22,7 @@ app.get('/', homeController.index);
 /**
  * Stock routes.
  */
-app.get('/stock/create', stocksController.createNewStock);
+app.post('/stock/create', stocksController.createNewStock);
 app.get('/stock/all', stocksController.getAll);
 app.get('/stock/id/:id', stocksController.getStockById);
 app.get('/stock/name/:name', stocksController.getStockByName);
@@ -31,22 +31,22 @@ app.get('/stock/symbol/:symbol', stocksController.getStockBySymbol);
 /**
  * User routes
  */
-app.get('/user/create', userController.createNewUser);
+app.post('/user/create', userController.createNewUser);
 app.get('/user/all', userController.getAllUsers);
 app.get('/user/name/:name', userController.getUserByName);
 app.get('/user/id/:id', userController.getUserById);
 app.get('/user/email/:email', userController.getUserByEmail);
 
 // User favourites
-app.get('/user/stock/add/:id', userController.addStock);
-app.get('/user/stock/remove/:id', userController.removeStock);
-app.get('/user/crypto/add/:id', userController.addCrypto);
-app.get('/user/crypto/remove/:id', userController.removeCrypto);
+app.post('/user/stock/add/:id', userController.addStock);
+app.post('/user/stock/remove/:id', userController.removeStock);
+app.post('/user/crypto/add/:id', userController.addCrypto);
+app.post('/user/crypto/remove/:id', userController.removeCrypto);
 
 /**
  * Crypto routes.
  */
-app.get('/crypto/create', cryptoController.createNewCrypto);
+app.post('/crypto/create', cryptoController.createNewCrypto);
 app.get('/crypto/all', cryptoController.getAll);
 app.get('/crypto/id/:id', cryptoController.getCryptoById);
 app.get('/crypto/crypto_id/:crypto_id', cryptoController.getCryptoByCryptoId);
