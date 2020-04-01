@@ -10,8 +10,7 @@ const CryptoSchema = new Schema({
     day_vol: Number,
     day_change: Number,
     last_retrieved: Date,
-    api_source: String,
-    image: String
+    api_source: String
 });
 
 const Crypto = mongoose.model('Crypto', CryptoSchema, "crypto");
@@ -23,6 +22,7 @@ exports.getById = async function(id) {
 exports.getByCryptoId = async function(id) {
     const id_trimmed = id.trim();
     let dbCoin = await getUpdatedCoin(id_trimmed);
+    dbCoin = dbCoin[0]
     
     const coinFormat = {
         id: dbCoin.crypto_id,
@@ -41,7 +41,7 @@ exports.getByCryptoId = async function(id) {
 const getUpdatedCoin = async function(id) {
     let dbCoin = await Crypto.find({crypto_id: id});
     const now = Date.now();
-    if (new Date(dbCoin.last_retrieved) + (3600 * 1000) < now || dbCoin.last_retrieved === undefined) {
+    if (new Date(dbCoin[0].last_retrieved) + (3600 * 1000) < now || dbCoin[0].last_retrieved === undefined) {
         let coin = await crypto.getCoin(id);
         coin = coin[id];
         const filter = {crypto_id: id};
