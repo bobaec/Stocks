@@ -3,8 +3,32 @@ const Schema = mongoose.Schema;
 
 const CryptoSchema = new Schema({
     name: String,
-    crypto_id: String,
-    symbol: String,
+    crypto_id: {
+        type: String,
+        uppercase: true,
+        trim: true,
+        validate: async (value) => {
+            try {
+                const result = await Crypto.findOne({crypto_id: value});
+                if (result) throw new Error("Duplicate Crypto ID: " + value);
+            } catch (error) {
+                throw new Error(error);
+            }
+        }
+    },
+    symbol: {
+        type: String,
+        uppercase: true,
+        trim: true,
+        validate: async (value) => {
+            try {
+                const result = await Crypto.findOne({symbol: value});
+                if (result) throw new Error("Duplicate Crypto symbol: " + value);
+            } catch (error) {
+                throw new Error(error);
+            }
+        }
+    },
     latest_price: Number,
     last_retrieved: Date,
     api_source: String

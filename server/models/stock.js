@@ -3,7 +3,19 @@ const Schema = mongoose.Schema;
 
 const StockSchema = new Schema({
     name: String,
-    symbol: String,
+    symbol: {
+        type: String,
+        uppercase: true,
+        trim: true,
+        validate: async (value) => {
+            try {
+                const result = await Stock.findOne({symbol: value});
+                if (result) throw new Error("Duplicate Stock symbol: " + value);
+            } catch (error) {
+                throw new Error(error);
+            }
+        }
+    },
     latest_price: Number,
     last_retrieved: Date,
     api_source: String

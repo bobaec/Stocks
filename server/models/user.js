@@ -11,7 +11,7 @@ const UserSchema = new Schema({
         required: true,
         validate: async (value) => {
             try {
-                const result = await User.findOn({email: value});
+                const result = await User.findOne({email: value});
                 if (result) throw new Error("Duplicate email: " + value);
             } catch (error) {
                 throw new Error(error);
