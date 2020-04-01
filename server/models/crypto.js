@@ -35,6 +35,9 @@ const CryptoSchema = new Schema({
         }
     },
     latest_price: Number,
+    market_cap: Number,
+    day_vol: Number,
+    day_change: Number,
     last_retrieved: Date,
     api_source: String
 });
