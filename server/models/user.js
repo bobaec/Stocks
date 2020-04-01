@@ -21,15 +21,29 @@ const UserSchema = new Schema({
     last_login: Date,
     stocks: [
         {
-            stock_name: String,
-            stock_symbol: String,
+            stock_name: {
+                type: String,
+                required: true
+            },
+            stock_symbol: {
+                type: String,
+                uppercase: true,
+                required: true
+            },
             latest_stock_price: Number
         }
     ],
     cryptos: [
         {
-            crypto_name: String,
-            crypto_symbol: String,
+            crypto_name: {
+                type: String,
+                required: true
+            },
+            crypto_symbol: {
+                type: String,
+                uppercase: true,
+                required: true
+            },
             latest_crypto_price: Number
         }
     ]
@@ -59,4 +73,32 @@ exports.getByName = async function (name) {
 // Get all users
 exports.getAll = async function () {
     return await User.find({});
+};
+
+// Stock favourites
+exports.addFavouriteStock = async (id, stock) => {
+    await User.findByIdAndUpdate(id, { $push: {"stocks": stock}}, (err, result) => {
+        if (err) throw err;
+    })
+};
+
+exports.removeFavouriteStock = async (id, stockSymbol) => {
+    await User.findByIdAndUpdate(id, { $pull: {"stocks": {"stock_symbol": stockSymbol}}},
+        (err, result) => {
+            if (err) throw err;
+    })
+};
+
+// Crypto favourites
+exports.addFavouriteCrypto = async (id, crypto) => {
+    await User.findByIdAndUpdate(id, { $pull: {"cryptos": crypto}}, (err, result) => {
+            if (err) throw err;
+        })
+};
+
+exports.removeFavouriteCrypto = async (id, cryptoSymbol) => {
+    await User.findByIdAndUpdate(id, { $pull: {"cryptos": {"crypto_symbol": cryptoSymbol}}},
+        (err, result) => {
+            if (err) throw err;
+        })
 };

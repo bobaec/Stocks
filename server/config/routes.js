@@ -37,6 +37,12 @@ app.get('/user/name/:name', userController.getUserByName);
 app.get('/user/id/:id', userController.getUserById);
 app.get('/user/email/:email', userController.getUserByEmail);
 
+// User favourites
+app.get('/user/stock/add/:id', userController.addStock);
+app.get('/user/stock/remove/:id', userController.removeStock);
+app.get('/user/crypto/add/:id', userController.addCrypto);
+app.get('/user/crypto/remove/:id', userController.removeCrypto);
+
 /**
  * Crypto routes.
  */

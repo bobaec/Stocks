@@ -26,3 +26,23 @@ exports.getAllUsers = async function (req, res) {
 	const users = await User.getAll();
     res.send(users);
 };
+
+exports.addStock = async (req, res) => {
+	await User.addFavouriteStock(req.params.id, req.body);
+	res.sendStatus(200);
+};
+
+exports.removeStock = async (req, res) => {
+	await User.removeFavouriteStock(req.params.id, req.body);
+	res.sendStatus(200);
+};
+
+exports.addCrypto = async (req, res) => {
+	await User.addFavouriteCrypto(req.params.id, req.body);
+	res.sendStatus(200);
+};
+
+exports.removeCrypto = async (req, res) => {
+	await User.removeFavouriteCrypto(req.params.id, req.body);
+	res.sendStatus(200);
+};
