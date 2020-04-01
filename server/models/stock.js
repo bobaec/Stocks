@@ -44,3 +44,7 @@ exports.getById = async function(id) {
 exports.getAll = async function() {
     return await Stock.find({});
 };
+
+exports.getBySymbol = async (symbol) => {
+    return await Stock.find({symbol: symbol});
+};

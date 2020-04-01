@@ -55,6 +55,10 @@ exports.getByCryptoId = async function(crypto_id) {
     return await Crypto.find({crypto_id: crypto_id_trimmed});
 };
 
+exports.getBySymbol = async (symbol) => {
+    return await Crypto.find({symbol: symbol});
+};
+
 exports.getById = async function(id) {
     return await Crypto.findById(id);
 };

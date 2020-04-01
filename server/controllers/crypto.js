@@ -17,6 +17,11 @@ exports.getCryptoByCryptoId = async function (req, res) {
 	res.send(await Crypto.getByCryptoId(req.params.crypto_id));
 };
 
+// Get by symbol
+exports.getCryptoBySymbol = async (req, res) => {
+	res.send(await Crypto.getBySymbol(req.params.symbol));
+};
+
 // Get by Name
 exports.getCryptoByName = async function (req, res) {
 	res.send(await Crypto.getByName(req.params.name));
@@ -29,4 +34,4 @@ exports.getAll = async (req, res) => {
 
 exports.getNameId = async (req, res) => {
 	res.send(await Crypto.getBasics());
-}
+};

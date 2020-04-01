@@ -25,6 +25,7 @@ app.get('/stock/create', stocksController.createNewStock);
 app.get('/stock/all', stocksController.getAll);
 app.get('/stock/id/:id', stocksController.getStockById);
 app.get('/stock/name/:name', stocksController.getStockByName);
+app.get('/stock/symbol/:symbol', stocksController.getStockBySymbol);
 
 /**
  * User routes
@@ -48,6 +49,7 @@ app.get('/crypto/create', cryptoController.createNewCrypto);
 app.get('/crypto/all', cryptoController.getAll);
 app.get('/crypto/id/:id', cryptoController.getCryptoById);
 app.get('/crypto/crypto_id/:crypto_id', cryptoController.getCryptoByCryptoId);
+app.get('/crypto/symbol/:symbol', cryptoController.getCryptoBySymbol);
 app.get('/crypto/name/:name', cryptoController.getCryptoByName);
 app.get('/crypto/basics', cryptoController.getNameId);
 

@@ -16,7 +16,6 @@ exports.getStockById = async function (req, res) {
 	res.send(stock);
 };
 
-
 // Get By Name
 exports.getStockByName = async function (req, res) {
 	const stock = await Stock.getByName(req.params.name);
@@ -31,3 +30,7 @@ exports.getStockByName = async function (req, res) {
      const stocks = await Stock.getAll();
      res.send(stocks);
  };
+
+exports.getStockBySymbol = async (req, res) => {
+	res.send(await Stock.getBySymbol(req.params.symbol));
+};
