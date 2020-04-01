@@ -2,20 +2,23 @@ import React, { Component } from 'react';
 import Chart from "../Chart/index";
 import News from "../News/index";
 import '../../pages/css/App.css';
+import MainPage from '../../pages';
 
 export default class Dashboard extends Component {
     constructor() {
         super();
         this.state = {}
     }
-
     state = {
+        selected_id: MainPage.getID,
         data: {},
         labels: {},
         stock: 'bitcoin'
     }
 
+
     async componentDidMount(){
+
         const userId = "1"; // Get current userId
         const url = `/stock/${userId}`;
 
@@ -30,11 +33,13 @@ export default class Dashboard extends Component {
 
         //   console.log(await response.json())
         //   return await response.json();
+        console.log(this.props.selected_id);
     }
 
     render() {
         const { data, labels, stock} = this.state;
         return (
+            
             <div>
             <center><div style = {{width:'60%'}}>
                 <Chart 
