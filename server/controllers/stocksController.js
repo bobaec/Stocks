@@ -16,14 +16,20 @@ exports.createNewStock = async (req, res) => {
  *  Stock By Id.
  */
 exports.getStockById = async (req, res) => {
-	const stock = await Stock.getById(req.params.id);
-	res.send(stock);
+	try {
+		res.status(200).send(await Stock.getById(req.params.id));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 // Get By Name
 exports.getStockByName = async (req, res) => {
-	const stock = await Stock.getByName(req.params.name);
-	res.send(stock);
+	try {
+		res.status(200).send(await Stock.getByName(req.params.name));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 /**
@@ -31,10 +37,17 @@ exports.getStockByName = async (req, res) => {
  *  All stocks.
  */
  exports.getAll = async (req, res) => {
-     const stocks = await Stock.getAll();
-     res.send(stocks);
+	 try {
+		 res.status(200).send(await Stock.getAll());
+	 } catch (err) {
+		 res.sendStatus(500);
+	 }
  };
 
 exports.getStockBySymbol = async (req, res) => {
-	res.send(await Stock.getBySymbol(req.params.symbol));
+	try {
+		res.status(200).send(await Stock.getBySymbol(req.params.symbol));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
