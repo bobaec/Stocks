@@ -50,11 +50,13 @@ class UsersPage extends React.Component {
 					<Container className="users">
 						<Row style={{marginTop: "10px"}}>
 							<Table responsive variant="dark" className="users_table" >
-							<thead>
-								<th>Name</th>
-								<th>Email</th>
-								<th>Stocks</th>
-							</thead>
+							<tbody>
+							 	<tr>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Stocks</th>
+								</tr>
+							</tbody>
 							<tbody id = "generate">
 							</tbody>
 							</Table>
