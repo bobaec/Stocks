@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const router = require('./routes');
 const path = require('path');
 const errorHandler = require('errorhandler');
-var cors = require('cors');
+const cors = require('cors');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.

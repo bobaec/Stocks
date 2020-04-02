@@ -8,7 +8,7 @@ const path = require('path');
 /**
  * Create Express server.
  */
-var app = express();
+const app = express();
 
 /**
  * Express configuration.
