@@ -10,6 +10,7 @@ const app = express.Router();
  */
 const homeController = require('../controllers/home');
 const stocksController = require('../controllers/stocksController');
+const cryptoController = require('../controllers/cryptoController');
 const userController = require('../controllers/userController');
 const newsController = require('../controllers/newsController');
 
@@ -35,6 +36,11 @@ app.get('/user/name/:name', userController.getUserByName);
 app.get('/user/id/:id', userController.getUserById);
 app.get('/user/email/:email', userController.getUserByEmail);
 
+/**
+ * Crypto routes
+ */
+app.get('/crypto/all', cryptoController.getAll);
+app.get('/crypto/id/:id', cryptoController.getCoinById);
 
 /**
  * News routes
