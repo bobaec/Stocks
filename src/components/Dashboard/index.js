@@ -33,7 +33,7 @@ export default class Dashboard extends Component {
     }
 
     render() {
-        const { data, labels, stock} = this.state;
+        const { data, labels, stock} = this.props;
         return (
             <div>
             <center><div style = {{width:'60%'}}>

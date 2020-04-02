@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import ChartJs from "chart.js";
 
 export default function Chart() {
-    const [data, setData] = useState(null); // get data from 
+    const [data, setData] = useState(null);
     const chartRef = useState(React.createRef());
     
     useEffect(() => {
         const myChartRef = chartRef.current.getContext("2d");
 
-        // https://codepen.io/grayghostvisuals/pen/gpROOz
-        var gradient = myChartRef.createLinearGradient(0, 0, 0, 450);
+        const gradient = myChartRef.createLinearGradient(0, 0, 0, 450);
         gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)');
         gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
         gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
