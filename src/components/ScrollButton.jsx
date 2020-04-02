@@ -16,7 +16,7 @@ class ScrollButton extends React.Component {
     render() {
         return (
             <div>
-                <Button className='scrollButton' style={{backgroundColor: '#db3d44'}} onClick={this.scrollToTop}><i className="fa fa-fw fa-angle-double-up"></i></Button>
+                <Button className='scrollButton' id="scrollbtn" onClick={this.scrollToTop}><i className="fa fa-2x fa-angle-double-up"></i></Button>
             </div>
         )
     }
