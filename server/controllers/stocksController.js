@@ -4,14 +4,14 @@ const Stock = require('../models/stock');
  * GET /
  *  Stock By Id.
  */
-exports.getStockById = async function (req, res) {
+exports.getStockById = async (req, res) => {
 	const stock = await Stock.getById(req.params.id);
 	res.send(stock);
 };
 
 
 // Get By Name
-exports.getStockByName = async function (req, res) {
+exports.getStockByName = async (req, res) => {
 	const stock = await Stock.getByName(req.params.name);
 	res.send(stock);
 };
