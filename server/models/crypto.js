@@ -49,7 +49,38 @@ exports.getByName = async function(name) {
 
 exports.getByCryptoId = async function(crypto_id) {
     const crypto_id_trimmed = crypto_id.trim();
-    return await Crypto.find({crypto_id: crypto_id_trimmed});
+    let dbCoin = await getUpdatedCoin(crypto_id_trimmed);
+
+    if (Array.isArray(dbCoin)) {
+        dbCoin = dbCoin[0];
+    }
+
+    const coinFormat = {
+        id: dbCoin.crypto_id,
+        name: dbCoin.name,
+        crypto_id: dbCoin.crypto_id,
+        symbol: dbCoin.symbol,
+        latest_price: dbCoin.latest_price,
+        market_cap: dbCoin.market_cap,
+        day_vol: dbCoin.day_vol,
+        day_change: dbCoin.day_change,
+        last_updated_at: dbCoin.last_retrieved
+    };
+    return coinFormat;
+};
+
+const getUpdatedCoin = async function(id) {
+    let dbCoin = await Crypto.find({crypto_id: id});
+    const now = Date.now();
+    if (new Date(dbCoin[0].last_retrieved) + (3600 * 1000) < now || dbCoin[0].last_retrieved === undefined) {
+        let coin = await crypto.getCoin(id);
+        coin = coin[id];
+        const filter = {crypto_id: id};
+        const update = {latest_price: coin.cad, market_cap: coin.cad_market_cap, day_vol: coin.cad_24h_vol, day_change: coin.cad_24h_change, last_retrieved: coin.last_updated_at*1000};
+        dbCoin = await Crypto.findOneAndUpdate(filter, update, {new: true});
+    }
+
+    return dbCoin;
 };
 
 exports.getBySymbol = async (symbol) => {
@@ -67,3 +98,5 @@ exports.getAll = async function() {
 exports.getBasics = async () => {
     return await Crypto.find({}, {_id:1, name:1});
 };
+
+const crypto = require('../../src/pages/crypto/crypto');
