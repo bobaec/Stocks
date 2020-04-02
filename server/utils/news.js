@@ -1,4 +1,4 @@
-const apiKey = process.env.NEWS_API;
+const apiKey = 'fbb08fd56b9f492ea1270344e3d2b931';
 const axios = require('axios');
 
 news = {

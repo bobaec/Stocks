@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardDeck } from 'react-bootstrap';
 
-export default function News() {
+const News = props => {
     const [data, setData] = useState([]);
-    const [stock, setStock] = useState(''); 
+    const [query, setQuery] = useState(props); 
 
     const getNews = async query => {
         const response = await fetch(`/news/top/${query}`);
         const data = await response.json();
-        console.log(data)
         setData(data.articles);
     }
     
     useEffect(() => {
-        const query = 'bitcoin';
-        getNews(query);
-    }, []);
+        setQuery(props);
+        getNews(query.stock);
+    }, [props]);
 
     return (
         <><br/>
@@ -44,3 +43,5 @@ export default function News() {
         </>
       )
 }
+
+export default News;

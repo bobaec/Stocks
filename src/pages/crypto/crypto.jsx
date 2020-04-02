@@ -11,7 +11,7 @@ import {
 import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
 import ScrollButton from '../../components/ScrollButton';
-
+import News from "../../components/News/index";
 let crypto = require('./crypto.js');
 
 
@@ -330,6 +330,9 @@ class PriceGraph extends React.Component {
                         <Button variant="secondary" onClick={(e) => this.updateDays(e, 30)}>30D</Button>
                     </ButtonGroup>
                     <Line data={graphData} />
+                    <News 
+                        stock={this.props.coin}
+                    />
                 </div>
             )
         } else {
