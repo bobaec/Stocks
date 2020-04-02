@@ -1,52 +1,85 @@
 const path = require('path');
 const User = require('../models/user');
 
-// Display users
-exports.index = function (req, res) {
-	res.sendFile(path.resolve('views/user.html'));
-};
-
-// Create new user
-exports.create = function (req, res) {
-	var newUser = new User(req.body);
-	console.log(req.body);
-	newUser.save(function (err) {
-	    if(err) {
-	    res.status(400).send('Unable to save a new user to database');
-	} else {
-	    res.redirect('/user/getuser');
-	}
-	});
-};
-
-// Show all collection data
-exports.list = function (req, res) {
-	User.find({}).exec(function (err, user) {
-		if (err) {
-			    return res.send(500, err);
+// Add a new user
+exports.createNewUser = async (req, res) => {
+	try {
+		// Try to handle duplicate email error
+		const result = await User.addNewUser(req.body);
+		if (result != null) {
+			res.status(500).send(result);
+		} else {
+			res.sendStatus(200);
 		}
-		res.render('getuser', {
-			    user: user
-		 });
-	});
+	} catch (e) {
+		res.sendStatus(500);
+	}
 };
 
 exports.getUserByEmail = async (req, res) => {
-	const user = await User.getByEmail(req.params.email);
-	res.send(user);
+	try {
+		res.status(200).send(await User.getByEmail(req.params.email));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.getUserById = async function (req, res) {
-	const user = await User.getById(req.params.id);
-	res.send(user);
+	try {
+		res.status(200).send(await User.getById(req.params.id));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.getUserByName = async function (req, res) {
-	const user = await User.getByName(req.params.name);
-	res.send(user);
+	try {
+		res.status(200).send(await User.getByName(req.params.name));
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
 
 exports.getAllUsers = async function (req, res) {
-	const users = await User.getAll();
-    res.send(users);
+	try {
+		res.status(200).send(await User.getAll());
+	} catch (err) {
+		res.sendStatus(500);
+	}
+};
+
+exports.addStock = async (req, res) => {
+	try {
+		await User.addFavouriteStock(req.params.id, req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
+};
+
+exports.removeStock = async (req, res) => {
+	try {
+		await User.removeFavouriteStock(req.params.id, req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
+};
+
+exports.addCrypto = async (req, res) => {
+	try {
+		await User.addFavouriteCrypto(req.params.id, req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
+};
+
+exports.removeCrypto = async (req, res) => {
+	try {
+		await User.removeFavouriteCrypto(req.params.id, req.body);
+		res.sendStatus(200);
+	} catch (err) {
+		res.sendStatus(500);
+	}
 };
