@@ -30,7 +30,7 @@ class MainPage extends React.Component {
 		var year = new Date().getFullYear();
 		this.setState({
 			date:
-			month + ' ' + date + ', ' + year
+			' ' + month + ' ' + date + ', ' + year
 		});
 	}
 	
@@ -52,7 +52,7 @@ class MainPage extends React.Component {
 			// if logged in, show all content
 			// all content should be inside this div
 				<div className="main">
-					<center><p id="date">{this.state.date}</p></center>
+					<center><p id="date"><Image src={this.props.user.photoURL} roundedCircle width={20}/>{this.state.date}</p></center>
 					<div className="wrapper">
 						<center><h4>Dashboard</h4></center>
 						<Container className="users">
