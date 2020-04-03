@@ -16,7 +16,8 @@ import {
 const axios = require('axios');
 var allUsers;
 var allEmails = [];
-var yourCryptos = [];
+var currentUser;
+var numberOfCryptos = 0;
 
 axios.get('/user/all').then(function(response){
 	allUsers = response.data
@@ -26,6 +27,29 @@ axios.get('/user/all').then(function(response){
 	
 	// console.log(allEmails);
 })
+
+function generateTable(user, numberOfCryptos) {
+	var htmlAdd = "";
+	console.log(numberOfCryptos);
+	for (let i = 0; i < numberOfCryptos; i++) {
+		htmlAdd += 
+		// not sure how to add onclick to html
+		// "<tr onClick={(e) => this.update_graph(e)} >" +
+		"<tr>" +
+			"<td data-item={'FAKEID_BTC'}>" +
+				// user.symbol + 
+				user.cryto_symbol +
+			"</td>" +
+			"<td data-item={'FAKEID_BTC'}>" +
+				user.latest_crypto_price + 
+			"</td>" + 
+			"<td>"+ 
+				user.latest_crypto_price + 
+			"</td>"+
+		"</tr>"
+	}
+	document.getElementById("generate").innerHTML += (htmlAdd);
+}
 
 class MainPage extends React.Component {
 	constructor() {
@@ -46,6 +70,7 @@ class MainPage extends React.Component {
 			date:
 			' ' + month + ' ' + date + ', ' + year
 		});
+		generateTable(currentUser, numberOfCryptos);
 	}
 	
 	update_graph = event => {
@@ -60,9 +85,16 @@ class MainPage extends React.Component {
 	render() {
 
 		for (var i = 0; i < allUsers.length; i++) {
-			if (allUsers[i].email === this.props.user.email) {
-				console.log(allUsers[i].email);
-				console.log(allUsers[i].cryptos);
+			// if (allUsers[i].email === this.props.user.email) {
+			// 	console.log(allUsers[i].email);
+			// 	console.log(allUsers[i].cryptos);
+			// }
+			if (allUsers[i].email === "fred@hotmail.com") {
+				currentUser = allUsers[i].cryptos[0];
+				numberOfCryptos++;
+				// console.log(allUsers[i].cryptos[0])
+				// console.log(allUsers[i].cryptos[0].crypto_name);
+				// generateTable(allUsers[i].cryptos[0]);
 			}
 		}
 
@@ -87,8 +119,8 @@ class MainPage extends React.Component {
 								<th>7d</th>
 								<th>Last 7 Days</th>
 							</thead>
-							<tbody>
-								<tr onClick={(e) => this.update_graph(e)} >
+							<tbody id = "generate">
+								{/*<tr onClick={(e) => this.update_graph(e)} >
 									<td data-item={"FAKEID_BTC"}>
 										<Image src="https://assets.coingecko.com/coins/images/1/thumb_2x/bitcoin.png?1547033579" roundedCircle width={25}  style={{marginRight:'5px'}}/>
 										BTC
@@ -111,7 +143,7 @@ class MainPage extends React.Component {
 									<td data-item={"FAKEID_ETH"}>
 										<Image src="https://www.coingecko.com/coins/325/sparkline" roundedCircle width={90}/>
 									</td>
-								</tr>
+								</tr>*/}
 								
 							</tbody>
 							</Table>
