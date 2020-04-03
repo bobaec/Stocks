@@ -17,13 +17,21 @@ class MainPage extends React.Component {
 	constructor() {
         super();
         this.state = {
-			selected_id: "none"
+			selected_id: "none",
+			date: ''
 		}
-		this.getID = this.getID.bind(this);
 	}
-	
-	getID(){
-		return this.state.selected_id
+	componentDidMount(){
+		var date = new Date().getDate();
+		const monthNames = ["January", "February", "March", "April", "May", "June",
+		"July", "August", "September", "October", "November", "December"
+		];
+		var month = monthNames[new Date().getMonth()]
+		var year = new Date().getFullYear();
+		this.setState({
+			date:
+			month + ' ' + date + ', ' + year
+		});
 	}
 	
 	update_graph = event => {
@@ -44,6 +52,8 @@ class MainPage extends React.Component {
 			// if logged in, show all content
 			// all content should be inside this div
 				<div className="main">
+			<p id="date">{this.state.date}</p>
+
 					<div className="wrapper">
 						<center><h4>Dashboard</h4></center>
 						<Container className="users">
