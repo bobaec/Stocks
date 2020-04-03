@@ -4,8 +4,13 @@ const Stock = require('../models/stock');
 // Add a new stock
 exports.createNewStock = async (req, res) => {
 	try {
-		await Stock.addNewStock(req.body);
-		res.sendStatus(200);
+		// Try to handle duplicate symbol error
+		const result = await Stock.addNewStock(req.body);
+		if (result != null) {
+			res.status(500).send(result);
+		} else {
+			res.sendStatus(200);
+		}
 	} catch (err) {
 		res.sendStatus(500);
 	}

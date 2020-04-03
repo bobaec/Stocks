@@ -11,28 +11,12 @@ const CryptoSchema = new Schema({
         type: String,
         lowercase: true,
         trim: true,
-        required: true,
-        validate: async (value) => {
-            try {
-                const result = await Crypto.findOne({crypto_id: value});
-                if (result) throw new Error("Duplicate Crypto ID: " + value);
-            } catch (error) {
-                throw new Error(error);
-            }
-        }
+        required: true
     },
     symbol: {
         type: String,
         uppercase: true,
-        trim: true,
-        validate: async (value) => {
-            try {
-                const result = await Crypto.findOne({symbol: value});
-                if (result) throw new Error("Duplicate Crypto symbol: " + value);
-            } catch (error) {
-                throw new Error(error);
-            }
-        }
+        trim: true
     },
     latest_price: Number,
     market_cap: Number,
@@ -45,7 +29,17 @@ const CryptoSchema = new Schema({
 const Crypto = mongoose.model('Crypto', CryptoSchema, "crypto");
 
 exports.addNewCrypto = async (cryto) => {
+    // Check if crypto_id exists
+    const cryptoId = await Crypto.findOne({crypto_id: cryto.crypto_id});
+    if (cryptoId != null) return "Duplicate crypto id :" + cryto.crypto_id;
+
+    // Check if symbol exists
+    const symbol = await Crypto.findOne({symbol: cryto.symbol});
+    if (symbol != null) return "Duplicate symbol :" + cryto.symbol;
+
+    // Add new crypto
     await new Crypto(cryto).save((err) => { if (err) throw err; });
+    return null;
 };
 
 exports.getByName = async function(name) {
@@ -55,7 +49,38 @@ exports.getByName = async function(name) {
 
 exports.getByCryptoId = async function(crypto_id) {
     const crypto_id_trimmed = crypto_id.trim();
-    return await Crypto.find({crypto_id: crypto_id_trimmed});
+    let dbCoin = await getUpdatedCoin(crypto_id_trimmed);
+
+    if (Array.isArray(dbCoin)) {
+        dbCoin = dbCoin[0];
+    }
+
+    const coinFormat = {
+        id: dbCoin.crypto_id,
+        name: dbCoin.name,
+        crypto_id: dbCoin.crypto_id,
+        symbol: dbCoin.symbol,
+        latest_price: dbCoin.latest_price,
+        market_cap: dbCoin.market_cap,
+        day_vol: dbCoin.day_vol,
+        day_change: dbCoin.day_change,
+        last_updated_at: dbCoin.last_retrieved
+    };
+    return coinFormat;
+};
+
+const getUpdatedCoin = async function(id) {
+    let dbCoin = await Crypto.find({crypto_id: id});
+    const now = Date.now();
+    if (new Date(dbCoin[0].last_retrieved) + (3600 * 1000) < now || dbCoin[0].last_retrieved === undefined) {
+        let coin = await crypto.getCoin(id);
+        coin = coin[id];
+        const filter = {crypto_id: id};
+        const update = {latest_price: coin.cad, market_cap: coin.cad_market_cap, day_vol: coin.cad_24h_vol, day_change: coin.cad_24h_change, last_retrieved: coin.last_updated_at*1000};
+        dbCoin = await Crypto.findOneAndUpdate(filter, update, {new: true});
+    }
+
+    return dbCoin;
 };
 
 exports.getBySymbol = async (symbol) => {
@@ -73,3 +98,5 @@ exports.getAll = async function() {
 exports.getBasics = async () => {
     return await Crypto.find({}, {_id:1, name:1});
 };
+
+const crypto = require('../../src/pages/crypto/crypto');

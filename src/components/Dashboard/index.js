@@ -17,7 +17,7 @@ export default class Dashboard extends Component {
 
     async componentDidMount(){
         const userId = "1"; // Get current userId
-        const url = `/api/v1/stock/${userId}`;
+        const url = `/stock/${userId}`;
 
         const response = await fetch(url, {
             method: 'GET', 

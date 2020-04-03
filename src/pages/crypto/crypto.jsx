@@ -4,11 +4,13 @@ import {
     InputGroup,
     FormControl,
     Button,
-    Row,
     Table,
-    Col,
+    ButtonGroup,
+    Image
 } from 'react-bootstrap';
+import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
+import ScrollButton from '../../components/ScrollButton';
 
 let crypto = require('./crypto.js');
 
@@ -23,6 +25,8 @@ class CoinList extends React.Component {
         };
         this.updateCoin = this.updateCoin.bind(this);
         this.sendCoin = this.sendCoin.bind(this);
+
+        this._isMounted = false;
     }
 
     updateCoin(e) {
@@ -37,17 +41,24 @@ class CoinList extends React.Component {
     }
 
     async componentDidMount() {
-        let list;
-        try {
-            list = await crypto.getCoins();
-        } catch (err) {
-            console.log('API error:', err);
-        }
+        this._isMounted = true;
+        const response = await fetch('/crypto/all');
+        const json = await response.json();
+        let list = {};
+        
+        Object.keys(json).forEach((key, index) => {
+            const { crypto_id, name } = json[key];
+            list[crypto_id] = name;
+        });
 
-        if (Object.entries(list).length !== 0) {
-            this.setState( { coinList : list } );
+        if (this._isMounted) {
+            this.setState({ coinList: list });
             this.props.updateList(list);
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
 	render() {
@@ -59,7 +70,7 @@ class CoinList extends React.Component {
                     <center><h4>Browse Crypto</h4></center>
                     <form onSubmit={this.sendCoin} className="browse_input">
                         <InputGroup >
-                            <FormControl type="text" list="coinList" onChange={this.updateCoin} autoFocus />
+                            <FormControl type="text" list="coinList" onChange={this.updateCoin} />
                             <InputGroup.Append>
                                 <Button type="submit" id="refresh" style={{backgroundColor:"inherit", borderColor:"white"}}> Browse </Button>
                             </InputGroup.Append>
@@ -95,7 +106,8 @@ class Coin extends React.Component {
 
         if (c !== '') {
             try {
-                coin = await crypto.getCoin(c);
+                const response = await fetch('/crypto/id/' + c);
+                coin = await response.json()
             } catch (err) {
                 console.log('API error:', err);
             }
@@ -105,67 +117,67 @@ class Coin extends React.Component {
                 this.props.updateFoundCoin(true);
                 this.setState( { coin } );
 
-                const key = Object.keys(coin);
-                if (key.length > 0) {
-                    const vals = coin[key];
-                    const cap = Object.keys(vals)[1];
-                    const capVal = vals[cap]
 
-                    if (capVal < 1) {
-                        this.props.updateMarketCap(false);
-                    } else {
-                        this.props.updateMarketCap(true);
-                    }
+                if (coin.market_cap < 1) {
+                    this.props.updateMarketCap(false);
+                } else {
+                    this.props.updateMarketCap(true);
                 }
             } 
         } else {
+            this.setState( {found: false, coin: ''} );
             this.props.updateFoundCoin(false);
         }
     }
 
-    style = {
-        border: "1px solid white"
-    }
-
     // https://dev.to/abdulbasit313/an-easy-way-to-create-a-customize-dynamic-table-in-react-js-3igg
-    renderTableHeader() {
-        let c = this.state.coin;
-        return Object.keys(c).map(coin => {
-            return Object.keys(c[coin]).map((key, index) => {
-                return <th key={index} style={this.style}>{key.toUpperCase()}</th>
-            })
-        })
-     }
-
     renderTableData() {
         let c = this.state.coin;
 
-        return Object.keys(c).map((key, index) => {
-            const { cad, cad_24h_change, cad_24h_vol, cad_market_cap, last_updated_at } = c[key];
-            const lastUpdate = new Date(last_updated_at*1000).toString()
-            return (
-            <tr key={index}>
-                <td style={this.style}>{cad}</td>
-                <td style={this.style}>{cad_24h_change}</td>
-                <td style={this.style}>{cad_24h_vol}</td>
-                <td style={this.style}>{cad_market_cap}</td>
-                <td style={this.style}>{lastUpdate}</td>
-            </tr>
-            )
-        })
+
+        const styleRed = {color: '#EF9A9A'};
+        const styleGreen = {color: '#A5D6A7'};
+        let changeStyle= styleGreen;
+
+        if (c.day_change === null || c.day_change === 0) {
+            changeStyle = {color: '#E0E0E0'};
+        }
+
+        if (c.day_change < 0) {
+            changeStyle = styleRed;
+        }
+
+        const lastUpdate = new Date(c.last_updated_at).toString()
+        return (
+        <tr id="crypto_table2">
+            <td>{String(c.symbol)}</td>
+            <td>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
+            <td style={{...changeStyle}}>{Number(c.day_change).toFixed(4)}%</td>
+            <td>${Number(c.day_vol).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
+            <td>${Number(c.market_cap).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
+            <td>{lastUpdate}</td>
+        </tr>
+        )
     }
 
     render() {
-        if (this.props.coin !== '') {
-            let header = this.props.coin + ' Overview'
+        if (this.state.coin !== '') {
+            let header = this.props.coin.toUpperCase() + ' Overview'
             return (
                 <div style={{marginBottom:'10px'}}>
                     <center><h4>{header}</h4></center>
                     <Table responsive variant="dark" id="coin_overview_table">
-                        <tbody>
+                        <thead>
                             <tr>
-                                {this.renderTableHeader()}
+                                <th>Symbol</th>
+                                <th>Latest Price</th>
+                                <th>24h Change</th>
+                                <th>24h Trading Volume</th>
+                                <th>Market Cap</th>
+                                <th>Last Update</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             {this.renderTableData()}
                         </tbody>
                     </Table>
@@ -181,9 +193,9 @@ class Coin extends React.Component {
         }
 
         return (
-            <div style={{padding: "15px"}}>
+            <div>
                <center>
-                   <h3>{message}</h3>
+                   <h4>{message}</h4>
                </center>
             </div>
         )
@@ -200,9 +212,29 @@ class PriceGraph extends React.Component {
         };
     }
 
+    updateDays(e, d) {
+        e.preventDefault();
+        this.props.updateDays(d);
+    }
+
+
+    componentDidMount() {
+        this.setState({ days: this.props.days });
+    }
+
+    addZero(t) {
+        return '0' + t;
+    }
+
+    formatTime(hours, minutes, seconds) {
+        return (hours < 10 ? this.addZero(hours) : hours) + ":" + (minutes < 10 ? this.addZero(minutes) : minutes)
+            + ":" + (seconds < 10 ? this.addZero(seconds) : seconds);
+    }
+
     async componentDidUpdate(prevProp) {
         const c = this.props.coin;
-        if (c === prevProp.coin) return;
+        const d = this.props.days;
+        if (c === prevProp.coin && d === prevProp.days) return;
 
         let dayData;
         if (c !== '') {
@@ -222,11 +254,12 @@ class PriceGraph extends React.Component {
                     const hours = date.getHours();
                     const minutes = date.getMinutes();
                     const seconds = date.getSeconds();
+                    const formattedTime = this.formatTime(hours, minutes, seconds);
     
                     if (this.props.days > 1) {
-                        return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+                        return year + "-" + month + "-" + day + " " + formattedTime;
                     } else {
-                        return hours + ":" + minutes + ":" + seconds;
+                        return formattedTime
                     }
                 });
     
@@ -256,7 +289,7 @@ class PriceGraph extends React.Component {
                 labels: labels,
                 datasets: [
                     {
-                        label: this.props.coin + ' prices over last 24h',
+                        label: this.props.coin + ' prices over last ' + this.props.days + ' day(s)',
                         backgroundColor: "rgba(255, 10, 10, 0.2)",
                         borderColor: "#db3d44",
                         data: data,
@@ -268,6 +301,11 @@ class PriceGraph extends React.Component {
                     scales: {
                         yAxes: [{
                             ticks: {
+                                fontColor: 'white'
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Price in CAD',
                                 fontColor: 'white'
                             }
                         }],
@@ -286,6 +324,11 @@ class PriceGraph extends React.Component {
             }
             return (
                 <div>
+                    <ButtonGroup style={{float: 'right'}} className='mb2'>
+                        <Button variant="secondary" onClick={(e) => this.updateDays(e, 1)}>24H</Button>
+                        <Button variant="secondary" onClick={(e) => this.updateDays(e, 7)}>7D</Button>
+                        <Button variant="secondary" onClick={(e) => this.updateDays(e, 30)}>30D</Button>
+                    </ButtonGroup>
                     <Line data={graphData} />
                 </div>
             )
@@ -299,6 +342,117 @@ class PriceGraph extends React.Component {
     }
 }
 
+class CryptoList extends React.Component {
+
+    constructor(){
+        super();
+        this.state = {
+            data: []
+        };
+    }
+
+    async componentDidMount() {
+        const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d';
+        const response = await fetch(url);
+        const json = await response.json();
+        this.setState({ data: json });
+    }
+
+    sendCoin(e, c) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.updateCoin(c);
+    }
+
+    renderTableData() {
+        let data = this.state.data;
+        let i = 1;
+
+        return Object.keys(data).map((key, index) => {
+            let { name, id, symbol, current_price, last_updated, image, price_change_percentage_1h_in_currency, price_change_percentage_24h_in_currency, price_change_percentage_7d_in_currency } = data[key];
+            const styleRed = {color: '#EF9A9A'};
+            const styleGreen = {color: '#A5D6A7'};
+            let style1h = styleGreen,
+                style24h = styleGreen,
+                style7d = styleGreen;
+
+            if (price_change_percentage_1h_in_currency === null) {
+                price_change_percentage_1h_in_currency = 0;
+                style1h = {color: '#E0E0E0'};
+            }
+            if (price_change_percentage_24h_in_currency === null) {
+                price_change_percentage_24h_in_currency = 0;
+                style24h = {color: '#E0E0E0'};
+            }
+            if (price_change_percentage_7d_in_currency === null) {
+                price_change_percentage_7d_in_currency = 0;
+                style7d = {color: '#E0E0E0'};
+            }
+
+            if (price_change_percentage_1h_in_currency < 0) {
+                style1h = styleRed;
+            }
+            if (price_change_percentage_24h_in_currency < 0) {
+                style24h = styleRed;
+            }
+            if (price_change_percentage_7d_in_currency < 0) {
+                style7d = styleRed;
+            }
+            const yOffset = 220;
+
+            return (
+            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset)}} >
+                <td><i className='fa fa-fw fa-star' /></td>
+                <td>{i++}</td>
+                <td>
+                    <div>
+                        <Image roundedCircle width={25} alt={symbol} src={image} align='left'/>
+                    </div>
+                    <div>
+                        {name}
+                    </div>
+                </td>
+                <td>{symbol.toUpperCase()}</td>
+                <td>${current_price}</td>
+                <td style={style1h}>{Number(price_change_percentage_1h_in_currency).toFixed(4)}%</td>
+                <td style={style24h}>{Number(price_change_percentage_24h_in_currency).toFixed(4)}%</td>
+                <td style={style7d}>{Number(price_change_percentage_7d_in_currency).toFixed(4)}%</td>
+                <td>{last_updated}</td>
+            </tr>
+            )
+        })
+    }
+
+    render() {
+        return(
+            <div>
+                <center>
+                    <h4>Top 100 Cryptocurrencies</h4><br/>
+                    <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr id="crypto_table">
+                                <th></th>
+                                <th>#</th>
+                                <th>Coin</th>
+                                <th>Symbol</th>
+                                <th>Price</th>
+                                <th>1h</th>
+                                <th>24h</th>
+                                <th>7d</th>
+                                <th>Last Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderTableData()}
+                        </tbody>
+                    </Table>
+                </center>
+                <br />
+            </div>
+        )
+    }
+}
+
 class CryptoPage extends React.Component {
 
     constructor(props) {
@@ -307,13 +461,15 @@ class CryptoPage extends React.Component {
             coinList: {},
             coin: '',
             validMarketCap: true,
-            foundCoin: null
+            foundCoin: null,
+            days: 1
         }
         this.updateCoin = this.updateCoin.bind(this);
         this.updateList = this.updateList.bind(this);
         this.getCoin = this.getCoin.bind(this);
         this.updateMarketCap = this.updateMarketCap.bind(this);
         this.updateFoundCoin = this.updateFoundCoin.bind(this);
+        this.updateDays = this.updateDays.bind(this);
     }
 
 
@@ -333,10 +489,14 @@ class CryptoPage extends React.Component {
         this.setState( { foundCoin: c } );
     }
 
+    updateDays(d) {
+        this.setState({ days: d });
+    }
+
     getCoin(c) {
         const coinList = this.state.coinList;
         for (let coin in coinList) {
-            if (c === coinList[coin]) {
+            if (c === coinList[coin] || c === coin) {
                 return coin;
             }
         }
@@ -352,10 +512,18 @@ class CryptoPage extends React.Component {
                 </div>
                 <div>
                     <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
+                    <br />
                 </div>
                 <div id="coin_overview_graph">
-                    <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} 
-                        found={this.state.foundCoin} />
+                    <PriceGraph coin={this.getCoin(this.state.coin)} days={this.state.days} validMarketCap={this.state.validMarketCap} 
+                        found={this.state.foundCoin} updateDays={this.updateDays} />
+                    <br /><br />
+                </div>
+                <div>
+                    <CryptoList updateCoin={this.updateCoin} />
+                </div>
+                <div>
+                    <ScrollButton />
                 </div>
             </div>
         )

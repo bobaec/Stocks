@@ -11,15 +11,7 @@ const StockSchema = new Schema({
         type: String,
         uppercase: true,
         trim: true,
-        required: true,
-        validate: async (value) => {
-            try {
-                const result = await Stock.findOne({symbol: value});
-                if (result) throw new Error("Duplicate Stock symbol: " + value);
-            } catch (error) {
-                throw new Error(error);
-            }
-        }
+        required: true
     },
     latest_price: Number,
     last_retrieved: Date,
@@ -29,7 +21,13 @@ const StockSchema = new Schema({
 const Stock = mongoose.model('Stock', StockSchema, "stock");
 
 exports.addNewStock = async (stock) => {
+    // Check if symbol already exists
+    const symbol = await Stock.findOne({symbol: stock.symbol});
+    if (symbol != null) return "Duplicate symbol :" + stock.symbol;
+
+    // Add new stock
     await new Stock(stock).save((err) => { if (err) throw err; });
+    return null;
 };
 
 exports.getByName = async function(name) {

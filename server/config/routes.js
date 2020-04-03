@@ -1,16 +1,12 @@
 // require express
 const express = require('express');
-const path    = require('path');
-var bodyParser = require('body-parser');
 
 // create our router object
 const app = express.Router();
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json())
+// For json body parsing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
 /**
  * Controllers (route handlers).

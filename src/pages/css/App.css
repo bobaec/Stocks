@@ -118,6 +118,20 @@
   color: rebeccapurple;
 }
 
+.scrollButton {
+  position: fixed;
+  opacity: 25%;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+  width: 50px;
+  border: none;
+}
+
+.scrollButton:hover {
+  opacity: 100%;
+}
+
 #coin_overview_table{
   width: 80%;
   margin: 0 auto;
@@ -130,4 +144,19 @@
 #coin_overview_graph{
   width: 60%;
   margin: 0 auto;
+}
+
+#crypto_table{
+  text-align: center;
+}
+
+#crypto_table2 td{
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+
+#scrollbtn{
+  border-radius: 50%;
+  background-color: red;
+  margin: 15px;
 }
