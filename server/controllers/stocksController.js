@@ -32,3 +32,10 @@ exports.getStockByName = async (req, res) => {
 exports.user = (req, res) => {
     res.send('Stock: ' + req.params.userId);
 };
+
+const StockAPI = require('../utils/stocks');
+
+exports.getMarketData = async (req, res) => {
+	const markets = await StockAPI.getMarketData();
+	res.send(markets);
+}

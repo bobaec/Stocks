@@ -25,8 +25,9 @@ app.get('/', homeController.index);
 app.get('/stock/all', stocksController.getAll);
 app.get('/stock/id/:id', stocksController.getStockById);
 app.get('/stock/name/:name', stocksController.getStockByName);
+app.get('/stock/markets', stocksController.getMarketData);
 
-app.get('/stock/:userId', stocksController.user)
+app.get('/stock/:userId', stocksController.user);
 
 /**
  * User routes
