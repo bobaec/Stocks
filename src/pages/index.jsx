@@ -52,8 +52,7 @@ class MainPage extends React.Component {
 			// if logged in, show all content
 			// all content should be inside this div
 				<div className="main">
-			<p id="date">{this.state.date}</p>
-
+					<center><p id="date">{this.state.date}</p></center>
 					<div className="wrapper">
 						<center><h4>Dashboard</h4></center>
 						<Container className="users">

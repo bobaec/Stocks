@@ -131,3 +131,12 @@
   width: 60%;
   margin: 0 auto;
 }
+
+#date{
+  background-color: #db3d44;
+  display: inline;
+  padding: 10px;
+  margin: 20px;
+  border-radius: 10%;
+  font-weight: bold;
+}
