@@ -27,7 +27,7 @@ axios.get('/user/all').then(function(response){
 class MainPage extends React.Component {
 	render() {
 		if (allEmails.includes(this.props.user.email) === false) {
-			console.log(this.props.user.email + " is already in the db");
+			console.log(this.props.user.email + " is not in the db, adding now.");
 			axios.post('/user/create', { 
 				name: this.props.user.displayName.toString(),
 				email: this.props.user.email.toString() 
@@ -38,6 +38,8 @@ class MainPage extends React.Component {
 			.then(function (error) {
 				console.log(error);
 			})
+		} else {
+			console.log(this.props.user.email + " is already in the db");
 		}
 
 		return (			
