@@ -34,7 +34,7 @@ const stocks = {
         const send = stocks.getURL(query, `get-${endpoint}`, 'yahoo'); // || vantage)))
         try{
         const data = await axios.get(send.url, {params: send.params, headers: send.headers});
-        return await data.data.marketSummaryResponse.result;
+        return await data.data;
         } catch(e) {
             console.log('error:', e);
         }
@@ -42,13 +42,13 @@ const stocks = {
 };
 
 exports.getMarketData = async () => {
-    // const data = await stocks.query({}, 'summary');
+    // let data = await stocks.query({}, 'summary');
+    // data = await data.marketSummaryResponse.result;
     const data = testData;
-    return format(data);
+    return formatMarket(data);
 };
 
-const format = async (data) => {
-    // const data = testData;
+const formatMarket = async (data) => {
     let result = [];
 
     data.forEach(e => {
@@ -66,6 +66,63 @@ const format = async (data) => {
     
     return result;
 };
+
+exports.stockSearch = async (symbol) => {
+    const url = 'https://www.nasdaq.com/search_api_autocomplete/symbols_autocomplete?q=' + symbol;
+    let result = await axios.get(url);
+    result = await result.data.slice(0,6);
+
+    let searchResult = [];
+    result.forEach(e => {
+        if (e.assetclass === 'stocks') {
+            searchResult.push({
+                id: e.value,
+                name: stringClean(e.label)
+            });
+        }
+    });
+    
+    return searchResult;
+};
+
+const formatStock = async (data) => {
+    let result = [];
+
+    data.forEach(e => {
+        result.push({
+            name: e.shortName,
+            symbol: e.symbol,
+            price: e.regularMarketPrice,
+            change: e.regularMarketChangePercent,
+            exchange: e.fullExchangeName,
+            market: e.market,
+            quoteType: e.quoteType,
+            time: e.regularMarketTime * 1000
+        });
+    });
+    
+    return result;
+};
+
+const stringClean = str => {
+    let s = str.toString();
+    s = s.match(/\s{2}[A-Za-z0-9\s]+/g);
+    s = s[1].replace('\n', '').trim();
+    return s;
+};
+
+exports.getStocks = async (symbols) => {
+    // let data = await stocks.query({symbols: symbols}, 'quotes');
+    // data = await data.quoteResponse.result;
+    let data = testStock;
+    return formatStock(data);
+};
+
+// (async () => {
+//     const s = await getStocks(['goog', 'googl']);
+// })();
+
+
 
 const testData = [
     {
@@ -141,3 +198,127 @@ const testData = [
       triggerable: false
     }
   ];
+
+  const testStock = [
+    {
+      language: 'en',
+      region: 'US',
+      quoteType: 'EQUITY',
+      triggerable: false,
+      quoteSourceName: 'Delayed Quote',
+      currency: 'USD',
+      sharesOutstanding: 342065984,
+      marketCap: 769018363904,
+      sourceInterval: 15,
+      exchangeDataDelayedBy: 0,
+      pageViews: { midTermTrend: 'UP', longTermTrend: 'UP', shortTermTrend: 'DOWN' },
+      tradeable: true,
+      preMarketPrice: 1112.52,
+      regularMarketChange: 15.219971,
+      regularMarketChangePercent: 1.3766005,
+      regularMarketTime: 1585857602,
+      regularMarketPrice: 1120.84,
+      regularMarketDayHigh: 1126.8,
+      regularMarketDayRange: '1096.5 - 1126.8',
+      regularMarketDayLow: 1096.5,
+      regularMarketVolume: 1964881,
+      regularMarketPreviousClose: 1105.62,
+      bid: 1105,
+      ask: 1121.08,
+      bidSize: 8,
+      askSize: 11,
+      fullExchangeName: 'NasdaqGS',
+      regularMarketOpen: 1098.26,
+      averageDailyVolume3Month: 2302942,
+      beta: 1.025336,
+      fiftyTwoWeekLowChange: 107.303955,
+      fiftyTwoWeekLowChangePercent: 0.10587089,
+      fiftyTwoWeekRange: '1013.536 - 1532.106',
+      fiftyTwoWeekHighChange: -411.266,
+      fiftyTwoWeekHighChangePercent: -0.2684318,
+      fiftyTwoWeekLow: 1013.536,
+      fiftyTwoWeekHigh: 1532.106,
+      trailingPE: 22.798447,
+      dividendsPerShare: 0,
+      marketState: 'PRE',
+      epsTrailingTwelveMonths: 49.163,
+      priceHint: 2,
+      preMarketChange: -8.319946,
+      preMarketChangePercent: -0.7422956,
+      preMarketTime: 1585903300,
+      targetPriceMean: 1546.75,
+      firstTradeDateMilliseconds: 1092902400000,
+      exchange: 'NMS',
+      shortName: 'Alphabet Inc.',
+      longName: 'Alphabet Inc.',
+      messageBoardId: 'finmb_29096',
+      exchangeTimezoneName: 'America/New_York',
+      exchangeTimezoneShortName: 'EDT',
+      gmtOffSetMilliseconds: -14400000,
+      market: 'us_market',
+      esgPopulated: false,
+      symbol: 'GOOG'
+    },
+    {
+      language: 'en',
+      region: 'US',
+      quoteType: 'EQUITY',
+      triggerable: false,
+      quoteSourceName: 'Delayed Quote',
+      currency: 'USD',
+      sharesOutstanding: 299828000,
+      marketCap: 769018232832,
+      sourceInterval: 15,
+      exchangeDataDelayedBy: 0,
+      pageViews: { midTermTrend: 'UP', longTermTrend: 'UP', shortTermTrend: 'UP' },
+      tradeable: true,
+      preMarketPrice: 1108,
+      regularMarketChange: 14.930054,
+      regularMarketChangePercent: 1.3546914,
+      regularMarketTime: 1585857602,
+      regularMarketPrice: 1117.03,
+      regularMarketDayHigh: 1122.08,
+      regularMarketDayRange: '1093.13 - 1122.08',
+      regularMarketDayLow: 1093.13,
+      regularMarketVolume: 2465991,
+      regularMarketPreviousClose: 1102.1,
+      bid: 1100.02,
+      ask: 1116.6,
+      bidSize: 8,
+      askSize: 8,
+      fullExchangeName: 'NasdaqGS',
+      regularMarketOpen: 1100,
+      averageDailyVolume3Month: 2505249,
+      beta: 1.025336,
+      fiftyTwoWeekLowChange: 108.160034,
+      fiftyTwoWeekLowChangePercent: 0.10720909,
+      fiftyTwoWeekRange: '1008.87 - 1530.74',
+      fiftyTwoWeekHighChange: -413.70996,
+      fiftyTwoWeekHighChangePercent: -0.27026796,
+      fiftyTwoWeekLow: 1008.87,
+      fiftyTwoWeekHigh: 1530.74,
+      earningsTimestamp: 1580781600,
+      earningsTimestampStart: 1588032000,
+      earningsTimestampEnd: 1588377600,
+      trailingPE: 22.72095,
+      dividendsPerShare: 0,
+      marketState: 'PRE',
+      epsTrailingTwelveMonths: 49.163,
+      priceHint: 2,
+      preMarketChange: -9.030029,
+      preMarketChangePercent: -0.8083963,
+      preMarketTime: 1585902055,
+      targetPriceMean: 1539.34,
+      firstTradeDateMilliseconds: 1092902400000,
+      exchange: 'NMS',
+      shortName: 'Alphabet Inc.',
+      longName: 'Alphabet Inc.',
+      messageBoardId: 'finmb_29096',
+      exchangeTimezoneName: 'America/New_York',
+      exchangeTimezoneShortName: 'EDT',
+      gmtOffSetMilliseconds: -14400000,
+      market: 'us_market',
+      esgPopulated: false,
+      symbol: 'GOOGL'
+    }
+  ]

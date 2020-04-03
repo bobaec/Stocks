@@ -4,6 +4,69 @@ import '../css/App.css';
 
 const axios = require('axios');
 
+// https://dev.to/sage911/how-to-write-a-search-component-with-suggestions-in-react-d20
+class Search extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            query: '',
+            results: [],
+            searchResults: {}
+        };
+        this.handleInputChange = this.handleInputChange.bind(this);
+
+        this._isMounted = false;
+    }
+  
+    async getInfo() {
+        let res = await axios.get(`stock/name/${this.state.query}`);
+        res = await res.data;
+        console.log(res);
+        if (this._isMounted) {
+            this.setState({results: res});
+        }
+        this.updateResults();
+    }
+  
+    handleInputChange() {
+        this.setState({ query: this.search.value }, () => {
+            if (this.state.query && this.state.query.length > 1) {
+                if (this.state.query.length % 2 === 0) {
+                    this.getInfo();
+                }
+            } else if (!this.state.query) {
+            }
+        });
+    }
+
+    async updateResults() {
+        const q = [];
+        this.state.results.forEach(e => {
+            q.push(e.id);
+        });
+        let s = await axios.get(`stock/search/${q}`);
+        s = await s.data;
+
+        if (this._isMounted) {
+            this.setState({searchResults: s});
+        }
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+    }
+  
+    render() {
+      return (
+        <form>
+            <input list='stockSearch' placeholder="Search for..." ref={input => this.search = input} onChange={this.handleInputChange} />
+            <DisplayTable data={this.state.searchResults} />
+        </form>
+      )
+    }
+}
+
 class DisplayTable extends React.Component {
 
     constructor(props) {
@@ -78,7 +141,6 @@ class StocksPage extends React.Component {
         this._isMounted = true;
         let s = await axios.get('/stock/markets');
         s = await s.data;
-        console.log(s)
 
         if (this._isMounted) {
             this.setState({stockData: s});
@@ -88,6 +150,10 @@ class StocksPage extends React.Component {
     render() {
         return (
             <div>
+                <div>
+                    <Search />
+                    <br />
+                </div>
                 <div>
                     <center><h4>Popular Market Summaries</h4></center>
                     <DisplayTable data={this.state.stockData} />
