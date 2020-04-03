@@ -19,10 +19,7 @@ var allEmails = [];
 
 axios.get('/user/all').then(function(response){
 	allUsers = response.data
-	// console.log(allUsers)
-	// console.log(allUsers[0].stocks.length);
 	for (let i = 0; i < allUsers.length; i++) {
-		// console.log(allUsers[i]);
 		allEmails.push(allUsers[i].email);
 	}
 })
@@ -30,16 +27,17 @@ axios.get('/user/all').then(function(response){
 class MainPage extends React.Component {
 	render() {
 		if (allEmails.includes(this.props.user.email) === false) {
-				axios.post('/user/create', { 
-					name: this.props.user.displayName.toString(),
-					email: this.props.user.email.toString() 
-					})	
-					.then(res => {
-					 	console.log(res.data);
-					})
-					.then(function (error) {
-						console.log(error);
-					})
+			console.log(this.props.user.email + " is already in the db");
+			axios.post('/user/create', { 
+				name: this.props.user.displayName.toString(),
+				email: this.props.user.email.toString() 
+			})	
+			.then(res => {
+			 	console.log(res.data);
+			})
+			.then(function (error) {
+				console.log(error);
+			})
 		}
 
 		return (			
