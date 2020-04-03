@@ -13,6 +13,7 @@
     "chalk": "^3.0.0",
     "chart.js": "^2.9.3",
     "concurrently": "^5.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",
     "eslint-plugin-flowtype": "^3.13.0",

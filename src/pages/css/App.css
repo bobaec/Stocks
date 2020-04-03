@@ -36,7 +36,7 @@
 }
 
 .login_button:hover, .general_button:hover, .user_information table tr:hover
-, .fav_stock_summary table tr:hover, .users_table tr:hover, 
+, .fav_stock_summary table tr:hover, .users_table tr:hover,
 .dashboard_table tr:hover{
   background-color: lightgray;
   color: black;
@@ -76,7 +76,7 @@
 .profile .fav_stock_summary{
   margin: 0 auto;
   /* width: 80%;  */
-  width: 100%; 
+  width: 100%;
 
 }
 
@@ -84,7 +84,7 @@
   border-left: 5px solid #db3d44;
   border-collapse: collapse;
   width: 100%;
-  overflow:auto;  
+  overflow:auto;
 }
 
 .users{
@@ -98,7 +98,7 @@
 .users .users_table{
   margin: 0 auto;
   /* width: 80%;  */
-  width: 100%; 
+  width: 100%;
 }
 
 #mySidenav{
@@ -118,6 +118,20 @@
   color: rebeccapurple;
 }
 
+.scrollButton {
+  position: fixed;
+  opacity: 25%;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+  width: 50px;
+  border: none;
+}
+
+.scrollButton:hover {
+  opacity: 100%;
+}
+
 #coin_overview_table{
   width: 80%;
   margin: 0 auto;
@@ -132,6 +146,21 @@
   margin: 0 auto;
 }
 
+#crypto_table{
+  text-align: center;
+}
+
+#crypto_table2 td{
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+
+#scrollbtn{
+  border-radius: 50%;
+  background-color: red;
+  margin: 15px;
+}
+
 #date{
   background-color: #db3d44;
   display: inline;
@@ -139,4 +168,3 @@
   margin: 20px;
   border-radius: 10%;
   font-weight: bold;
-}
