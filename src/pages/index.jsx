@@ -13,6 +13,20 @@ import {
 	Row
 } from 'react-bootstrap';
 
+const axios = require('axios');
+var allUsers;
+var allEmails = [];
+var yourCryptos = [];
+
+axios.get('/user/all').then(function(response){
+	allUsers = response.data
+	for (let i = 0; i < allUsers.length; i++) {
+		allEmails.push([allUsers[i].email, allUsers[i].cryptos])
+	}
+	
+	// console.log(allEmails);
+})
+
 class MainPage extends React.Component {
 	constructor() {
         super();
@@ -44,6 +58,14 @@ class MainPage extends React.Component {
 	}
 	
 	render() {
+
+		for (var i = 0; i < allUsers.length; i++) {
+			if (allUsers[i].email === this.props.user.email) {
+				console.log(allUsers[i].email);
+				console.log(allUsers[i].cryptos);
+			}
+		}
+
 		return (			
 			<div className = "mainContent">
 
