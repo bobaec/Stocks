@@ -18,8 +18,12 @@ const axios = require('axios');
 
 var allUsers;
 var allEmails = [];
-var currentUser;
+var currentUserStocks;
+var currentUserCryptos;
+var numberOfStocks = 0;
 var numberOfCryptos = 0;
+
+var firstTimeVisit = true;
 
 axios.get('/user/all').then(function(response){
 	allUsers = response.data
@@ -28,11 +32,32 @@ axios.get('/user/all').then(function(response){
 	}
 });
 
+function generateStocksTable(user, numberOfStocks) {
+	let stocksAdd = "";
+	if (numberOfStocks > 0) {
+		for (let i = 0; i < numberOfStocks; i++) {
+			stocksAdd += 
+			"<tr>" +
+				"<td data-item=" + "'" + user.stock_symbol + "'" + ">" +
+					user.stock_name +
+				"</td>" +
+				"<td data-item=" + "'" + user.stock_symbol + "'" + ">" +
+					user.stock_symbol + 
+				"</td>" + 
+				"<td data-item=" + "'" + user.stock_symbol + "'" + ">$" + 
+					user.latest_stock_price + 
+				"</td>"+
+			"</tr>"
+		}
+	}
+	document.getElementById("generateStocks").innerHTML = (stocksAdd);
+}
+
 function generateCryptoTable(user, numberOfCryptos) {
-	var htmlAdd = "";
+	let cryptosAdd = "";
 	if (numberOfCryptos > 0) {
 		for (let i = 0; i < numberOfCryptos; i++) {
-			htmlAdd += 
+			cryptosAdd += 
 			"<tr>" +
 				"<td data-item=" + "'" + user.crypto_symbol + "'" + ">" +
 					user.crypto_name +
@@ -45,8 +70,8 @@ function generateCryptoTable(user, numberOfCryptos) {
 				"</td>"+
 			"</tr>"
 		}
-	} 
-	document.getElementById("generate").innerHTML += (htmlAdd);
+	}
+	document.getElementById("generateCryptos").innerHTML = (cryptosAdd);
 }
 
 class MainPage extends React.Component {
@@ -70,7 +95,8 @@ class MainPage extends React.Component {
 			' ' + month + ' ' + date + ', ' + year
 		});
 
-		generateCryptoTable(currentUser, numberOfCryptos);
+		generateStocksTable(currentUserStocks, numberOfStocks);
+		generateCryptoTable(currentUserCryptos, numberOfCryptos);
 
 		$("tbody").on("click", "tr", (function(e) {
 			const id = e.target.getAttribute('data-item');
@@ -100,16 +126,30 @@ class MainPage extends React.Component {
 			console.log(this.props.user.email + " is already in the db");
 		}
 		
-		for (var i = 0; i < allUsers.length; i++) {
-			for (var j = 0; j < allUsers[i].cryptos.length; j++) {
+		for (let i = 0; i < allUsers.length; i++) {
+			for (let j = 0; j < allUsers[i].stocks.length; j++) {
 				if (allUsers[i].email === this.props.user.email) {
-					if (typeof allUsers[i].cryptos[j] !== "undefined") {
-						currentUser = allUsers[i].cryptos[0];
-						numberOfCryptos++;
+					if (typeof allUsers[i].stocks[j] !== "undefined") {
+						currentUserStocks = allUsers[i].stocks[0];
+						if (firstTimeVisit === true) {
+							numberOfStocks++;
+						}
 					} 
 				}
 			}
+			for (let j = 0; j < allUsers[i].cryptos.length; j++) {
+				if (allUsers[i].email === this.props.user.email) {
+					if (typeof allUsers[i].cryptos[j] !== "undefined") {
+						currentUserCryptos = allUsers[i].cryptos[0];
+						if (firstTimeVisit === true) {
+							numberOfCryptos++;
+						}
+					}
+				}
+			}
 		}
+
+		firstTimeVisit = false;
 			
 		return (			
 			<div className = "mainContent">
@@ -124,7 +164,16 @@ class MainPage extends React.Component {
 						<Container className="users">
 						<Row style={{marginTop: "10px"}}>
 						{/* Display favorite stocks */}
-
+						<center><h4>Your Favorite Stocks</h4></center>
+						<Table responsive variant="dark" className="dashboard_table">
+							<thead>
+								<th>Stock</th>
+								<th>Symbol</th>
+								<th>24h</th>
+							</thead>
+							<tbody id = "generateStocks">
+							</tbody>
+						</Table>
 
 						{/* Display favorite cryptos */}
 						<center><h4>Your Favorite Cryptos</h4></center>
@@ -134,7 +183,7 @@ class MainPage extends React.Component {
 								<th>Symbol</th>
 								<th>24h</th>
 							</thead>
-							<tbody id = "generate">
+							<tbody id = "generateCryptos">
 							</tbody>
 						</Table>
 						</Row>
