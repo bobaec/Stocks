@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import ChartJs from "chart.js";
+import Chart from "chart.js";
 
+<<<<<<< HEAD
 export default function Chart() {
     const [data, setData] = useState(null);
+=======
+export default Chart = () => {
+    const [data, setData] = useState(null); // get data from 
+>>>>>>> e010003182c0f26b5b4110178e681c5e8d77db25
     const chartRef = useState(React.createRef());
     
     useEffect(() => {
@@ -13,7 +18,7 @@ export default function Chart() {
         gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
         gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
 
-        new ChartJs(myChartRef, {
+        new Chart(myChartRef, {
             type: "line",
             data: {
                 labels: ["Jan", "Feb", "March"],
