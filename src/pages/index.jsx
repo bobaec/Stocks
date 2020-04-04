@@ -167,7 +167,7 @@ class MainPage extends React.Component {
 						<Container className="users">
 							<Row style={{marginTop: "10px"}}>
 								{/* Display favorite stocks */}
-								<center><h4 id="favouite_table_label">Your Favorite Stocks</h4></center>
+								<center><h5 id="favouite_table_label">Your Favorite Stocks</h5></center>
 								<Table id="favourite_table" responsive variant="dark">
 									<thead>
 										<tr>
@@ -181,10 +181,10 @@ class MainPage extends React.Component {
 								</Table>
 
 								{/* Display favorite cryptos */}
-								<center><h4 id="favouite_table_label">Your Favorite Cryptos</h4></center>
+								<center><h5 id="favouite_table_label">Your Favorite Cryptos</h5></center>
 								<Table id="favourite_table" responsive variant="dark">
 									<thead>
-									<tr>
+										<tr>
 											<th>Stock</th>
 											<th>Symbol</th>
 											<th>24h</th>
