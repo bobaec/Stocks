@@ -12,10 +12,6 @@ var allUsers;
 
 axios.get('/user/all').then(function(response){
 	allUsers = response.data
-	// console.log(allUsers[0].stocks.length);
-	// for (let i = 0; i < allUsers.length; i++) {
-	// 	console.log(allUsers[i])
-	// }
 })
 
 function tableGenerate() {

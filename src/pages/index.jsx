@@ -46,7 +46,6 @@ function generateCryptoTable(user, numberOfCryptos) {
 			"</tr>"
 		}
 	} 
-
 	document.getElementById("generate").innerHTML += (htmlAdd);
 }
 
@@ -84,7 +83,23 @@ class MainPage extends React.Component {
 	}
 
 	render() {
-
+	    
+        if (allEmails.includes(this.props.user.email) === false) {
+			console.log(this.props.user.email + " is not in the db, adding now.");
+			axios.post('/user/create', { 
+				name: this.props.user.displayName.toString(),
+				email: this.props.user.email.toString() 
+			})	
+			.then(res => {
+			 	console.log(res.data);
+			})
+			.then(function (error) {
+				console.log(error);
+			})
+		} else {
+			console.log(this.props.user.email + " is already in the db");
+		}
+		
 		for (var i = 0; i < allUsers.length; i++) {
 			for (var j = 0; j < allUsers[i].cryptos.length; j++) {
 				if (allUsers[i].email === this.props.user.email) {
@@ -94,8 +109,7 @@ class MainPage extends React.Component {
 					} 
 				}
 			}
-		}
-
+			
 		return (			
 			<div className = "mainContent">
 			{
