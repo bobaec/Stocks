@@ -18,8 +18,8 @@ const axios = require('axios');
 
 var allUsers;
 var allEmails = [];
-var currentUserStocks;
-var currentUserCryptos;
+var currentUserStocks = [];
+var currentUserCryptos = [];
 var numberOfStocks = 0;
 var numberOfCryptos = 0;
 
@@ -38,14 +38,14 @@ function generateStocksTable(user, numberOfStocks) {
 		for (let i = 0; i < numberOfStocks; i++) {
 			stocksAdd += 
 			"<tr>" +
-				"<td data-item=" + "'" + user.stock_symbol + "'" + ">" +
-					user.stock_name +
+				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
+					user[i].stock_name +
 				"</td>" +
-				"<td data-item=" + "'" + user.stock_symbol + "'" + ">" +
-					user.stock_symbol + 
+				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
+					user[i].stock_symbol + 
 				"</td>" + 
-				"<td data-item=" + "'" + user.stock_symbol + "'" + ">$" + 
-					user.latest_stock_price + 
+				"<td data-item=" + "'" + user[i]._id + "'" + ">$" + 
+					user[i].latest_stock_price + 
 				"</td>"+
 			"</tr>"
 		}
@@ -59,14 +59,14 @@ function generateCryptoTable(user, numberOfCryptos) {
 		for (let i = 0; i < numberOfCryptos; i++) {
 			cryptosAdd += 
 			"<tr>" +
-				"<td data-item=" + "'" + user.crypto_symbol + "'" + ">" +
-					user.crypto_name +
+				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
+					user[i].crypto_name +
 				"</td>" +
-				"<td data-item=" + "'" + user.crypto_symbol + "'" + ">" +
-					user.crypto_symbol + 
+				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
+					user[i].crypto_symbol + 
 				"</td>" + 
-				"<td data-item=" + "'" + user.crypto_symbol + "'" + ">$" + 
-					user.latest_crypto_price + 
+				"<td data-item=" + "'" + user._id + "'" + ">$" + 
+					user[i].latest_crypto_price + 
 				"</td>"+
 			"</tr>"
 		}
@@ -130,7 +130,7 @@ class MainPage extends React.Component {
 			for (let j = 0; j < allUsers[i].stocks.length; j++) {
 				if (allUsers[i].email === this.props.user.email) {
 					if (typeof allUsers[i].stocks[j] !== "undefined") {
-						currentUserStocks = allUsers[i].stocks[0];
+						currentUserStocks.push(allUsers[i].stocks[j]);
 						if (firstTimeVisit === true) {
 							numberOfStocks++;
 						}
@@ -140,7 +140,7 @@ class MainPage extends React.Component {
 			for (let j = 0; j < allUsers[i].cryptos.length; j++) {
 				if (allUsers[i].email === this.props.user.email) {
 					if (typeof allUsers[i].cryptos[j] !== "undefined") {
-						currentUserCryptos = allUsers[i].cryptos[0];
+						currentUserCryptos.push(allUsers[i].cryptos[j]);
 						if (firstTimeVisit === true) {
 							numberOfCryptos++;
 						}
@@ -161,35 +161,36 @@ class MainPage extends React.Component {
 					<center><p id="date"><Image src={this.props.user.photoURL} roundedCircle width={20}/>{this.state.date}</p></center>
 					<div className="wrapper">
 						<center><h4>Dashboard</h4></center>
-						<Container className="users">
-						<Row style={{marginTop: "10px"}}>
-						{/* Display favorite stocks */}
-						<center><h4>Your Favorite Stocks</h4></center>
-						<Table responsive variant="dark" className="dashboard_table">
-							<thead>
-								<th>Stock</th>
-								<th>Symbol</th>
-								<th>24h</th>
-							</thead>
-							<tbody id = "generateStocks">
-							</tbody>
-						</Table>
-
-						{/* Display favorite cryptos */}
-						<center><h4>Your Favorite Cryptos</h4></center>
-						<Table responsive variant="dark" className="dashboard_table">
-							<thead>
-								<th>Crypto</th>
-								<th>Symbol</th>
-								<th>24h</th>
-							</thead>
-							<tbody id = "generateCryptos">
-							</tbody>
-						</Table>
-						</Row>
-					</Container>
+						
 					{/* <Dashboard className="dashboard"/> */}
 					<Dashboard selected_id={this.state.selected_id}/>	
+					<Container className="users">
+							<Row style={{marginTop: "10px"}}>
+							{/* Display favorite stocks */}
+							<center><h4>Your Favorite Stocks</h4></center>
+							<Table responsive variant="dark" className="dashboard_table">
+								<thead>
+									<th>Stock</th>
+									<th>Symbol</th>
+									<th>24h</th>
+								</thead>
+								<tbody id = "generateStocks">
+								</tbody>
+							</Table>
+
+							{/* Display favorite cryptos */}
+							<center><h4>Your Favorite Cryptos</h4></center>
+							<Table responsive variant="dark" className="dashboard_table">
+								<thead>
+									<th>Crypto</th>
+									<th>Symbol</th>
+									<th>24h</th>
+								</thead>
+								<tbody id = "generateCryptos">
+								</tbody>
+							</Table>
+							</Row>
+						</Container>
 					</div>
 				</div>
 				:
