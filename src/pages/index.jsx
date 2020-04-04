@@ -70,6 +70,7 @@ class MainPage extends React.Component {
 			date:
 			' ' + month + ' ' + date + ', ' + year
 		});
+
 		generateCryptoTable(currentUser, numberOfCryptos);
 
 		$("tbody").on("click", "tr", (function(e) {
@@ -90,7 +91,6 @@ class MainPage extends React.Component {
 					if (typeof allUsers[i].cryptos[j] !== "undefined") {
 						currentUser = allUsers[i].cryptos[0];
 						numberOfCryptos++;
-						console.log("a");
 					} 
 				}
 			}
@@ -108,7 +108,6 @@ class MainPage extends React.Component {
 						<center><h4>Dashboard</h4></center>
 						<Container className="users">
 						<Row style={{marginTop: "10px"}}>
-
 						{/* Display favorite stocks */}
 
 
@@ -123,7 +122,6 @@ class MainPage extends React.Component {
 							<tbody id = "generate">
 							</tbody>
 						</Table>
-
 						</Row>
 					</Container>
 					{/* <Dashboard className="dashboard"/> */}
