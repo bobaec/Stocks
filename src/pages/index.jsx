@@ -113,7 +113,7 @@ class MainPage extends React.Component {
 
 
 						{/* Display favorite cryptos */}
-						<center><h4>Your Favorite Stocks</h4></center>
+						<center><h4>Your Favorite Cryptos</h4></center>
 						<Table responsive variant="dark" className="dashboard_table">
 							<thead>
 								<th>Crypto</th>
