@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Chart from "chart.js";
 
-<<<<<<< HEAD
-export default function Chart() {
-    const [data, setData] = useState(null);
-=======
 export default Chart = () => {
     const [data, setData] = useState(null); // get data from 
->>>>>>> e010003182c0f26b5b4110178e681c5e8d77db25
     const chartRef = useState(React.createRef());
     
     useEffect(() => {

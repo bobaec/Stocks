@@ -44,7 +44,9 @@ app.get('/user/name/:name', userController.getUserByName);
 app.get('/user/id/:id', userController.getUserById);
 app.get('/user/email/:email', userController.getUserByEmail);
 
-// User favourites
+/**
+ * User favourites
+ */
 app.post('/user/stock/add/:id', userController.addStock);
 app.post('/user/stock/remove/:id', userController.removeStock);
 app.post('/user/crypto/add/:id', userController.addCrypto);

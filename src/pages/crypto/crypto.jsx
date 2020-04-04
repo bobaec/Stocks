@@ -106,7 +106,7 @@ class Coin extends React.Component {
 
         if (c !== '') {
             try {
-                const response = await fetch('/crypto/id/' + c);
+                const response = await fetch('/crypto/crypto_id/' + c);
                 coin = await response.json()
             } catch (err) {
                 console.log('API error:', err);
