@@ -128,8 +128,8 @@ class MainPage extends React.Component {
 		
 		for (let i = 0; i < allUsers.length; i++) {
 			for (let j = 0; j < allUsers[i].stocks.length; j++) {
-				// if (allUsers[i].email === this.props.user.email) {
-				if (allUsers[i].email === 'bobae.choi2@gmail.com') {
+				if (allUsers[i].email === this.props.user.email) {
+				// if (allUsers[i].email === 'bobae.choi2@gmail.com') {
 
 					if (typeof allUsers[i].stocks[j] !== "undefined") {
 						currentUserStocks = allUsers[i].stocks[0];
@@ -140,8 +140,8 @@ class MainPage extends React.Component {
 				}
 			}
 			for (let j = 0; j < allUsers[i].cryptos.length; j++) {
-				// if (allUsers[i].email === this.props.user.email) {
-				if (allUsers[i].email === 'bobae.choi2@gmail.com') {
+				if (allUsers[i].email === this.props.user.email) {
+				// if (allUsers[i].email === 'bobae.choi2@gmail.com') {
 					if (typeof allUsers[i].cryptos[j] !== "undefined") {
 						currentUserCryptos = allUsers[i].cryptos[0];
 						if (firstTimeVisit === true) {
@@ -163,7 +163,7 @@ class MainPage extends React.Component {
 				<div className="main">
 					<center><p id="date"><Image src={this.props.user.photoURL} roundedCircle width={20}/>{this.state.date}</p></center>
 					<div className="wrapper">
-						<center><h4>Dashboard</h4></center>
+						<center><h4>Dashboard</h4></center><br/>
 						<Container className="users">
 							<Row style={{marginTop: "10px"}}>
 								{/* Display favorite stocks */}
