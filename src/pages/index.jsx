@@ -38,13 +38,13 @@ function generateStocksTable(user, numberOfStocks) {
 		for (let i = 0; i < numberOfStocks; i++) {
 			stocksAdd += 
 			"<tr>" +
-				"<td data-item=" + "'" + user.stock_name + "'" + ">" +
+				"<td data-item=" + "'" + user.stock_symbol + "'" + ">" +
 					user.stock_name +
 				"</td>" +
 				"<td data-item=" + "'" + user.stock_symbol + "'" + ">" +
 					user.stock_symbol + 
 				"</td>" + 
-				"<td data-item=" + "'" + user.latest_stock_price + "'" + ">$" + 
+				"<td data-item=" + "'" + user.stock_symbol + "'" + ">$" + 
 					user.latest_stock_price + 
 				"</td>"+
 			"</tr>"
