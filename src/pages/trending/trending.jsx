@@ -45,7 +45,7 @@ class DisplayTable extends React.Component {
 
      render() {
          return (
-            <Table responsive variant="dark">
+            <Table id="trending_table" responsive variant="dark">
                 <thead>
                     <tr>
                         {this.renderTableHeader()}
@@ -84,14 +84,14 @@ class TrendingPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
-                    <center><h4>Trending Stocks</h4></center>
+            <div className = "mainContent">
+				<div className = "wrapper">
+                    <center><h4 id="trending_label">Trending Stocks</h4></center>
                     <DisplayTable data={this.state.stockData} />
                 </div>
-                <br />
+                <br/>
                 <div>
-                    <center><h4>Trending Cryptocurrencies</h4></center>
+                    <center><h4 id="trending_label">Trending Cryptocurrencies</h4></center>
                     <DisplayTable data={this.state.cryptoData} />
                 </div>
             </div>
