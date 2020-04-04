@@ -128,7 +128,9 @@ class MainPage extends React.Component {
 		
 		for (let i = 0; i < allUsers.length; i++) {
 			for (let j = 0; j < allUsers[i].stocks.length; j++) {
-				if (allUsers[i].email === this.props.user.email) {
+				// if (allUsers[i].email === this.props.user.email) {
+				if (allUsers[i].email === 'bobae.choi2@gmail.com') {
+
 					if (typeof allUsers[i].stocks[j] !== "undefined") {
 						currentUserStocks = allUsers[i].stocks[0];
 						if (firstTimeVisit === true) {
@@ -138,7 +140,8 @@ class MainPage extends React.Component {
 				}
 			}
 			for (let j = 0; j < allUsers[i].cryptos.length; j++) {
-				if (allUsers[i].email === this.props.user.email) {
+				// if (allUsers[i].email === this.props.user.email) {
+				if (allUsers[i].email === 'bobae.choi2@gmail.com') {
 					if (typeof allUsers[i].cryptos[j] !== "undefined") {
 						currentUserCryptos = allUsers[i].cryptos[0];
 						if (firstTimeVisit === true) {
@@ -162,31 +165,35 @@ class MainPage extends React.Component {
 					<div className="wrapper">
 						<center><h4>Dashboard</h4></center>
 						<Container className="users">
-						<Row style={{marginTop: "10px"}}>
-						{/* Display favorite stocks */}
-						<center><h4>Your Favorite Stocks</h4></center>
-						<Table responsive variant="dark" className="dashboard_table">
-							<thead>
-								<th>Stock</th>
-								<th>Symbol</th>
-								<th>24h</th>
-							</thead>
-							<tbody id = "generateStocks">
-							</tbody>
-						</Table>
+							<Row style={{marginTop: "10px"}}>
+								{/* Display favorite stocks */}
+								<center><h4 id="favouite_table_label">Your Favorite Stocks</h4></center>
+								<Table id="favourite_table" responsive variant="dark">
+									<thead>
+										<tr>
+											<th>Stock</th>
+											<th>Symbol</th>
+											<th>24h</th>
+										</tr>
+									</thead>
+									<tbody id = "generateStocks">
+									</tbody>
+								</Table>
 
-						{/* Display favorite cryptos */}
-						<center><h4>Your Favorite Cryptos</h4></center>
-						<Table responsive variant="dark" className="dashboard_table">
-							<thead>
-								<th>Crypto</th>
-								<th>Symbol</th>
-								<th>24h</th>
-							</thead>
-							<tbody id = "generateCryptos">
-							</tbody>
-						</Table>
-						</Row>
+								{/* Display favorite cryptos */}
+								<center><h4 id="favouite_table_label">Your Favorite Cryptos</h4></center>
+								<Table id="favourite_table" responsive variant="dark">
+									<thead>
+									<tr>
+											<th>Stock</th>
+											<th>Symbol</th>
+											<th>24h</th>
+										</tr>
+									</thead>
+									<tbody id = "generateCryptos">
+									</tbody>
+								</Table>
+							</Row>
 					</Container>
 					{/* <Dashboard className="dashboard"/> */}
 					<Dashboard selected_id={this.state.selected_id}/>	

@@ -166,6 +166,14 @@
   display: inline;
   padding: 10px;
   margin: 20px;
-  border-radius: 10%;
   font-weight: bold;
+}
+
+#favouite_table_label{
+  color: white;
+  margin-bottom: 10px;
+}
+
+#favourite_table thead tr{
+  border-bottom: 5px solid #db3d44;
 }
