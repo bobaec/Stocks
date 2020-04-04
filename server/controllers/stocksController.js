@@ -56,3 +56,20 @@ exports.getStockBySymbol = async (req, res) => {
 		res.sendStatus(500);
 	}
 };
+
+const StockAPI = require('../utils/stocks');
+
+exports.getMarketData = async (req, res) => {
+	const markets = await StockAPI.getMarketData();
+	res.send(markets);
+}
+
+exports.searchForStockId = async (req, res) => {
+	const stock = await StockAPI.stockSearch(req.params.name);
+	res.send(stock);
+};
+
+exports.searchForStock = async (req, res) => {
+	const stocks = await StockAPI.getStocks(req.params.ids);
+	res.send(stocks);
+};
