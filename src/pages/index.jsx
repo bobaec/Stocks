@@ -13,8 +13,35 @@ import {
 	Row
 } from 'react-bootstrap';
 
+const axios = require('axios');
+var allUsers;
+var allEmails = [];
+
+axios.get('/user/all').then(function(response){
+	allUsers = response.data
+	for (let i = 0; i < allUsers.length; i++) {
+		allEmails.push(allUsers[i].email);
+	}
+})
+
 class MainPage extends React.Component {
 	render() {
+		if (allEmails.includes(this.props.user.email) === false) {
+			console.log(this.props.user.email + " is not in the db, adding now.");
+			axios.post('/user/create', { 
+				name: this.props.user.displayName.toString(),
+				email: this.props.user.email.toString() 
+			})	
+			.then(res => {
+			 	console.log(res.data);
+			})
+			.then(function (error) {
+				console.log(error);
+			})
+		} else {
+			console.log(this.props.user.email + " is already in the db");
+		}
+
 		return (			
 			<div className = "mainContent">
 			{
