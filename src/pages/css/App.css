@@ -131,3 +131,22 @@
   width: 60%;
   margin: 0 auto;
 }
+
+#trending_table{
+  text-align: center;
+  margin: 0 auto;
+  width: 70%;
+}
+
+#trending_table thead tr{
+  border-bottom: 5px solid #db3d44;
+}
+
+#trending_table tbody tr:hover{
+  background-color: lightgray;
+  color: black;
+}
+
+#trending_label{
+  margin-bottom: 20px;
+}
