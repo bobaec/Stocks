@@ -109,6 +109,7 @@ class MainPage extends React.Component {
 					} 
 				}
 			}
+		}
 			
 		return (			
 			<div className = "mainContent">
