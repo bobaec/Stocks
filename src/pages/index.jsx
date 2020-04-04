@@ -24,27 +24,29 @@ var numberOfCryptos = 0;
 axios.get('/user/all').then(function(response){
 	allUsers = response.data
 	for (let i = 0; i < allUsers.length; i++) {
-		allEmails.push([allUsers[i].email, allUsers[i].cryptos])
+		allEmails.push(allUsers[i].email);
 	}
-})
+});
 
-function generateTable(user, numberOfCryptos) {
+function generateCryptoTable(user, numberOfCryptos) {
 	var htmlAdd = "";
-	console.log(numberOfCryptos);
-	for (let i = 0; i < numberOfCryptos; i++) {
-		htmlAdd += 
-		"<tr>" +
-			"<td data-item=" + "'" + user.cryto_symbol + "'" + ">" +
-				user.crypto_name +
-			"</td>" +
-			"<td data-item=" + "'" + user.cryto_symbol + "'" + ">" +
-				user.cryto_symbol + 
-			"</td>" + 
-			"<td data-item=" + "'" + user.cryto_symbol + "'" + ">" + 
-				user.latest_crypto_price + 
-			"</td>"+
-		"</tr>"
-	}
+	if (numberOfCryptos > 0) {
+		for (let i = 0; i < numberOfCryptos; i++) {
+			htmlAdd += 
+			"<tr>" +
+				"<td data-item=" + "'" + user.crypto_symbol + "'" + ">" +
+					user.crypto_name +
+				"</td>" +
+				"<td data-item=" + "'" + user.crypto_symbol + "'" + ">" +
+					user.crypto_symbol + 
+				"</td>" + 
+				"<td data-item=" + "'" + user.crypto_symbol + "'" + ">$" + 
+					user.latest_crypto_price + 
+				"</td>"+
+			"</tr>"
+		}
+	} 
+
 	document.getElementById("generate").innerHTML += (htmlAdd);
 }
 
@@ -68,7 +70,7 @@ class MainPage extends React.Component {
 			date:
 			' ' + month + ' ' + date + ', ' + year
 		});
-		generateTable(currentUser, numberOfCryptos);
+		generateCryptoTable(currentUser, numberOfCryptos);
 
 		$("tbody").on("click", "tr", (function(e) {
 			const id = e.target.getAttribute('data-item');
@@ -83,23 +85,19 @@ class MainPage extends React.Component {
 	render() {
 
 		for (var i = 0; i < allUsers.length; i++) {
-			// if (allUsers[i].email === this.props.user.email) {
-				// currentUser = allUsers[i].cryptos[0];
-				// numberOfCryptos++;
-			// 	console.log(allUsers[i].email);
-			// 	console.log(allUsers[i].cryptos);
-			// }
-			if (allUsers[i].email === "fred@hotmail.com") {
-				currentUser = allUsers[i].cryptos[0];
-				numberOfCryptos++;
-				console.log(allUsers[i].cryptos[0])
-				console.log(allUsers[i].cryptos[0].crypto_name);
+			for (var j = 0; j < allUsers[i].cryptos.length; j++) {
+				if (allUsers[i].email === this.props.user.email) {
+					if (typeof allUsers[i].cryptos[j] !== "undefined") {
+						currentUser = allUsers[i].cryptos[0];
+						numberOfCryptos++;
+						console.log("a");
+					} 
+				}
 			}
 		}
 
 		return (			
 			<div className = "mainContent">
-
 			{
 			this.props.user ? 
 			// if logged in, show all content
@@ -110,15 +108,22 @@ class MainPage extends React.Component {
 						<center><h4>Dashboard</h4></center>
 						<Container className="users">
 						<Row style={{marginTop: "10px"}}>
-							<Table responsive variant="dark" className="dashboard_table">
+
+						{/* Display favorite stocks */}
+
+
+						{/* Display favorite cryptos */}
+						<center><h4>Your Favorite Stocks</h4></center>
+						<Table responsive variant="dark" className="dashboard_table">
 							<thead>
-								<th>Crypto Name</th>
+								<th>Crypto</th>
 								<th>Symbol</th>
 								<th>24h</th>
 							</thead>
 							<tbody id = "generate">
 							</tbody>
-							</Table>
+						</Table>
+
 						</Row>
 					</Container>
 					{/* <Dashboard className="dashboard"/> */}
