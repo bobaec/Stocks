@@ -37,6 +37,10 @@ exports.getStockByName = async (req, res) => {
 	}
 };
 
+exports.user = (req, res) => {
+    res.send('Stock: ' + req.params.userId);
+};
+
 /**
  * GET /
  *  All stocks.

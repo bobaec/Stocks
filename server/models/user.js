@@ -89,7 +89,7 @@ exports.removeFavouriteStock = async (id, stockSymbol) => {
 
 // Crypto favourites
 exports.addFavouriteCrypto = async (id, crypto) => {
-    await User.findByIdAndUpdate(id, { $pull: {"cryptos": crypto}}, (err, result) => {
+    await User.findByIdAndUpdate(id, { $push: {"cryptos": crypto}}, (err, result) => {
             if (err) throw err;
         })
 };
