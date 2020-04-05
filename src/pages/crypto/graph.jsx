@@ -1,16 +1,11 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import {
-    InputGroup,
-    FormControl,
     Button,
-    Table,
-    ButtonGroup,
-    Image
+    ButtonGroup
 } from 'react-bootstrap';
 import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
-import ScrollButton from '../../components/ScrollButton';
 import News from "../../components/News/index";
 let crypto = require('./crypto.js');
 
@@ -70,7 +65,7 @@ class PriceGraph extends React.Component {
                     if (this.props.days > 1) {
                         return year + "-" + month + "-" + day + " " + formattedTime;
                     } else {
-                        return formattedTime
+                        return formattedTime;
                     }
                 });
     
@@ -143,6 +138,7 @@ class PriceGraph extends React.Component {
                     <Line data={graphData} />
                     <News 
                         stock={this.props.coin}
+                        index={3}
                     />
                 </div>
             )
