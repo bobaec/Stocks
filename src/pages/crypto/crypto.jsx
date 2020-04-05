@@ -422,6 +422,14 @@ class CryptoList extends React.Component {
         });
     }
 
+    scrollToTop(e) {
+        console.log(e.target)
+        if (e.target.id !== 'fav' && e.target.id !== 'favStar') {
+            const yOffset = 220;
+            window.scrollTo(0, yOffset)
+        }
+    }
+
     renderTableData() {
         let data = this.state.data;
         let i = 1;
@@ -456,7 +464,6 @@ class CryptoList extends React.Component {
             if (price_change_percentage_7d_in_currency < 0) {
                 style7d = styleRed;
             }
-            const yOffset = 220;
 
             let favs = this.props.favs;
             let fav = false;
@@ -467,10 +474,10 @@ class CryptoList extends React.Component {
             }
 
             return (
-            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset)}} >
+            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id); this.scrollToTop(e)}} >
                 { fav  
-                    ? <td onClick={(e) => this.removeFav(e, symbol)}><i className="fa fa-star" /></td>
-                    : <td onClick={(e) => this.addFav(e, symbol)}><i className="fa fa-star-o" /></td>
+                    ? <td id="fav" onClick={(e) => this.removeFav(e, symbol)}><i id="favStar" className="fa fa-star" /></td>
+                    : <td id="fav" onClick={(e) => this.addFav(e, symbol)}><i id="favStar" className="fa fa-star-o" /></td>
                 }
                 <td>{i++}</td>
                 <td>
