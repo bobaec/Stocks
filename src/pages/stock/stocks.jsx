@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import '../css/App.css';
+import News from '../../components/News/index';
 
 const axios = require('axios');
 
@@ -61,20 +62,14 @@ class Search extends React.Component {
       return (
         <form>
             <input list='stockSearch' placeholder="Search for..." ref={input => this.search = input} onChange={this.handleInputChange} />
-            <DisplayTable data={this.state.searchResults} />
+            <DisplayTable data={this.state.searchResults} search={true}/>
         </form>
       )
     }
 }
 
-class DisplayTable extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: []
-        };
-    }
+class DisplayTable extends React.Component {
     
     renderTableHeader() {
         const d = this.props.data;
@@ -110,7 +105,23 @@ class DisplayTable extends React.Component {
         }
      }
 
+     renderTableFooter() {
+        const d = this.props.data;
+        if (Object.keys(d).length > 0) {
+            const len = Object.keys(d[0]).length;
+            const id = d[0].symbol;
+            return (
+                <tr>
+                    <td colspan={len}>
+                        <News stock={id} />
+                    </td>
+                </tr>
+            )
+        }
+     }
+
      render() {
+         const s = this.props.search;
          return (
             <Table responsive variant="dark">
                 <thead>
@@ -121,6 +132,12 @@ class DisplayTable extends React.Component {
                 <tbody>
                     {this.renderTableBody()}
                 </tbody>
+                {
+                    s &&
+                    <tfoot align='center'>
+                        {this.renderTableFooter()}
+                    </tfoot>
+                }
             </Table>
          )
      }
@@ -156,7 +173,7 @@ class StocksPage extends React.Component {
                 </div>
                 <div>
                     <center><h4>Popular Market Summaries</h4></center>
-                    <DisplayTable data={this.state.stockData} />
+                    <MarketTable data={this.state.stockData} search={false} />
                 </div>
             </div>
         )
