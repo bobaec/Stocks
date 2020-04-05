@@ -21,7 +21,7 @@ const News = props => {
         <h4>News</h4><br/>
             <CardDeck>
                 {data
-                .filter((i, index) => (index < 3))
+                .filter((i, index) => (index < props.index))
                 .map(article => (
                     <Card>
                         <Card.Img variant="top" src={article.urlToImage} style={{width:'100%',height:'50%'}}/>
