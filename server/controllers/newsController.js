@@ -9,7 +9,6 @@ exports.query = async (req, res) =>  {
 
     try {
         const news = await newsapi.query(query);
-
         res.json(news);
     } catch (error) {
         console.log(error.message)
