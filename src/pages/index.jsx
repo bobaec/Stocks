@@ -128,8 +128,7 @@ class MainPage extends React.Component {
 		
 		for (let i = 0; i < allUsers.length; i++) {
 			for (let j = 0; j < allUsers[i].stocks.length; j++) {
-				// if (allUsers[i].email === this.props.user.email) {
-				if (allUsers[i].email === 'bobae.choi2@gmail.com') {
+				if (allUsers[i].email === this.props.user.email) {
 					if (typeof allUsers[i].stocks[j] !== "undefined") {
 						currentUserStocks.push(allUsers[i].stocks[j]);
 						if (firstTimeVisit === true) {
@@ -139,8 +138,7 @@ class MainPage extends React.Component {
 				}
 			}
 			for (let j = 0; j < allUsers[i].cryptos.length; j++) {
-				// if (allUsers[i].email === this.props.user.email) {
-				if (allUsers[i].email === 'bobae.choi2@gmail.com') {
+				if (allUsers[i].email === this.props.user.email) {
 					if (typeof allUsers[i].cryptos[j] !== "undefined") {
 						currentUserCryptos.push(allUsers[i].cryptos[j]);
 						if (firstTimeVisit === true) {
