@@ -28,8 +28,12 @@ app.get('/', homeController.index);
 app.post('/stock/create', stocksController.createNewStock);
 app.get('/stock/all', stocksController.getAll);
 app.get('/stock/id/:id', stocksController.getStockById);
-app.get('/stock/name/:name', stocksController.getStockByName);
-app.get('/stock/symbol/:symbol', stocksController.getStockBySymbol);
+// app.get('/stock/name/:name', stocksController.getStockByName);
+app.get('/stock/markets', stocksController.getMarketData);
+app.get('/stock/name/:name', stocksController.searchForStockId);
+app.get('/stock/search/:ids', stocksController.searchForStock);
+app.get('/stock/data/:symbol', stocksController.getStockDataBySymbol);
+app.get('/stock/:userId', stocksController.user);
 
 /**
  * User routes
@@ -40,7 +44,9 @@ app.get('/user/name/:name', userController.getUserByName);
 app.get('/user/id/:id', userController.getUserById);
 app.get('/user/email/:email', userController.getUserByEmail);
 
-// User favourites
+/**
+ * User favourites
+ */
 app.post('/user/stock/add/:id', userController.addStock);
 app.post('/user/stock/remove/:id/:favId', userController.removeStock);
 app.post('/user/crypto/add/:id', userController.addCrypto);

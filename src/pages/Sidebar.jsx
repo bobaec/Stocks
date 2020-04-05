@@ -3,9 +3,10 @@ import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import 'font-awesome/css/font-awesome.min.css';
 import MainPage from "/";
-import Browse from "./Browse.jsx"
+import Browse from "./Browse.jsx";
 import UsersPage from "./users/users.jsx";
 import ProfilePage from "./profile.jsx";
+import StocksPage from "./stock/stocks.jsx";
 import CryptoPage from "./crypto/crypto.jsx";
 import Trending from "./Trending.jsx";
 import './css/App.css';
@@ -46,12 +47,12 @@ class Sidebar extends Component {
 			                            Home
 			                        </NavText>
 			                    </NavItem>
-			                    <NavItem eventKey = "browse">
+								<NavItem eventKey = "stocks">
 					            	<NavIcon>
-					                	<i className = "fa fa-fw fa-search" style = {{ fontSize: '1.75em' }} />
+					                	<i className = "fa fa-fw fa-globe" style = {{ fontSize: '1.75em' }} />
 					            	</NavIcon>
 					            	<NavText>
-					                	Browse
+					                	Stocks
 					            	</NavText>
 					        	</NavItem>
 			                    <NavItem eventKey = "crypto">
@@ -101,7 +102,7 @@ class Sidebar extends Component {
 							transition: this.props.transition
 						}}>
 			                <Route path= "/" exact component = {props => <MainPage user = {this.props.user}/>} />
-			                <Route path= "/browse" component = {props => <Browse user = {this.props.user}/>} />
+							<Route path= "/stocks" component = {props => <StocksPage user = {this.props.user}/>} />
 			                <Route path= "/crypto" component = {props => <CryptoPage user = {this.props.user}/>} />
 			                <Route path= "/trending" component = {props => <Trending user = {this.props.user}/>} />
 			                <Route path= "/users" component = {props => <UsersPage user = {this.props.user}/>} />

@@ -2,9 +2,7 @@ import React from "react";
 import {
     InputGroup,
     FormControl,
-    Button,
-    Row,
-    Col,
+    Button
 } from 'react-bootstrap';
 class Browse extends React.Component {
 	render() {
