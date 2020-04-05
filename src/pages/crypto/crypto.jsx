@@ -4,14 +4,12 @@ import {
     FormControl,
     Button,
     Table,
-    ButtonGroup,
     Image
 } from 'react-bootstrap';
 import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
 import ScrollButton from '../../components/ScrollButton';
 import PriceGraph from "./graph";
-let crypto = require('./crypto.js');
 
 class CoinList extends React.Component {
 

@@ -4,7 +4,7 @@ import Chart from "chart.js";
 export default Chart = props => {
     const [stock, setStock] = useState(props);
     const [data, setData] = useState({});
-    const chartRef = useState(React.createRef());
+    const chartRef = React.createRef();
 
     const getStock = async symbol => {
         const response = await fetch(`/stock/data/${symbol}`);

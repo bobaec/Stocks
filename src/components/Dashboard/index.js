@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Chart from "../Chart/index";
 import News from "../News/index";
 import '../../pages/css/App.css';
-import MainPage from '../../pages';
 import PriceGraph from "../../pages/crypto/graph";
 
 export default class Dashboard extends Component {
@@ -27,7 +26,7 @@ export default class Dashboard extends Component {
     });
     
     render() {
-        const { selected_id, type, name, symbol} = this.props;
+        const { type, name, symbol} = this.props;
         
         return (
             <div>

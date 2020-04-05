@@ -30,17 +30,17 @@ function generateStocksTable(user, numberOfStocks) {
 	if (numberOfStocks > 0) {
 		for (let i = 0; i < numberOfStocks; i++) {
 			stocksAdd += 
-			"<tr>" +
-				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}'` + "data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].stock_name +
-				"</td>" +
-				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}'` + "data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].stock_symbol + 
-				"</td>" + 
-				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}'` + "data-item=" + "'" + user[i]._id + "'" + ">$" + 
-					user[i].latest_stock_price + 
-				"</td>"+
-			"</tr>"
+			'<tr>' +
+				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}' data-item='${user[i]._id}'>
+					${user[i].stock_name}
+				</td>` +
+				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}' data-item='${user[i]._id}'>
+					${user[i].stock_symbol}
+				</td>` + 
+				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}' data-item='${user[i]._id}'>
+					$${user[i].latest_stock_price}
+				</td>` +
+			'</tr>';
 		}
 	}
 	document.getElementById("generateStocks").innerHTML = (stocksAdd);
@@ -51,17 +51,17 @@ function generateCryptoTable(user, numberOfCryptos) {
 	if (numberOfCryptos > 0) {
 		for (let i = 0; i < numberOfCryptos; i++) {
 			cryptosAdd += 
-			"<tr>" +
-				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}'` + "data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].crypto_name +
-				"</td>" +
-				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}'` + "data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].crypto_symbol + 
-				"</td>" + 
-				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}'` + "data-item=" + "'" + user._id + "'" + ">$" + 
-					user[i].latest_crypto_price + 
-				"</td>"+
-			"</tr>"
+			'<tr>' +
+				`<td type='stock' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+					${user[i].crypto_name}
+				</td>` +
+				`<td type='stock' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+					${user[i].crypto_symbol}
+				</td>` + 
+				`<td type='stock' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+					$${user[i].latest_crypto_price}
+				</td>` +
+			'</tr>';
 		}
 	}
 	document.getElementById("generateCryptos").innerHTML = (cryptosAdd);
