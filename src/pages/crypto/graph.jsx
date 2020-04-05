@@ -89,7 +89,7 @@ class PriceGraph extends React.Component {
             )
         }
 
-        const { data, labels } = this.state;        
+        const { data, labels } = this.state;   
         if (this.props.coin !== '') {
             let graphData = {
                 labels: labels,
@@ -103,6 +103,10 @@ class PriceGraph extends React.Component {
                 ],
             
                 options: {
+                    title: {
+                        display: true,
+                        text: this.props.coin
+                    },
                     maintainAspectRatio: false,
                     scales: {
                         yAxes: [{

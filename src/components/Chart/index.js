@@ -29,6 +29,10 @@ export default Chart = props => {
             type: "line",
             data: data,
             options: {
+                title: {
+                    display: true,
+                    text: stock.stock
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
