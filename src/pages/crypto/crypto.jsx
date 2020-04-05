@@ -13,6 +13,7 @@ import '../css/App.css';
 import ScrollButton from '../../components/ScrollButton';
 
 let crypto = require('./crypto.js');
+let axios = require('axios');
 
 
 class CoinList extends React.Component {
@@ -106,7 +107,7 @@ class Coin extends React.Component {
 
         if (c !== '') {
             try {
-                const response = await fetch('/crypto/id/' + c);
+                const response = await fetch('/crypto/crypto_id/' + c);
                 coin = await response.json()
             } catch (err) {
                 console.log('API error:', err);
@@ -344,10 +345,12 @@ class PriceGraph extends React.Component {
 
 class CryptoList extends React.Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            data: []
+            data: [],
+            favs: [],
+            user: ''
         };
     }
 
@@ -355,13 +358,39 @@ class CryptoList extends React.Component {
         const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d';
         const response = await fetch(url);
         const json = await response.json();
-        this.setState({ data: json });
+
+        let d = await fetch(`/user/email/${this.props.user}`);
+        d = await d.json();
+        console.log(d[0])
+        this.setState({ data: json, user: d[0]._id, favs: d[0].cryptos });
     }
 
     sendCoin(e, c) {
         e.preventDefault();
         e.stopPropagation();
         this.props.updateCoin(c);
+    }
+
+    addFav(e, c) {
+        e.preventDefault();
+        let favs = this.state.favs;
+        favs.push(c);
+        this.setState({favs});
+        
+        axios.post(`/user/crypto/add/${this.state.user}`, {
+            data: c
+        });
+    }
+
+    removeFav(e, c) {
+        e.preventDefault()
+        let favs = this.state.favs;
+        favs.splice(favs.indexOf(c), 1);
+        this.setState({favs});
+
+        axios.post(`/user/crypto/remove/${this.state.user}`, {
+            data: c
+        });
     }
 
     renderTableData() {
@@ -400,9 +429,20 @@ class CryptoList extends React.Component {
             }
             const yOffset = 220;
 
+            let favs = this.state.favs;
+            let fav = false;
+            if (favs.length > 0) {
+                if (favs.includes(symbol)) {
+                    fav = true;
+                }
+            }
+
             return (
             <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset)}} >
-                <td><i className='fa fa-fw fa-star' /></td>
+                { fav  
+                    ? <td onClick={(e) => this.removeFav(e, symbol)}><i className="fa fa-star" /></td>
+                    : <td onClick={(e) => this.addFav(e, symbol)}><i className="fa fa-star-o" /></td>
+                }
                 <td>{i++}</td>
                 <td>
                     <div>
@@ -462,7 +502,9 @@ class CryptoPage extends React.Component {
             coin: '',
             validMarketCap: true,
             foundCoin: null,
-            days: 1
+            days: 1,
+            user: this.props.user.email,
+            favs: []
         }
         this.updateCoin = this.updateCoin.bind(this);
         this.updateList = this.updateList.bind(this);
@@ -505,13 +547,14 @@ class CryptoPage extends React.Component {
     }
 
     render() {
+        const user = this.state.user
         return (
             <div>
                 <div>
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
                 </div>
                 <div>
-                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
+                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} user={user} favs={this.state.favs} />
                     <br />
                 </div>
                 <div id="coin_overview_graph">
@@ -520,7 +563,7 @@ class CryptoPage extends React.Component {
                     <br /><br />
                 </div>
                 <div>
-                    <CryptoList updateCoin={this.updateCoin} />
+                    <CryptoList updateCoin={this.updateCoin} user={user} favs={this.state.favs} />
                 </div>
                 <div>
                     <ScrollButton />
