@@ -153,3 +153,10 @@
   margin-bottom: 20px;
 }
 
+.trending_tabs > a {
+  color: white;
+}
+
+.trending_tabs > a:hover {
+  background-color: #db3d44;
+}
