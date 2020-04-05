@@ -59,7 +59,7 @@ exports.addStock = async (req, res) => {
 
 exports.removeStock = async (req, res) => {
 	try {
-		await User.removeFavouriteStock(req.params.id, req.body);
+		await User.removeFavouriteStock(req.params.id, req.params.favId);
 		res.sendStatus(200);
 	} catch (err) {
 		res.sendStatus(500);
@@ -77,7 +77,7 @@ exports.addCrypto = async (req, res) => {
 
 exports.removeCrypto = async (req, res) => {
 	try {
-		await User.removeFavouriteCrypto(req.params.id, req.body);
+		await User.removeFavouriteCrypto(req.params.id, req.params.favId);
 		res.sendStatus(200);
 	} catch (err) {
 		res.sendStatus(500);
