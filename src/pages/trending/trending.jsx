@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Tabs, Tab} from 'react-bootstrap';
 import '../css/App.css';
 
 const Trending = require('../trending/trending');
@@ -86,14 +86,21 @@ class TrendingPage extends React.Component {
         return (
             <div className = "mainContent">
 				<div className = "wrapper">
-                    <center><h4 id="trending_label">Trending Stocks</h4></center>
-                    <DisplayTable data={this.state.stockData} />
+                    <Tabs className="trending_tabs" defaultActiveKey="Stock">
+                        <Tab eventKey="Stock" title="Trending Stocks"  >
+                            <br/>
+                            <center><h4 id="trending_label">Trending Stocks</h4></center>
+                            <DisplayTable data={this.state.stockData} />
+                        </Tab>
+                        <Tab eventKey="Crypto" title="Trending Cryptos">
+                            <br/>
+                            <center><h4 id="trending_label">Trending Cryptocurrencies</h4></center>
+                            <DisplayTable data={this.state.cryptoData} />
+                        </Tab>
+                    </Tabs>
+
                 </div>
                 <br/>
-                <div>
-                    <center><h4 id="trending_label">Trending Cryptocurrencies</h4></center>
-                    <DisplayTable data={this.state.cryptoData} />
-                </div>
             </div>
         )
     }
