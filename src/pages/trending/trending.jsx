@@ -32,7 +32,7 @@ class DisplayTable extends React.Component {
         if (Object.keys(d).length > 0) {
             return Object.keys(d).map(t => {
                 return (
-                    <tr key={d[t].symbol}>
+                    <tr key={d[t].symbol} id="temps">
                         <td>{d[t].name}</td>
                         <td>{d[t].symbol.toUpperCase()}</td>
                         <td>${Number(d[t].price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
@@ -87,14 +87,14 @@ class TrendingPage extends React.Component {
             <div className = "mainContent">
 				<div className = "wrapper">
                     <Tabs className="trending_tabs" defaultActiveKey="Stock">
-                        <Tab eventKey="Stock" title="Trending Stocks"  >
-                            <br/>
+                        <Tab eventKey="Stock" title="Trending Stocks" className="tab_items">
                             <center><h4 id="trending_label">Trending Stocks</h4></center>
+                            <br/>
                             <DisplayTable data={this.state.stockData} />
                         </Tab>
-                        <Tab eventKey="Crypto" title="Trending Cryptos">
-                            <br/>
+                        <Tab eventKey="Crypto" title="Trending Cryptos" className="tab_items">
                             <center><h4 id="trending_label">Trending Cryptocurrencies</h4></center>
+                            <br/>
                             <DisplayTable data={this.state.cryptoData} />
                         </Tab>
                     </Tabs>

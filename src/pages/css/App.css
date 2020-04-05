@@ -163,3 +163,7 @@
 .trending_tabs > a:hover {
   background-color: #db3d44;
 }
+
+.tab_items{
+  margin-top: 30px;
+}
