@@ -42,9 +42,9 @@ app.get('/user/email/:email', userController.getUserByEmail);
 
 // User favourites
 app.post('/user/stock/add/:id', userController.addStock);
-app.post('/user/stock/remove/:id', userController.removeStock);
+app.post('/user/stock/remove/:id/:favId', userController.removeStock);
 app.post('/user/crypto/add/:id', userController.addCrypto);
-app.post('/user/crypto/remove/:id', userController.removeCrypto);
+app.post('/user/crypto/remove/:id/:favId', userController.removeCrypto);
 
 /**
  * Crypto routes.

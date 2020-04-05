@@ -75,28 +75,26 @@ exports.getAll = async function () {
 
 // Stock favourites
 exports.addFavouriteStock = async (id, stock) => {
-    await User.findByIdAndUpdate(id, { $push: {"stocks": stock}}, (err, result) => {
-        if (err) throw err;
-    })
+    const user = await User.findById(id);
+    user.stocks.push(stock);
+    user.save();
 };
 
-exports.removeFavouriteStock = async (id, stockSymbol) => {
-    await User.findByIdAndUpdate(id, { $pull: {"stocks": {"stock_symbol": stockSymbol}}},
-        (err, result) => {
-            if (err) throw err;
-    })
+exports.removeFavouriteStock = async (id, stock_fav_id) => {
+    const user = await User.findById(id);
+    user.stocks.pull(stock_fav_id);
+    user.save();
 };
 
 // Crypto favourites
 exports.addFavouriteCrypto = async (id, crypto) => {
-    await User.findByIdAndUpdate(id, { $pull: {"cryptos": crypto}}, (err, result) => {
-            if (err) throw err;
-        })
+    const user = await User.findById(id);
+    user.cryptos.push(crypto);
+    user.save();
 };
 
-exports.removeFavouriteCrypto = async (id, cryptoSymbol) => {
-    await User.findByIdAndUpdate(id, { $pull: {"cryptos": {"crypto_symbol": cryptoSymbol}}},
-        (err, result) => {
-            if (err) throw err;
-        })
+exports.removeFavouriteCrypto = async (id, crypto_fav_id) => {
+    const user = await User.findById(id);
+    user.cryptos.pull(crypto_fav_id);
+    user.save();
 };
