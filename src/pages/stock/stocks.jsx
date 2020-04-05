@@ -23,7 +23,6 @@ class Search extends React.Component {
     async getInfo() {
         let res = await axios.get(`stock/name/${this.state.query}`);
         res = await res.data;
-        console.log(res);
         if (this._isMounted) {
             this.setState({results: res});
         }
@@ -173,7 +172,7 @@ class StocksPage extends React.Component {
                 </div>
                 <div>
                     <center><h4>Popular Market Summaries</h4></center>
-                    <MarketTable data={this.state.stockData} search={false} />
+                    <DisplayTable data={this.state.stockData} search={false} />
                 </div>
             </div>
         )
