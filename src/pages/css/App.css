@@ -153,6 +153,10 @@
   margin-bottom: 20px;
 }
 
+.trending_tabs{
+  justify-content: center;
+}
+
 .trending_tabs > a {
   color: white;
 }
