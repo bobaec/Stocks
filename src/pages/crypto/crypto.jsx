@@ -131,24 +131,27 @@ class Coin extends React.Component {
         }
     }
 
-    addFav(e, c) {
+    addFav(e, n, s, p) {
         e.preventDefault();
         let favs = this.props.favs;
-        favs.push(c);
+        favs.push({crypto_symbol: s.toUpperCase()});
         this.props.updateFavs(favs);
-        
         axios.post(`/user/crypto/add/${this.props.user}`, {
-            data: c
+            crypto_name: n,
+            crypto_symbol: s,
+            latest_crypto_price: p
         });
     }
 
     removeFav(e, c) {
         e.preventDefault()
         let favs = this.props.favs;
-        favs.splice(favs.indexOf(c), 1);
+        const toRemoveIndex = favs.findIndex(c => c.crypto_symbol === c);
+        const toRemove = favs[toRemoveIndex];
+        favs.splice(toRemoveIndex, 1);
         this.props.updateFavs(favs);
 
-        axios.post(`/user/crypto/remove/${this.props.user}`, {
+        axios.post(`/user/crypto/remove/${this.props.user}/${toRemove._id}`, {
             data: c
         });
     }
@@ -173,17 +176,18 @@ class Coin extends React.Component {
         const lastUpdate = new Date(c.last_updated_at).toString()
         let favs = this.props.favs;
         let fav = false;
-        console.log(favs)
         if (favs.length > 0) {
-            if (favs.includes(c.symbol)) {
-                fav = true;
-            }
+            favs.forEach(e => {
+                if (Object.values(e).includes(c.symbol.toUpperCase())) {
+                    fav = true;
+                }
+            });
         }
         return (
         <tr id="crypto_table2">
             { fav  
                 ? <td onClick={(e) => this.removeFav(e, c.symbol)}><i className="fa fa-star" /></td>
-                : <td onClick={(e) => this.addFav(e, c.symbol)}><i className="fa fa-star-o" /></td>
+                : <td onClick={(e) => this.addFav(e, c.name, c.symbol, c.latest_price)}><i className="fa fa-star-o" /></td>
             }
             <td>{String(c.symbol)}</td>
             <td>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
@@ -397,38 +401,37 @@ class CryptoList extends React.Component {
     sendCoin(e, c) {
         e.preventDefault();
         e.stopPropagation();
-        this.props.updateCoin(c);
+        if (e.target.id !== 'fav' && e.target.id !== 'favStar') {
+            this.props.updateCoin(c);
+            const yOffset = 220;
+            window.scrollTo(0, yOffset)
+        }
     }
 
-    addFav(e, c) {
+    addFav(e, n, s, p) {
         e.preventDefault();
         let favs = this.props.favs;
-        favs.push(c);
+        favs.push({crypto_symbol: s.toUpperCase()});
         this.props.updateFavs(favs);
         
         axios.post(`/user/crypto/add/${this.props.user}`, {
-            data: c
+            crypto_name: n,
+            crypto_symbol: s,
+            latest_crypto_price: p
         });
     }
 
     removeFav(e, c) {
         e.preventDefault()
-        let favs = this.state.favs;
-        favs.splice(favs.indexOf(c), 1);
+        let favs = this.props.favs;
+        const toRemoveIndex = favs.findIndex(fav => fav.crypto_symbol === c.toUpperCase());
+        const toRemove = favs[toRemoveIndex];
+        favs.splice(toRemoveIndex, 1);
         this.props.updateFavs(favs);
 
-        axios.post(`/user/crypto/remove/${this.props.user}`, {
-            data: c
-        });
+        axios.post(`/user/crypto/remove/${this.props.user}/${toRemove._id}`);
     }
 
-    scrollToTop(e) {
-        console.log(e.target)
-        if (e.target.id !== 'fav' && e.target.id !== 'favStar') {
-            const yOffset = 220;
-            window.scrollTo(0, yOffset)
-        }
-    }
 
     renderTableData() {
         let data = this.state.data;
@@ -467,17 +470,19 @@ class CryptoList extends React.Component {
 
             let favs = this.props.favs;
             let fav = false;
-            if (favs.length > 0) {
-                if (favs.includes(symbol)) {
-                    fav = true;
-                }
+            if (Object.keys(favs).length > 0) {
+                favs.forEach(e => {
+                    if (Object.values(e).includes(symbol.toUpperCase())) {
+                        fav = true;
+                    }
+                });
             }
 
             return (
-            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id); this.scrollToTop(e)}} >
+            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id)}} >
                 { fav  
                     ? <td id="fav" onClick={(e) => this.removeFav(e, symbol)}><i id="favStar" className="fa fa-star" /></td>
-                    : <td id="fav" onClick={(e) => this.addFav(e, symbol)}><i id="favStar" className="fa fa-star-o" /></td>
+                    : <td id="fav" onClick={(e) => this.addFav(e, name, symbol, current_price)}><i id="favStar" className="fa fa-star-o" /></td>
                 }
                 <td>{i++}</td>
                 <td>
