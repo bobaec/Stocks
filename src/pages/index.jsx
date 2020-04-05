@@ -16,36 +16,29 @@ import {
 
 const axios = require('axios');
 
-var allUsers;
-var allEmails = [];
-var currentUserStocks = [];
-var currentUserCryptos = [];
-var numberOfStocks = 0;
-var numberOfCryptos = 0;
+// var allUsers;
+// var allEmails = [];
+// var currentUserStocks = [];
+// var currentUserCryptos = [];
+// var numberOfStocks = 0;
+// var numberOfCryptos = 0;
 
-var firstTimeVisit = true;
-
-axios.get('/user/all').then(function(response){
-	allUsers = response.data
-	for (let i = 0; i < allUsers.length; i++) {
-		allEmails.push(allUsers[i].email);
-	}
-});
+// var firstTimeVisit = true;
 
 function generateStocksTable(user, numberOfStocks) {
 	let stocksAdd = "";
 	if (numberOfStocks > 0) {
 		for (let i = 0; i < numberOfStocks; i++) {
-			stocksAdd += 
+			stocksAdd +=
 			"<tr>" +
 				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
 					user[i].stock_name +
 				"</td>" +
 				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].stock_symbol + 
-				"</td>" + 
-				"<td data-item=" + "'" + user[i]._id + "'" + ">$" + 
-					user[i].latest_stock_price + 
+					user[i].stock_symbol +
+				"</td>" +
+				"<td data-item=" + "'" + user[i]._id + "'" + ">$" +
+					user[i].latest_stock_price +
 				"</td>"+
 			"</tr>"
 		}
@@ -57,16 +50,16 @@ function generateCryptoTable(user, numberOfCryptos) {
 	let cryptosAdd = "";
 	if (numberOfCryptos > 0) {
 		for (let i = 0; i < numberOfCryptos; i++) {
-			cryptosAdd += 
+			cryptosAdd +=
 			"<tr>" +
 				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
 					user[i].crypto_name +
 				"</td>" +
 				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].crypto_symbol + 
-				"</td>" + 
-				"<td data-item=" + "'" + user._id + "'" + ">$" + 
-					user[i].latest_crypto_price + 
+					user[i].crypto_symbol +
+				"</td>" +
+				"<td data-item=" + "'" + user._id + "'" + ">$" +
+					user[i].latest_crypto_price +
 				"</td>"+
 			"</tr>"
 		}
@@ -79,7 +72,13 @@ class MainPage extends React.Component {
         super();
         this.state = {
 			selected_id: "none",
-			date: ''
+			date: '',
+			allUsers: "",
+			allEmails: [],
+			currentUserStocks: [],
+			numberOfStocks: 0,
+			currentUserCryptos: [],
+			numberOfCryptos: 0
 		}
 	}
 
@@ -95,8 +94,70 @@ class MainPage extends React.Component {
 			' ' + month + ' ' + date + ', ' + year
 		});
 
-		generateStocksTable(currentUserStocks, numberOfStocks);
-		generateCryptoTable(currentUserCryptos, numberOfCryptos);
+		axios.get('/user/all').then((response) =>{
+			this.setState({
+				allUsers: response.data,
+				firstTimeVisit: true
+			});
+			for (let i = 0; i < this.state.allUsers.length; i++) {
+				this.setState({
+					allEmails: this.state.allEmails.concat([this.state.allUsers[i].email])
+				})
+			}
+
+	        if (this.state.allEmails.includes(this.props.user.email) === false) {
+				console.log(this.props.user.email + " is not in the db, adding now.");
+
+				axios.post('/user/create', {
+					name: this.props.user.displayName.toString(),
+					email: this.props.user.email.toString()
+				})
+				.then(res => {
+				 	console.log(res.data);
+				})
+				.then(function (error) {
+					console.log(error);
+				})
+			} else {
+				console.log(this.props.user.email + " is already in the db");
+			}
+
+			for (let i = 0; i < this.state.allUsers.length; i++) {
+				if (this.state.allUsers[i].email === this.props.user.email) {
+					for (let j = 0; j < this.state.allUsers[i].stocks.length; j++) {
+						if (typeof this.state.allUsers[i].stocks[j] !== "undefined") {
+							this.setState({
+								currentUserStocks: this.state.currentUserStocks.concat([this.state.allUsers[i].stocks[j]]),
+							})
+							if (this.state.firstTimeVisit === true) {
+								this.setState({
+									numberOfStocks: this.state.numberOfStocks + 1
+								})
+							}
+						}
+					}
+					for (let j = 0; j < this.state.allUsers[i].cryptos.length; j++) {
+						if (typeof this.state.allUsers[i].cryptos[j] !== "undefined") {
+							this.setState({
+								currentUserCryptos: this.state.currentUserCryptos.concat([this.state.allUsers[i].cryptos[j]]),
+							})
+							if (this.state.firstTimeVisit === true) {
+								this.setState({
+									numberOfCryptos: this.state.numberOfCryptos + 1
+								})
+							}
+						}
+					}
+				}
+			}
+
+		generateStocksTable(this.state.currentUserStocks, this.state.numberOfStocks);
+		generateCryptoTable(this.state.currentUserCryptos, this.state.numberOfCryptos);
+
+		this.setState({
+				firstTimeVisit: false
+			})
+		});
 
 		$("tbody").on("click", "tr", (function(e) {
 			const id = e.target.getAttribute('data-item');
@@ -109,61 +170,20 @@ class MainPage extends React.Component {
 	}
 
 	render() {
-	    
-        if (allEmails.includes(this.props.user.email) === false) {
-			console.log(this.props.user.email + " is not in the db, adding now.");
-			axios.post('/user/create', { 
-				name: this.props.user.displayName.toString(),
-				email: this.props.user.email.toString() 
-			})	
-			.then(res => {
-			 	console.log(res.data);
-			})
-			.then(function (error) {
-				console.log(error);
-			})
-		} else {
-			console.log(this.props.user.email + " is already in the db");
-		}
-		
-		for (let i = 0; i < allUsers.length; i++) {
-			for (let j = 0; j < allUsers[i].stocks.length; j++) {
-				if (allUsers[i].email === this.props.user.email) {
-					if (typeof allUsers[i].stocks[j] !== "undefined") {
-						currentUserStocks.push(allUsers[i].stocks[j]);
-						if (firstTimeVisit === true) {
-							numberOfStocks++;
-						}
-					} 
-				}
-			}
-			for (let j = 0; j < allUsers[i].cryptos.length; j++) {
-				if (allUsers[i].email === this.props.user.email) {
-					if (typeof allUsers[i].cryptos[j] !== "undefined") {
-						currentUserCryptos.push(allUsers[i].cryptos[j]);
-						if (firstTimeVisit === true) {
-							numberOfCryptos++;
-						}
-					}
-				}
-			}
-		}
 
-		firstTimeVisit = false;
-			
-		return (			
+		return (
 			<div className = "mainContent">
 			{
-			this.props.user ? 
+			this.props.user ?
 			// if logged in, show all content
 			// all content should be inside this div
 				<div className="main">
 					<center><p id="date"><Image src={this.props.user.photoURL} roundedCircle width={20}/>{this.state.date}</p></center>
 					<div className="wrapper">
 						<center><h4>Dashboard</h4></center>
-						
+
 					{/* <Dashboard className="dashboard"/> */}
-					<Dashboard selected_id={this.state.selected_id}/>	
+					<Dashboard selected_id={this.state.selected_id}/>
 					<Container className="users">
 							<Row style={{marginTop: "10px"}}>
 							{/* Display favorite stocks */}
@@ -185,7 +205,7 @@ class MainPage extends React.Component {
 							<Table id="favourite_table" responsive variant="dark" className="dashboard_table">
 								<thead>
 									<tr>
-										<th>Stock</th>
+										<th>Crypto</th>
 										<th>Symbol</th>
 										<th>24h</th>
 									</tr>
@@ -206,6 +226,6 @@ class MainPage extends React.Component {
 			</div>
 		);
 	}
-} 
+}
 
 export default MainPage;
