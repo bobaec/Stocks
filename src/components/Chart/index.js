@@ -5,17 +5,19 @@ export default Chart = props => {
     const [stock, setStock] = useState(props);
     const [data, setData] = useState({});
     const chartRef = useState(React.createRef());
-    
+
     const getStock = async symbol => {
         const response = await fetch(`/stock/data/${symbol}`);
         const data = await response.json();
         setData(data);
     }
-    
+       
     useEffect(() => {
         setStock(props);
-        getStock(stock.stock);
-        
+        getStock(stock.stock)
+    }, []);
+
+    useEffect(() => {
         const myChartRef = chartRef.current.getContext("2d");
         const gradient = myChartRef.createLinearGradient(0, 0, 0, 450);
 
@@ -46,7 +48,7 @@ export default Chart = props => {
                 }
             }
         });
-    }, [props]);
+    })
 
     return (
         <div>
