@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import Chart from "chart.js";
 
-export default Chart = () => {
-    const [data, setData] = useState(null); // get data from 
+export default Chart = props => {
+    const [stock, setStock] = useState(props);
+    const [data, setData] = useState({});
     const chartRef = useState(React.createRef());
     
+    const getStock = async symbol => {
+        const response = await fetch(`/stock/data/${symbol}`);
+        const data = await response.json();
+        setData(data);
+    }
+    
     useEffect(() => {
+        setStock(props);
+        getStock(stock.stock);
+        
         const myChartRef = chartRef.current.getContext("2d");
-
         const gradient = myChartRef.createLinearGradient(0, 0, 0, 450);
+
         gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)');
         gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
         gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
 
         new Chart(myChartRef, {
             type: "line",
-            data: {
-                labels: ["Jan", "Feb", "March"],
-                datasets: [
-                    {
-                        label: "Stocks",
-                        data: [86, 67, 91],
-                        backgroundColor: gradient,
-                        borderColor: "#db3d44",
-                    }
-                ]
-            },
+            data: data,
             options: {
                 scales: {
                     yAxes: [{
@@ -46,7 +46,7 @@ export default Chart = () => {
                 }
             }
         });
-    });
+    }, [props]);
 
     return (
         <div>

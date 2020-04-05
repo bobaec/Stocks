@@ -61,6 +61,22 @@ exports.getStockBySymbol = async (req, res) => {
 	}
 };
 
+exports.getStockDataBySymbol = async (req, res) => {
+	try {
+		const data = await StockAPI.getData({
+			"datatype":"json",
+			"output_size":"compact",
+			"interval":"5min",
+			"function":"TIME_SERIES_INTRADAY",
+			"symbol": req.params.symbol
+		});
+
+		res.json(data);
+	} catch (err) {
+		res.sendStatus(500);
+	}
+}
+
 const StockAPI = require('../utils/stocks');
 
 exports.getMarketData = async (req, res) => {

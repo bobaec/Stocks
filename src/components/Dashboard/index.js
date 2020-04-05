@@ -10,54 +10,32 @@ export default class Dashboard extends Component {
         super();
         this.state = {
             selected_id: '',
-            data: {},
-            labels: {},
             stock: 'bitcoin'
         };
     }
 
+    // removing not sure why it is being used
+    // componentDidUpdate(prevProp) {
+    //     if (this.state.selected_id === '' || prevProp.selected_id !== this.props.selected_id) {
+    //         this.setState({selected_id: this.props.selected_id});
+    //     }
+    // } 
 
-    async componentDidMount(){
-        const userId = "1"; // Get current userId
-        const url = `/stock/${userId}`;
-
-        const response = await fetch(url, {
-            method: 'GET', 
-            cache: 'no-cache',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            // body: JSON.stringify(data)
-          });
-
-        //   console.log(await response.json())
-        //   return await response.json();
-        console.log('here')
-        console.log(this.props.selected_id);
-    }
-
-    componentDidUpdate(prevProp) {
-        if (this.state.selected_id === '' || prevProp.selected_id !== this.props.selected_id) {
-            this.setState({selected_id: this.props.selected_id});
-        }
-    } 
-
-    getChart = name => ({
+    getChart = (name, symbol) => ({
         crypto: <PriceGraph coin={name} days={1} validMarketCap={true} found={true} updateDays={null} />,
-        stock: <> </>
+        stock: <><Chart stock={symbol} /> <News stock={name} /></>
     });
     
     render() {
-        const { selected_id, type, name} = this.props;
+        const { selected_id, type, name, symbol} = this.props;
         
         return (
             <div>
-            <h6>ID: {type}</h6>
-            <center><div style = {{width:'60%'}}>
-                {this.getChart(name)[type]}
-                {/* <Chart data={data} labels={labels} />
-                <News stock={stock} /> */}
-            </div></center>
+                <center>
+                    <div style = {{width:'60%'}}>
+                        {this.getChart(name, symbol)[type]}
+                    </div>
+                </center>
             </div>
         )
     }

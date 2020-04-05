@@ -32,7 +32,7 @@ app.get('/stock/id/:id', stocksController.getStockById);
 app.get('/stock/markets', stocksController.getMarketData);
 app.get('/stock/name/:name', stocksController.searchForStockId);
 app.get('/stock/search/:ids', stocksController.searchForStock);
-
+app.get('/stock/data/:symbol', stocksController.getStockDataBySymbol);
 app.get('/stock/:userId', stocksController.user);
 
 /**
