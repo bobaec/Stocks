@@ -36,7 +36,7 @@ class DisplayTable extends React.Component {
                         <td>{d[t].name}</td>
                         <td>{d[t].symbol.toUpperCase()}</td>
                         <td>${Number(d[t].price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
-                        <td style={styleGreen}>{Number(d[t]['growth 24h']).toLocaleString('en-US', {maximumFractionDigits: 4})}%</td>
+                        <td style={styleGreen} id="green_num">{Number(d[t]['growth 24h']).toLocaleString('en-US', {maximumFractionDigits: 4})}%</td>
                     </tr>
                 )
             });

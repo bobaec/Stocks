@@ -143,10 +143,9 @@
   border-bottom: 5px solid #db3d44;
 }
 
-
-#trending_table tbody tr:hover{
+#trending_table tbody tr:hover, #green_num:hover{
   background-color: lightgray;
-  color: black;
+  color: black !important;
 }
 
 #trending_label{
