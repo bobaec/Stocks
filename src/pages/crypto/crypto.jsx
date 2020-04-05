@@ -151,9 +151,7 @@ class Coin extends React.Component {
         favs.splice(toRemoveIndex, 1);
         this.props.updateFavs(favs);
 
-        axios.post(`/user/crypto/remove/${this.props.user}/${toRemove._id}`, {
-            data: c
-        });
+        axios.post(`/user/crypto/remove/${this.props.user}/${toRemove._id}`);
     }
 
     // https://dev.to/abdulbasit313/an-easy-way-to-create-a-customize-dynamic-table-in-react-js-3igg
