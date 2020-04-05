@@ -146,7 +146,7 @@ class Coin extends React.Component {
     removeFav(e, c) {
         e.preventDefault()
         let favs = this.props.favs;
-        const toRemoveIndex = favs.findIndex(c => c.crypto_symbol === c);
+        const toRemoveIndex = favs.findIndex(fav => fav.crypto_symbol === c.toUpperCase());
         const toRemove = favs[toRemoveIndex];
         favs.splice(toRemoveIndex, 1);
         this.props.updateFavs(favs);
