@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, InputGroup, FormControl } from 'react-bootstrap';
 import '../css/App.css';
 import News from '../../components/News/index';
 
@@ -60,7 +60,9 @@ class Search extends React.Component {
     render() {
       return (
         <form>
-            <input list='stockSearch' placeholder="Search for..." ref={input => this.search = input} onChange={this.handleInputChange} />
+            <InputGroup>
+                <FormControl type='text' list='stockSearch' placeholder="Search for..." ref={input => this.search = input} onChange={this.handleInputChange} />
+            </InputGroup>
             <DisplayTable data={this.state.searchResults} search={true}/>
         </form>
       )
@@ -112,7 +114,7 @@ class DisplayTable extends React.Component {
             return (
                 <tr>
                     <td colspan={len}>
-                        <News stock={id} />
+                        <News stock={id} index={5} />
                     </td>
                 </tr>
             )
