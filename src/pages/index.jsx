@@ -31,13 +31,13 @@ function generateStocksTable(user, numberOfStocks) {
 		for (let i = 0; i < numberOfStocks; i++) {
 			stocksAdd += 
 			"<tr>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
+				`<td type='stock' name='${user[i].stock_name}'` + "data-item=" + "'" + user[i]._id + "'" + ">" +
 					user[i].stock_name +
 				"</td>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
+				`<td type='stock' name='${user[i].stock_name}'` + "data-item=" + "'" + user[i]._id + "'" + ">" +
 					user[i].stock_symbol + 
 				"</td>" + 
-				"<td data-item=" + "'" + user[i]._id + "'" + ">$" + 
+				`<td type='stock' name='${user[i].stock_name}'` + "data-item=" + "'" + user[i]._id + "'" + ">$" + 
 					user[i].latest_stock_price + 
 				"</td>"+
 			"</tr>"
@@ -52,13 +52,13 @@ function generateCryptoTable(user, numberOfCryptos) {
 		for (let i = 0; i < numberOfCryptos; i++) {
 			cryptosAdd += 
 			"<tr>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
+				`<td type='crypto' name='${user[i].crypto_name}'` + "data-item=" + "'" + user[i]._id + "'" + ">" +
 					user[i].crypto_name +
 				"</td>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
+				`<td type='crypto' name='${user[i].crypto_name}'` + "data-item=" + "'" + user[i]._id + "'" + ">" +
 					user[i].crypto_symbol + 
 				"</td>" + 
-				"<td data-item=" + "'" + user._id + "'" + ">$" + 
+				`<td type='crypto' name='${user[i].crypto_name}'` + "data-item=" + "'" + user._id + "'" + ">$" + 
 					user[i].latest_crypto_price + 
 				"</td>"+
 			"</tr>"
@@ -78,7 +78,9 @@ class MainPage extends React.Component {
 			currentUserStocks: [],
 			numberOfStocks: 0,
 			currentUserCryptos: [],
-			numberOfCryptos: 0
+			numberOfCryptos: 0,
+			type: "",
+			name: "",
 		}
 	}
 
@@ -161,7 +163,14 @@ class MainPage extends React.Component {
 
 		$("tbody").on("click", "tr", (function(e) {
 			const id = e.target.getAttribute('data-item');
-			this.setState({selected_id: id});
+			const type = e.target.getAttribute('type');
+			const name = e.target.getAttribute('name');
+
+			this.setState({
+				selected_id: id,
+				type: type,
+				name: name
+			});
 			Dashboard.selected_id=this.state.selected_id;
 			this.setState({
 				showComponent: true
@@ -183,7 +192,7 @@ class MainPage extends React.Component {
 						<center><h4>Dashboard</h4></center>
 						
 					{/* <Dashboard className="dashboard"/> */}
-					<Dashboard selected_id={this.state.selected_id}/>	
+					<Dashboard selected_id={this.state.selected_id} type={this.state.type} name={this.state.name}/>	
 					<Container className="users">
 							<Row style={{marginTop: "10px"}}>
 							{/* Display favorite stocks */}

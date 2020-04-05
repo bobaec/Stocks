@@ -3,6 +3,7 @@ import Chart from "../Chart/index";
 import News from "../News/index";
 import '../../pages/css/App.css';
 import MainPage from '../../pages';
+import PriceGraph from "../../pages/crypto/graph";
 
 export default class Dashboard extends Component {
     constructor() {
@@ -17,7 +18,6 @@ export default class Dashboard extends Component {
 
 
     async componentDidMount(){
-
         const userId = "1"; // Get current userId
         const url = `/stock/${userId}`;
 
@@ -32,6 +32,7 @@ export default class Dashboard extends Component {
 
         //   console.log(await response.json())
         //   return await response.json();
+        console.log('here')
         console.log(this.props.selected_id);
     }
 
@@ -39,21 +40,23 @@ export default class Dashboard extends Component {
         if (this.state.selected_id === '' || prevProp.selected_id !== this.props.selected_id) {
             this.setState({selected_id: this.props.selected_id});
         }
-    }
+    } 
 
+    getChart = name => ({
+        crypto: <PriceGraph coin={name} days={1} validMarketCap={true} found={true} updateDays={null} />,
+        stock: <> </>
+    });
+    
     render() {
-        const { data, labels, stock} = this.props;
+        const { selected_id, type, name} = this.props;
+        
         return (
             <div>
-            <h6>ID: {this.state.selected_id}</h6>
+            <h6>ID: {type}</h6>
             <center><div style = {{width:'60%'}}>
-                <Chart 
-                    data={data}
-                    labels={labels} 
-                />
-                <News 
-                    stock={stock}
-                />
+                {this.getChart(name)[type]}
+                {/* <Chart data={data} labels={labels} />
+                <News stock={stock} /> */}
             </div></center>
             </div>
         )
