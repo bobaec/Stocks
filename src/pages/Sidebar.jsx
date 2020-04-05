@@ -47,14 +47,6 @@ class Sidebar extends Component {
 			                            Home
 			                        </NavText>
 			                    </NavItem>
-			                    <NavItem eventKey = "browse">
-					            	<NavIcon>
-					                	<i className = "fa fa-fw fa-search" style = {{ fontSize: '1.75em' }} />
-					            	</NavIcon>
-					            	<NavText>
-					                	Browse
-					            	</NavText>
-					        	</NavItem>
 								<NavItem eventKey = "stocks">
 					            	<NavIcon>
 					                	<i className = "fa fa-fw fa-globe" style = {{ fontSize: '1.75em' }} />
@@ -110,7 +102,6 @@ class Sidebar extends Component {
 							transition: this.props.transition
 						}}>
 			                <Route path= "/" exact component = {props => <MainPage user = {this.props.user}/>} />
-			                <Route path= "/browse" component = {props => <Browse user = {this.props.user}/>} />
 							<Route path= "/stocks" component = {props => <StocksPage user = {this.props.user}/>} />
 			                <Route path= "/crypto" component = {props => <CryptoPage user = {this.props.user}/>} />
 			                <Route path= "/trending" component = {props => <Trending user = {this.props.user}/>} />

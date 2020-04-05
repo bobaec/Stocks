@@ -75,7 +75,7 @@ class Profile extends React.Component {
 											</td>
 										</tr>
 										<tr>
-											<td colSpan="4"><Link to="/browse" style={{color:"inherit"}}>+ Add New</Link></td>
+											<td colSpan="4"><Link to="/stocks" style={{color:"inherit"}}>+ Add New</Link></td>
 										</tr>
 									</Table>
 								</Col>
