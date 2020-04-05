@@ -14,11 +14,11 @@ export default class Dashboard extends Component {
     }
 
     // removing not sure why it is being used
-    componentDidUpdate(prevProp) {
-        if (this.state.selected_id === '' || prevProp.selected_id !== this.props.selected_id) {
-            this.setState({selected_id: this.props.selected_id});
-        }
-    } 
+    // componentDidUpdate(prevProp) {
+    //     if (this.state.selected_id === '' || prevProp.selected_id !== this.props.selected_id) {
+    //         this.setState({selected_id: this.props.selected_id});
+    //     }
+    // } 
 
     getChart = (name, symbol) => ({
         crypto: <PriceGraph coin={name} days={1} validMarketCap={true} found={true} updateDays={null} />,

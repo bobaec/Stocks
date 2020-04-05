@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Chart from "chart.js";
 
 export default Chart = props => {
-    const [stock, setStock] = useState(props);
+    const [stock] = useState(props);
     const [data, setData] = useState({});
     const chartRef = React.createRef();
 
@@ -13,9 +13,8 @@ export default Chart = props => {
     }
        
     useEffect(() => {
-        setStock(props);
         getStock(stock.stock)
-    }, []);
+    }, [stock.stock]);
 
     useEffect(() => {
         const myChartRef = chartRef.current.getContext("2d");

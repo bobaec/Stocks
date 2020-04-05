@@ -3,18 +3,18 @@ import { Card, CardDeck } from 'react-bootstrap';
 
 const News = props => {
     const [data, setData] = useState([]);
-    const [query, setQuery] = useState(props); 
+    const [query] = useState(props); 
 
     const getNews = async query => {
         const response = await fetch(`/news/top/${query}`);
         const data = await response.json();
+        console.log(data)
         setData(data.articles);
     }
     
     useEffect(() => {
-        setQuery(props);
         getNews(query.stock);
-    }, []);
+    }, [query.stock]);
 
     return (
         <>

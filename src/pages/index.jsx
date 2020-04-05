@@ -109,20 +109,20 @@ class MainPage extends React.Component {
 			}
 
 	        if (this.state.allEmails.includes(this.props.user.email) === false) {
-				console.log(this.props.user.email + " is not in the db, adding now.");
+				// console.log(this.props.user.email + " is not in the db, adding now.");
 				
 				axios.post('/user/create', { 
 					name: this.props.user.displayName.toString(),
 					email: this.props.user.email.toString() 
 				})	
 				.then(res => {
-				 	console.log(res.data);
+				 	// console.log(res.data);
 				})
 				.then(function (error) {
-					console.log(error);
+					// console.log(error);
 				})
 			} else {
-				console.log(this.props.user.email + " is already in the db");
+				// console.log(this.props.user.email + " is already in the db");
 			}			
 
 			for (let i = 0; i < this.state.allUsers.length; i++) {
