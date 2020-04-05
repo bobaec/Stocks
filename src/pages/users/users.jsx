@@ -42,17 +42,17 @@ class UsersPage extends React.Component {
 		return (
 		    <div className = "mainContent">
 				<div className = "wrapper">
-					<center><h4>Users</h4></center>
+					<center><h4>Users</h4></center><br/>
 					<Container className="users">
 						<Row style={{marginTop: "10px"}}>
 							<Table responsive variant="dark" className="users_table" >
-							<tbody>
+							<thead>
 							 	<tr>
 									<th>Name</th>
 									<th>Email</th>
 									<th>Stocks</th>
 								</tr>
-							</tbody>
+							</thead>
 							<tbody id = "generate">
 							</tbody>
 							</Table>
