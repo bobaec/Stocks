@@ -114,8 +114,8 @@ const stringClean = str => {
 exports.getStocks = async (symbols) => {
     // let data = await stocks.query({symbols: symbols}, 'get-quotes');
     // data = await data.quoteResponse.result;
-    // let data = testStock;
-    // return formatStock(data);
+    let data = testStock;
+    return formatStock(data);
 }; 
 
 exports.getData = async params => {
@@ -135,11 +135,7 @@ exports.getData = async params => {
             borderColor: "#db3d44",
         }]
     }
-}
-
-// (async () => {
-//     const s = await getStocks(['goog', 'googl']);
-// })();
+};
 
 const testData = [
     {
