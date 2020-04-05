@@ -52,13 +52,13 @@ function generateCryptoTable(user, numberOfCryptos) {
 		for (let i = 0; i < numberOfCryptos; i++) {
 			cryptosAdd += 
 			'<tr>' +
-				`<td type='stock' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
 					${user[i].crypto_name}
 				</td>` +
-				`<td type='stock' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
 					${user[i].crypto_symbol}
 				</td>` + 
-				`<td type='stock' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
 					$${user[i].latest_crypto_price}
 				</td>` +
 			'</tr>';

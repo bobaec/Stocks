@@ -1,7 +1,10 @@
 const Stock = require('../models/stock');
+const StockAPI = require('../utils/stocks');
 
-
-// Add a new stock
+/**
+ * Post /
+ *  New stock.
+ */
 exports.createNewStock = async (req, res) => {
 	try {
 		// Try to handle duplicate symbol error
@@ -28,7 +31,10 @@ exports.getStockById = async (req, res) => {
 	}
 };
 
-// Get By Name
+/**
+ * GET /
+ *  Stock By Name.
+ */
 exports.getStockByName = async (req, res) => {
 	try {
 		res.status(200).send(await Stock.getByName(req.params.name));
@@ -53,6 +59,10 @@ exports.user = (req, res) => {
 	 }
  };
 
+/**
+ * GET /
+ *  Stock By Symbol.
+ */
 exports.getStockBySymbol = async (req, res) => {
 	try {
 		res.status(200).send(await Stock.getBySymbol(req.params.symbol));
@@ -61,6 +71,10 @@ exports.getStockBySymbol = async (req, res) => {
 	}
 };
 
+/**
+ * GET /
+ *  Stock Data By Symbol.
+ */
 exports.getStockDataBySymbol = async (req, res) => {
 	try {
 		const data = await StockAPI.getData({
@@ -77,18 +91,29 @@ exports.getStockDataBySymbol = async (req, res) => {
 	}
 }
 
-const StockAPI = require('../utils/stocks');
 
+/**
+ * GET /
+ *  Stock Market Data.
+ */
 exports.getMarketData = async (req, res) => {
 	const markets = await StockAPI.getMarketData();
 	res.send(markets);
 }
 
+/**
+ * GET /
+ *  Search for stock by name.
+ */
 exports.searchForStockId = async (req, res) => {
 	const stock = await StockAPI.stockSearch(req.params.name);
 	res.send(stock);
 };
 
+/**
+ * GET /
+ *  Search for stock by ids.
+ */
 exports.searchForStock = async (req, res) => {
 	const stocks = await StockAPI.getStocks(req.params.ids);
 	res.send(stocks);

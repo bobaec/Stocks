@@ -27,7 +27,6 @@ export default class Dashboard extends Component {
     
     render() {
         const { type, name, symbol} = this.props;
-        
         return (
             <div>
                 <center>
