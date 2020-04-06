@@ -132,7 +132,7 @@ exports.getData = async params => {
         {
             label: "close",
             data: Object.entries(data).map(([key, val]) => value(val)('4. close')),
-            borderColor: "#db3d44",
+            borderColor: "#3ddbce",
         }]
     }
 };
