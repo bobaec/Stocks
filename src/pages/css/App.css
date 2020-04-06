@@ -109,6 +109,8 @@
 
 .browse_input{
   padding: 50px;
+  width: 50%;
+  margin: 0 auto;
 }
 
 .browse_input button{
@@ -239,4 +241,8 @@
 
 #coin_overview_table tbody td{
   border: none;
+}
+
+#crypto_table{
+  width: 90%;
 }
