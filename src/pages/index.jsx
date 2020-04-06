@@ -205,7 +205,7 @@ class MainPage extends React.Component {
 									<tr>
 										<th>Stock</th>
 										<th>Symbol</th>
-										<th>24h</th>
+										<th>Current Price</th>
 									</tr>
 								</thead>
 								<tbody id = "generateStocks">
