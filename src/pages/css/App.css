@@ -224,6 +224,10 @@
   text-align: center;
 }
 
+#favourite_table thead tr th{
+  width: 220px;
+}
+
 #favourite_table thead tr{
   border-bottom: 5px solid #db3d44;
 }
