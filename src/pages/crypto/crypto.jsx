@@ -1,16 +1,17 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
 import {
     InputGroup,
     FormControl,
     Button,
-    Row,
     Table,
-    Col,
+    Image
 } from 'react-bootstrap';
+import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
-
+import ScrollButton from '../../components/ScrollButton';
+import PriceGraph from "./graph";
 let crypto = require('./crypto.js');
+let axios = require('axios');
 
 
 class CoinList extends React.Component {
@@ -23,6 +24,8 @@ class CoinList extends React.Component {
         };
         this.updateCoin = this.updateCoin.bind(this);
         this.sendCoin = this.sendCoin.bind(this);
+
+        this._isMounted = false;
     }
 
     updateCoin(e) {
@@ -37,17 +40,24 @@ class CoinList extends React.Component {
     }
 
     async componentDidMount() {
-        let list;
-        try {
-            list = await crypto.getCoins();
-        } catch (err) {
-            console.log('API error:', err);
-        }
+        this._isMounted = true;
+        const response = await fetch('/crypto/all');
+        const json = await response.json();
+        let list = {};
+        
+        Object.keys(json).forEach((key, index) => {
+            const { crypto_id, name } = json[key];
+            list[crypto_id] = name;
+        });
 
-        if (Object.entries(list).length !== 0) {
-            this.setState( { coinList : list } );
+        if (this._isMounted) {
+            this.setState({ coinList: list });
             this.props.updateList(list);
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
 	render() {
@@ -59,7 +69,7 @@ class CoinList extends React.Component {
                     <center><h4>Browse Crypto</h4></center>
                     <form onSubmit={this.sendCoin} className="browse_input">
                         <InputGroup >
-                            <FormControl type="text" list="coinList" onChange={this.updateCoin} autoFocus />
+                            <FormControl type="text" list="coinList" onChange={this.updateCoin} />
                             <InputGroup.Append>
                                 <Button type="submit" id="refresh" style={{backgroundColor:"inherit", borderColor:"white"}}> Browse </Button>
                             </InputGroup.Append>
@@ -95,7 +105,8 @@ class Coin extends React.Component {
 
         if (c !== '') {
             try {
-                coin = await crypto.getCoin(c);
+                const response = await fetch('/crypto/crypto_id/' + c);
+                coin = await response.json()
             } catch (err) {
                 console.log('API error:', err);
             }
@@ -105,67 +116,104 @@ class Coin extends React.Component {
                 this.props.updateFoundCoin(true);
                 this.setState( { coin } );
 
-                const key = Object.keys(coin);
-                if (key.length > 0) {
-                    const vals = coin[key];
-                    const cap = Object.keys(vals)[1];
-                    const capVal = vals[cap]
 
-                    if (capVal < 1) {
-                        this.props.updateMarketCap(false);
-                    } else {
-                        this.props.updateMarketCap(true);
-                    }
+                if (coin.market_cap < 1) {
+                    this.props.updateMarketCap(false);
+                } else {
+                    this.props.updateMarketCap(true);
                 }
             } 
         } else {
+            this.setState( {found: false, coin: ''} );
             this.props.updateFoundCoin(false);
         }
     }
 
-    style = {
-        border: "1px solid white"
+    addFav(e, n, s, p) {
+        e.preventDefault();
+        let favs = this.props.favs;
+        favs.push({crypto_symbol: s.toUpperCase()});
+        this.props.updateFavs(favs);
+        axios.post(`/user/crypto/add/${this.props.user}`, {
+            crypto_name: n,
+            crypto_symbol: s,
+            latest_crypto_price: p
+        });
+    }
+
+    removeFav(e, c) {
+        e.preventDefault()
+        let favs = this.props.favs;
+        const toRemoveIndex = favs.findIndex(fav => fav.crypto_symbol === c.toUpperCase());
+        const toRemove = favs[toRemoveIndex];
+        favs.splice(toRemoveIndex, 1);
+        this.props.updateFavs(favs);
+
+        axios.post(`/user/crypto/remove/${this.props.user}/${toRemove._id}`);
     }
 
     // https://dev.to/abdulbasit313/an-easy-way-to-create-a-customize-dynamic-table-in-react-js-3igg
-    renderTableHeader() {
-        let c = this.state.coin;
-        return Object.keys(c).map(coin => {
-            return Object.keys(c[coin]).map((key, index) => {
-                return <th key={index} style={this.style}>{key.toUpperCase()}</th>
-            })
-        })
-     }
-
     renderTableData() {
         let c = this.state.coin;
 
-        return Object.keys(c).map((key, index) => {
-            const { cad, cad_24h_change, cad_24h_vol, cad_market_cap, last_updated_at } = c[key];
-            const lastUpdate = new Date(last_updated_at*1000).toString()
-            return (
-            <tr key={index}>
-                <td style={this.style}>{cad}</td>
-                <td style={this.style}>{cad_24h_change}</td>
-                <td style={this.style}>{cad_24h_vol}</td>
-                <td style={this.style}>{cad_market_cap}</td>
-                <td style={this.style}>{lastUpdate}</td>
-            </tr>
-            )
-        })
+
+        const styleRed = {color: '#EF9A9A'};
+        const styleGreen = {color: '#A5D6A7'};
+        let changeStyle= styleGreen;
+
+        if (c.day_change === null || c.day_change === 0) {
+            changeStyle = {color: '#E0E0E0'};
+        }
+
+        if (c.day_change < 0) {
+            changeStyle = styleRed;
+        }
+
+        const lastUpdate = new Date(c.last_updated_at).toString()
+        let favs = this.props.favs;
+        let fav = false;
+        if (favs.length > 0) {
+            favs.forEach(e => {
+                if (Object.values(e).includes(c.symbol.toUpperCase())) {
+                    fav = true;
+                }
+            });
+        }
+        return (
+        <tr id="crypto_table2">
+            { fav  
+                ? <td onClick={(e) => this.removeFav(e, c.symbol)}><i className="fa fa-star" /></td>
+                : <td onClick={(e) => this.addFav(e, c.name, c.symbol, c.latest_price)}><i className="fa fa-star-o" /></td>
+            }
+            <td>{String(c.symbol)}</td>
+            <td>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
+            <td style={{...changeStyle}}>{Number(c.day_change).toFixed(4)}%</td>
+            <td>${Number(c.day_vol).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
+            <td>${Number(c.market_cap).toLocaleString('en-US', {maximumFractionDigits: 2})}</td>
+            <td>{lastUpdate}</td>
+        </tr>
+        )
     }
 
     render() {
-        if (this.props.coin !== '') {
-            let header = this.props.coin + ' Overview'
+        if (this.state.coin !== '') {
+            let header = this.props.coin.toUpperCase() + ' Overview'
             return (
                 <div style={{marginBottom:'10px'}}>
                     <center><h4>{header}</h4></center>
                     <Table responsive variant="dark" id="coin_overview_table">
-                        <tbody>
+                        <thead>
                             <tr>
-                                {this.renderTableHeader()}
+                                <th>Favourite</th>
+                                <th>Symbol</th>
+                                <th>Latest Price</th>
+                                <th>24h Change</th>
+                                <th>24h Trading Volume</th>
+                                <th>Market Cap</th>
+                                <th>Last Update</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             {this.renderTableData()}
                         </tbody>
                     </Table>
@@ -181,121 +229,164 @@ class Coin extends React.Component {
         }
 
         return (
-            <div style={{padding: "15px"}}>
+            <div>
                <center>
-                   <h3>{message}</h3>
+                   <h4>{message}</h4>
                </center>
             </div>
         )
     }
 }
 
-class PriceGraph extends React.Component {
+class CryptoList extends React.Component {
 
-    constructor(props) {
+    constructor(props){
         super(props);
         this.state = {
             data: [],
-            labels: []
         };
     }
 
-    async componentDidUpdate(prevProp) {
-        const c = this.props.coin;
-        if (c === prevProp.coin) return;
+    async componentDidMount() {
+        const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d';
+        const response = await fetch(url);
+        const json = await response.json();
+        this.setState({ data: json });
+    }
 
-        let dayData;
-        if (c !== '') {
-            try {
-                dayData = await crypto.getHistoricalData(c, this.props.days);
-
-                let prices = dayData.map((elem, index) => {
-                    return elem[1];
-                });
-    
-                let dates = dayData.map(elem => {
-                    const date = new Date(elem[0]);
-    
-                    const year = date.getFullYear();
-                    const month = date.getMonth() + 1;
-                    const day = date.getDate();
-                    const hours = date.getHours();
-                    const minutes = date.getMinutes();
-                    const seconds = date.getSeconds();
-    
-                    if (this.props.days > 1) {
-                        return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
-                    } else {
-                        return hours + ":" + minutes + ":" + seconds;
-                    }
-                });
-    
-                this.setState( { data: prices, labels: dates } );
-            } catch (err) {
-                console.log('API error:', err);
-            }
+    sendCoin(e, c) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.target.id !== 'fav' && e.target.id !== 'favStar') {
+            this.props.updateCoin(c);
+            const yOffset = 220;
+            window.scrollTo(0, yOffset)
         }
     }
 
-    
-    render() {
-        if (this.props.found !== true) return(<div></div>)
-        if (this.props.validMarketCap === false) {
-            return (
-                <div style={{padding: "15px"}}>
-                    <center>
-                        <h3>Price graph not available for {this.props.coin}</h3>
-                    </center>
-                </div>
-            )
-        }
+    addFav(e, n, s, p) {
+        e.preventDefault();
+        let favs = this.props.favs;
+        favs.push({crypto_symbol: s.toUpperCase()});
+        this.props.updateFavs(favs);
+        
+        axios.post(`/user/crypto/add/${this.props.user}`, {
+            crypto_name: n,
+            crypto_symbol: s,
+            latest_crypto_price: p
+        });
+    }
 
-        const { data, labels } = this.state;        
-        if (this.props.coin !== '') {
-            let graphData = {
-                labels: labels,
-                datasets: [
-                    {
-                        label: this.props.coin + ' prices over last 24h',
-                        backgroundColor: "rgba(255, 10, 10, 0.2)",
-                        borderColor: "#db3d44",
-                        data: data,
-                    }
-                ],
-            
-                options: {
-                    maintainAspectRatio: false,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                fontColor: 'white'
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                fontColor: 'white'
-                            }
-                        }],
-                    },
-                    legend: {
-                        labels: {
-                            fontColor: 'white',
-                        }
-                    }
-                }
+    removeFav(e, c) {
+        e.preventDefault()
+        let favs = this.props.favs;
+        const toRemoveIndex = favs.findIndex(fav => fav.crypto_symbol === c.toUpperCase());
+        const toRemove = favs[toRemoveIndex];
+        favs.splice(toRemoveIndex, 1);
+        this.props.updateFavs(favs);
+
+        axios.post(`/user/crypto/remove/${this.props.user}/${toRemove._id}`);
+    }
+
+
+    renderTableData() {
+        let data = this.state.data;
+        let i = 1;
+
+        return Object.keys(data).map((key, index) => {
+            let { name, id, symbol, current_price, last_updated, image, price_change_percentage_1h_in_currency, price_change_percentage_24h_in_currency, price_change_percentage_7d_in_currency } = data[key];
+            const styleRed = {color: '#EF9A9A'};
+            const styleGreen = {color: '#A5D6A7'};
+            let style1h = styleGreen,
+                style24h = styleGreen,
+                style7d = styleGreen;
+
+            if (price_change_percentage_1h_in_currency === null) {
+                price_change_percentage_1h_in_currency = 0;
+                style1h = {color: '#E0E0E0'};
             }
-            return (
-                <div>
-                    <Line data={graphData} />
-                </div>
-            )
-        } else {
-            return (
-                <div>
+            if (price_change_percentage_24h_in_currency === null) {
+                price_change_percentage_24h_in_currency = 0;
+                style24h = {color: '#E0E0E0'};
+            }
+            if (price_change_percentage_7d_in_currency === null) {
+                price_change_percentage_7d_in_currency = 0;
+                style7d = {color: '#E0E0E0'};
+            }
 
-                </div>
+            if (price_change_percentage_1h_in_currency < 0) {
+                style1h = styleRed;
+            }
+            if (price_change_percentage_24h_in_currency < 0) {
+                style24h = styleRed;
+            }
+            if (price_change_percentage_7d_in_currency < 0) {
+                style7d = styleRed;
+            }
+
+            let favs = this.props.favs;
+            let fav = false;
+            if (Object.keys(favs).length > 0) {
+                favs.forEach(e => {
+                    if (Object.values(e).includes(symbol.toUpperCase())) {
+                        fav = true;
+                    }
+                });
+            }
+
+            return (
+            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id)}} >
+                { fav  
+                    ? <td id="fav" onClick={(e) => this.removeFav(e, symbol)}><i id="favStar" className="fa fa-star" /></td>
+                    : <td id="fav" onClick={(e) => this.addFav(e, name, symbol, current_price)}><i id="favStar" className="fa fa-star-o" /></td>
+                }
+                <td>{i++}</td>
+                <td>
+                    <div>
+                        <Image roundedCircle width={25} alt={symbol} src={image} align='left'/>
+                    </div>
+                    <div>
+                        {name}
+                    </div>
+                </td>
+                <td>{symbol.toUpperCase()}</td>
+                <td>${current_price}</td>
+                <td style={style1h}>{Number(price_change_percentage_1h_in_currency).toFixed(4)}%</td>
+                <td style={style24h}>{Number(price_change_percentage_24h_in_currency).toFixed(4)}%</td>
+                <td style={style7d}>{Number(price_change_percentage_7d_in_currency).toFixed(4)}%</td>
+                <td>{last_updated}</td>
+            </tr>
             )
-        }
+        })
+    }
+
+    render() {
+        return(
+            <div>
+                <center>
+                    <h4>Top 100 Cryptocurrencies</h4><br/>
+                    <Table striped bordered hover variant="dark" id="crypto_table">
+                        <thead>
+                            <tr >
+                                <th></th>
+                                <th>#</th>
+                                <th>Coin</th>
+                                <th>Symbol</th>
+                                <th>Price</th>
+                                <th>1h</th>
+                                <th>24h</th>
+                                <th>7d</th>
+                                <th>Last Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderTableData()}
+                        </tbody>
+                    </Table>
+                </center>
+                <br />
+            </div>
+        )
     }
 }
 
@@ -307,13 +398,24 @@ class CryptoPage extends React.Component {
             coinList: {},
             coin: '',
             validMarketCap: true,
-            foundCoin: null
+            foundCoin: null,
+            days: 1,
+            user: '',
+            favs: []
         }
         this.updateCoin = this.updateCoin.bind(this);
         this.updateList = this.updateList.bind(this);
         this.getCoin = this.getCoin.bind(this);
         this.updateMarketCap = this.updateMarketCap.bind(this);
         this.updateFoundCoin = this.updateFoundCoin.bind(this);
+        this.updateDays = this.updateDays.bind(this);
+        this.updateFavs = this.updateFavs.bind(this);
+    }
+
+    async componentDidMount() {
+        let d = await fetch(`/user/email/${this.props.user.email}`);
+        d = await d.json();
+        this.setState({ user: d[0]._id, favs: d[0].cryptos });
     }
 
 
@@ -333,10 +435,18 @@ class CryptoPage extends React.Component {
         this.setState( { foundCoin: c } );
     }
 
+    updateDays(d) {
+        this.setState({ days: d });
+    }
+
+    updateFavs(f) {
+        this.setState({ favs: f });
+    }
+
     getCoin(c) {
         const coinList = this.state.coinList;
         for (let coin in coinList) {
-            if (c === coinList[coin]) {
+            if (c === coinList[coin] || c === coin) {
                 return coin;
             }
         }
@@ -345,17 +455,27 @@ class CryptoPage extends React.Component {
     }
 
     render() {
+        const user = this.state.user
         return (
             <div>
                 <div>
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
                 </div>
                 <div>
-                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
+                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin}
+                        user={user} favs={this.state.favs} updateFavs={this.updateFavs} />
+                    <br />
                 </div>
                 <div id="coin_overview_graph">
-                    <PriceGraph coin={this.getCoin(this.state.coin)} days='1' validMarketCap={this.state.validMarketCap} 
-                        found={this.state.foundCoin} />
+                    <PriceGraph coin={this.getCoin(this.state.coin)} days={this.state.days} validMarketCap={this.state.validMarketCap} 
+                        found={this.state.foundCoin} updateDays={this.updateDays} />
+                    <br /><br />
+                </div>
+                <div>
+                    <CryptoList updateCoin={this.updateCoin} user={user} favs={this.state.favs} updateFavs={this.updateFavs} />
+                </div>
+                <div>
+                    <ScrollButton />
                 </div>
             </div>
         )

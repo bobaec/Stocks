@@ -8,45 +8,48 @@ const UserSchema = new Schema({
         type: String,
         lowercase: true,
         trim: true,
-        required: true,
-        validate: async (value) => {
-            try {
-                const result = await User.findOn({email: value});
-                if (result) throw new Error("Duplicate email: " + value);
-            } catch (error) {
-                throw new Error(error);
-            }
-        }
+        required: true
     },
     last_login: Date,
     stocks: [
         {
-            stock_name: String,
-            stock_symbol: String,
+            stock_name: {
+                type: String,
+                required: true
+            },
+            stock_symbol: {
+                type: String,
+                uppercase: true,
+                required: true
+            },
             latest_stock_price: Number
         }
     ],
     cryptos: [
         {
-            crypto_name: String,
-            crypto_symbol: String,
+            crypto_name: {
+                type: String,
+                required: true
+            },
+            crypto_symbol: {
+                type: String,
+                uppercase: true,
+                required: true
+            },
             latest_crypto_price: Number
         }
     ]
 });
 const User = mongoose.model('User', UserSchema, "user");
 
-// Add new user
-exports.addNewUser = function (req, res) {
-    new User(req.body).save(function (err) {
-        if (err) {
-            res.status(400).send('Unable to save a new user to database');
-            console.log("Failed to save user");
-            console.log(err);
-        } else {
-            res.status(200).send("Successfully added new user");
-        }
-    });
+exports.addNewUser = async (user) => {
+    // Check if email exists
+    const email = await User.findOne({email: user.email});
+    if (email != null) return "Duplicate email: " + user.email;
+
+    // Add the new user
+    await new User(user).save((err) => { if (err) throw err; });
+    return null;
 };
 
 exports.getByEmail = async (email) => {
@@ -68,4 +71,30 @@ exports.getByName = async function (name) {
 // Get all users
 exports.getAll = async function () {
     return await User.find({});
+};
+
+// Stock favourites
+exports.addFavouriteStock = async (id, stock) => {
+    const user = await User.findById(id);
+    user.stocks.push(stock);
+    user.save();
+};
+
+exports.removeFavouriteStock = async (id, stock_fav_id) => {
+    const user = await User.findById(id);
+    user.stocks.pull(stock_fav_id);
+    user.save();
+};
+
+// Crypto favourites
+exports.addFavouriteCrypto = async (id, crypto) => {
+    const user = await User.findById(id);
+    user.cryptos.push(crypto);
+    user.save();
+};
+
+exports.removeFavouriteCrypto = async (id, crypto_fav_id) => {
+    const user = await User.findById(id);
+    user.cryptos.pull(crypto_fav_id);
+    user.save();
 };

@@ -3,9 +3,6 @@ const UserModel = require('./models/user');
 const StockModel = require('./models/stock');
 const CryptoModel = require('./models/crypto');
 
-// require('dotenv').config();
-// require('dotenv').config({ path: '.env' });
-
 // Test database
 const MONGO_USERNAME = 'tester';
 const MONGO_PASSWORD = 'tester';
