@@ -8,11 +8,13 @@
 
 .mainContent{
   width: 100%;
+  overflow: auto;
 }
 
 .wrapper{
   text-align: center;
   padding-top:45px;
+
 }
 
 .sign_in{
