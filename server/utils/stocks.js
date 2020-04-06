@@ -1,4 +1,4 @@
-const API = '95022c1af6mshe219525df3006b4p1007a7jsn6a10ee212f7c';
+const API = '74d1f65e06msh605c1fc7c51ed29p1a3304jsn24596c193286';
 const axios = require('axios');
 const path = {
     yahoo: {
