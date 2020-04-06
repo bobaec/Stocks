@@ -20,11 +20,12 @@ class Profile extends React.Component {
 						<Col xs={12} md={12} className="profile">
 							<Image src={this.props.user.photoURL} roundedCircle width={150}/>
 							<div>
-								<button class="general_button">Edit</button>
+								<button className="general_button">Edit</button>
 							</div>
 							<br/>
 							<div className="user_information">
 								<Table  bordered variant="dark">
+									<tbody>
 									<tr>
 										<td>Name</td>
 										<td>{this.props.user.displayName}</td>
@@ -33,6 +34,7 @@ class Profile extends React.Component {
 										<td>Email</td>
 										<td>{this.props.user.email}</td>
 									</tr>
+									</tbody>
 								</Table>
 							</div>
 						</Col>
