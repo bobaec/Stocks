@@ -7,7 +7,7 @@ const stockOptions = {
     qs: {region: 'US', lang: 'en'},
     headers: {
         'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
-        'x-rapidapi-key': '95022c1af6mshe219525df3006b4p1007a7jsn6a10ee212f7c'
+        'x-rapidapi-key': '74d1f65e06msh605c1fc7c51ed29p1a3304jsn24596c193286'
     },
     json: true
 };
@@ -27,7 +27,7 @@ const getMovers = async () => {
     } catch (e) {
         console.log('API error: ', e);
     }
-
+    
     return stockSyms;
 };
 
@@ -52,8 +52,9 @@ exports.getStockData = async () => {
     } catch (e) {
         console.log('API error: ', e);
     }
-
+    
     return stockData;
+    // return testStockTrending;
 };
 
 const coinOptions = {
@@ -95,3 +96,66 @@ exports.getCoins = async () => {
 
     return coinList;
 };
+
+const testStockTrending = [
+    {
+      "name": "Arconic Corporation",
+      "symbol": "ARNC",
+      "price": 8.06,
+      "growth 24h": 29.790667
+    },
+    {
+      "name": "Enel Americas S.A.",
+      "symbol": "ENIA",
+      "price": 6.82,
+      "growth 24h": 17.789295
+    },
+    {
+      "name": "Apache Corporation",
+      "symbol": "APA",
+      "price": 5.38,
+      "growth 24h": 14.712154
+    },
+    {
+      "name": "Genting Berhad",
+      "symbol": "GEBHY",
+      "price": 5.15,
+      "growth 24h": 14.444447
+    },
+    {
+      "name": "L Brands, Inc.",
+      "symbol": "LB",
+      "price": 11.34,
+      "growth 24h": 11.724143
+    },
+    {
+      "name": "MarketAxess Holdings Inc.",
+      "symbol": "MKTX",
+      "price": 387.27,
+      "growth 24h": 11.511987
+    },
+    {
+      "name": "Livongo Health, Inc.",
+      "symbol": "LVGO",
+      "price": 29.05,
+      "growth 24h": 11.174895
+    },
+    {
+      "name": "EQT Corporation",
+      "symbol": "EQT",
+      "price": 8.77,
+      "growth 24h": 11.153366
+    },
+    {
+      "name": "3i Group plc",
+      "symbol": "TGOPY",
+      "price": 4.59,
+      "growth 24h": 10.283516
+    },
+    {
+      "name": "Etsy, Inc.",
+      "symbol": "ETSY",
+      "price": 38.15,
+      "growth 24h": 9.626444
+    }
+  ];
