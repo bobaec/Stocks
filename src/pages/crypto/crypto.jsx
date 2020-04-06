@@ -9,7 +9,11 @@ import {
 import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
 import ScrollButton from '../../components/ScrollButton';
+
+let crypto = require('./crypto.js');
+let axios = require('axios');
 import PriceGraph from "./graph";
+
 
 class CoinList extends React.Component {
 
@@ -126,6 +130,29 @@ class Coin extends React.Component {
         }
     }
 
+    addFav(e, n, s, p) {
+        e.preventDefault();
+        let favs = this.props.favs;
+        favs.push({crypto_symbol: s.toUpperCase()});
+        this.props.updateFavs(favs);
+        axios.post(`/user/crypto/add/${this.props.user}`, {
+            crypto_name: n,
+            crypto_symbol: s,
+            latest_crypto_price: p
+        });
+    }
+
+    removeFav(e, c) {
+        e.preventDefault()
+        let favs = this.props.favs;
+        const toRemoveIndex = favs.findIndex(fav => fav.crypto_symbol === c.toUpperCase());
+        const toRemove = favs[toRemoveIndex];
+        favs.splice(toRemoveIndex, 1);
+        this.props.updateFavs(favs);
+
+        axios.post(`/user/crypto/remove/${this.props.user}/${toRemove._id}`);
+    }
+
     // https://dev.to/abdulbasit313/an-easy-way-to-create-a-customize-dynamic-table-in-react-js-3igg
     renderTableData() {
         let c = this.state.coin;
@@ -144,8 +171,21 @@ class Coin extends React.Component {
         }
 
         const lastUpdate = new Date(c.last_updated_at).toString()
+        let favs = this.props.favs;
+        let fav = false;
+        if (favs.length > 0) {
+            favs.forEach(e => {
+                if (Object.values(e).includes(c.symbol.toUpperCase())) {
+                    fav = true;
+                }
+            });
+        }
         return (
         <tr id="crypto_table2">
+            { fav  
+                ? <td onClick={(e) => this.removeFav(e, c.symbol)}><i className="fa fa-star" /></td>
+                : <td onClick={(e) => this.addFav(e, c.name, c.symbol, c.latest_price)}><i className="fa fa-star-o" /></td>
+            }
             <td>{String(c.symbol)}</td>
             <td>${Number(c.latest_price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
             <td style={{...changeStyle}}>{Number(c.day_change).toFixed(4)}%</td>
@@ -165,6 +205,7 @@ class Coin extends React.Component {
                     <Table responsive variant="dark" id="coin_overview_table">
                         <thead>
                             <tr>
+                                <th>Favourite</th>
                                 <th>Symbol</th>
                                 <th>Latest Price</th>
                                 <th>24h Change</th>
@@ -200,10 +241,10 @@ class Coin extends React.Component {
 
 class CryptoList extends React.Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            data: []
+            data: [],
         };
     }
 
@@ -217,8 +258,37 @@ class CryptoList extends React.Component {
     sendCoin(e, c) {
         e.preventDefault();
         e.stopPropagation();
-        this.props.updateCoin(c);
+        if (e.target.id !== 'fav' && e.target.id !== 'favStar') {
+            this.props.updateCoin(c);
+            const yOffset = 220;
+            window.scrollTo(0, yOffset)
+        }
     }
+
+    addFav(e, n, s, p) {
+        e.preventDefault();
+        let favs = this.props.favs;
+        favs.push({crypto_symbol: s.toUpperCase()});
+        this.props.updateFavs(favs);
+        
+        axios.post(`/user/crypto/add/${this.props.user}`, {
+            crypto_name: n,
+            crypto_symbol: s,
+            latest_crypto_price: p
+        });
+    }
+
+    removeFav(e, c) {
+        e.preventDefault()
+        let favs = this.props.favs;
+        const toRemoveIndex = favs.findIndex(fav => fav.crypto_symbol === c.toUpperCase());
+        const toRemove = favs[toRemoveIndex];
+        favs.splice(toRemoveIndex, 1);
+        this.props.updateFavs(favs);
+
+        axios.post(`/user/crypto/remove/${this.props.user}/${toRemove._id}`);
+    }
+
 
     renderTableData() {
         let data = this.state.data;
@@ -254,11 +324,23 @@ class CryptoList extends React.Component {
             if (price_change_percentage_7d_in_currency < 0) {
                 style7d = styleRed;
             }
-            const yOffset = 220;
+
+            let favs = this.props.favs;
+            let fav = false;
+            if (Object.keys(favs).length > 0) {
+                favs.forEach(e => {
+                    if (Object.values(e).includes(symbol.toUpperCase())) {
+                        fav = true;
+                    }
+                });
+            }
 
             return (
-            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id); window.scrollTo(0, yOffset)}} >
-                <td><i className='fa fa-fw fa-star' /></td>
+            <tr id="crypto_table" key={id} onClick={(e) => {this.sendCoin(e, id)}} >
+                { fav  
+                    ? <td id="fav" onClick={(e) => this.removeFav(e, symbol)}><i id="favStar" className="fa fa-star" /></td>
+                    : <td id="fav" onClick={(e) => this.addFav(e, name, symbol, current_price)}><i id="favStar" className="fa fa-star-o" /></td>
+                }
                 <td>{i++}</td>
                 <td>
                     <div>
@@ -318,7 +400,9 @@ class CryptoPage extends React.Component {
             coin: '',
             validMarketCap: true,
             foundCoin: null,
-            days: 1
+            days: 1,
+            user: '',
+            favs: []
         }
         this.updateCoin = this.updateCoin.bind(this);
         this.updateList = this.updateList.bind(this);
@@ -326,6 +410,13 @@ class CryptoPage extends React.Component {
         this.updateMarketCap = this.updateMarketCap.bind(this);
         this.updateFoundCoin = this.updateFoundCoin.bind(this);
         this.updateDays = this.updateDays.bind(this);
+        this.updateFavs = this.updateFavs.bind(this);
+    }
+
+    async componentDidMount() {
+        let d = await fetch(`/user/email/${this.props.user.email}`);
+        d = await d.json();
+        this.setState({ user: d[0]._id, favs: d[0].cryptos });
     }
 
 
@@ -349,6 +440,10 @@ class CryptoPage extends React.Component {
         this.setState({ days: d });
     }
 
+    updateFavs(f) {
+        this.setState({ favs: f });
+    }
+
     getCoin(c) {
         const coinList = this.state.coinList;
         for (let coin in coinList) {
@@ -361,13 +456,15 @@ class CryptoPage extends React.Component {
     }
 
     render() {
+        const user = this.state.user
         return (
             <div>
                 <div>
                     <CoinList updateCoin={this.updateCoin} updateList={this.updateList} />
                 </div>
                 <div>
-                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin} />
+                    <Coin coin={this.getCoin(this.state.coin)} updateMarketCap={this.updateMarketCap} updateFoundCoin={this.updateFoundCoin}
+                        user={user} favs={this.state.favs} updateFavs={this.updateFavs} />
                     <br />
                 </div>
                 <div id="coin_overview_graph">
@@ -376,7 +473,7 @@ class CryptoPage extends React.Component {
                     <br /><br />
                 </div>
                 <div>
-                    <CryptoList updateCoin={this.updateCoin} />
+                    <CryptoList updateCoin={this.updateCoin} user={user} favs={this.state.favs} updateFavs={this.updateFavs} />
                 </div>
                 <div>
                     <ScrollButton />
