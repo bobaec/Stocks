@@ -42,7 +42,7 @@ const stocks = {
 };
 
 exports.getMarketData = async () => {
-    // let data = await stocks.query({}, 'get-summary');
+    // let data = await stocks.query({}, 'get-summary', 'yahoo');
     // data = await data.marketSummaryResponse.result;
     const data = testData;
     return formatMarket(data);
@@ -112,7 +112,7 @@ const stringClean = str => {
 };
 
 exports.getStocks = async (symbols) => {
-    // let data = await stocks.query({symbols: symbols}, 'get-quotes');
+    // let data = await stocks.query({symbols: symbols}, 'get-quotes', 'yahoo');
     // data = await data.quoteResponse.result;
     let data = testStock;
     return formatStock(data);
