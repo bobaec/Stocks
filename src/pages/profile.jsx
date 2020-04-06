@@ -15,8 +15,8 @@ class Profile extends React.Component {
 		return (
 		    <div className = "mainContent">
 				<div className = "wrapper">
-					<center><h4>Your Profile</h4></center>
-					<Container>
+					<center><h4>Your Profile</h4></center><br/>
+					<Container id="profile_cont">
 						<Col xs={12} md={12} className="profile">
 							<Image src={this.props.user.photoURL} roundedCircle width={150}/>
 							<div>
