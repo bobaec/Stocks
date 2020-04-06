@@ -146,6 +146,42 @@
   margin: 0 auto;
 }
 
+#trending_table{
+  text-align: center;
+  margin: 0 auto;
+  width: 70%;
+  margin-bottom: 20px;
+}
+
+#trending_table thead tr{
+  border-bottom: 5px solid #db3d44;
+}
+
+#trending_table tbody tr:hover td{
+  background-color: lightgray;
+  color: black !important;
+}
+
+#trending_label{
+  margin-bottom: 20px;
+}
+
+.trending_tabs{
+  justify-content: center;
+}
+
+.trending_tabs > a {
+  color: white;
+}
+
+.trending_tabs > a:hover {
+  background-color: #db3d44;
+}
+
+.tab_items{
+  margin-top: 30px;
+}
+
 #crypto_table{
   text-align: center;
 }

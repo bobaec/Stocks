@@ -8,7 +8,7 @@ import UsersPage from "./users/users.jsx";
 import ProfilePage from "./profile.jsx";
 import StocksPage from "./stock/stocks.jsx";
 import CryptoPage from "./crypto/crypto.jsx";
-import Trending from "./Trending.jsx";
+import Trending from "./trending/trending.jsx";
 import './css/App.css';
 
 
