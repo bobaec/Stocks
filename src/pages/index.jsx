@@ -11,7 +11,8 @@ import {
 	Container,
 	Image,
 	Table,
-	Row
+	Row,
+	Col
 } from 'react-bootstrap';
 
 const axios = require('axios');
@@ -190,10 +191,30 @@ class MainPage extends React.Component {
 			// if logged in, show all content
 			// all content should be inside this div
 				<div className="main">
-					<center><p id="date"><Image src={this.props.user.photoURL} roundedCircle width={20}/>{this.state.date}</p></center>
+					<center><p id="date">{this.state.date}</p></center>
 					<div className="wrapper">
 						<center><h4>Dashboard</h4></center>
-
+						<Container>
+						<Col xs={12} md={12} className="profile">
+							<Image src={this.props.user.photoURL} roundedCircle width={150}/>
+							<br/>
+							<br/>
+							<div className="user_information">
+								<Table  bordered variant="dark">
+									<tr>
+										<td>Name</td>
+										<td>{this.props.user.displayName}</td>
+									</tr>
+									<tr>
+										<td>Email</td>
+										<td>{this.props.user.email}</td>
+									</tr>
+								</Table>
+							</div>
+							<br/>
+						</Col>
+					</Container>
+						
 					{/* <Dashboard className="dashboard"/> */}
 					<Dashboard selected_id={this.state.selected_id} type={this.state.type} name={this.state.name} symbol={this.state.symbol}/>	
 					<Container className="users">
@@ -219,7 +240,7 @@ class MainPage extends React.Component {
 									<tr>
 										<th>Crypto</th>
 										<th>Symbol</th>
-										<th>24h</th>
+										<th>Current Price</th>
 									</tr>
 								</thead>
 								<tbody id = "generateCryptos">

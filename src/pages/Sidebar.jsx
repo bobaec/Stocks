@@ -3,9 +3,7 @@ import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import 'font-awesome/css/font-awesome.min.css';
 import MainPage from "/";
-import Browse from "./Browse.jsx";
 import UsersPage from "./users/users.jsx";
-import ProfilePage from "./profile.jsx";
 import StocksPage from "./stock/stocks.jsx";
 import CryptoPage from "./crypto/crypto.jsx";
 import Trending from "./trending/trending.jsx";
@@ -79,14 +77,6 @@ class Sidebar extends Component {
 			                            Users
 			                        </NavText>
 			                    </NavItem>
-								<NavItem eventKey= "profile">
-			                        <NavIcon>
-			                            <i className = "fa fa-fw fa-user" style = {{ fontSize: '1.75em' }} />
-			                        </NavIcon>
-			                        <NavText>
-			                            Profile
-			                        </NavText>
-			                    </NavItem>
 			                    <NavItem className = "logoutButton" onClick = {this.props.signOut}>
 			                        <NavIcon>
 			                            <i className = "fa fa-fw fa-sign-out" style = {{ fontSize: '1.75em' }} />
@@ -105,10 +95,7 @@ class Sidebar extends Component {
 							<Route path= "/stocks" component = {props => <StocksPage user = {this.props.user}/>} />
 			                <Route path= "/crypto" component = {props => <CryptoPage user = {this.props.user}/>} />
 			                <Route path= "/trending" component = {props => <Trending user = {this.props.user}/>} />
-			                <Route path= "/users" component = {props => <UsersPage user = {this.props.user}/>} />
-			                <Route path= "/profile" component = {props => <ProfilePage user = {this.props.user}/>} />
-
-			                			            
+			                <Route path= "/users" component = {props => <UsersPage user = {this.props.user}/>} />			                			            
 			            </main>
 			        </React.Fragment>
 			    )}/>
