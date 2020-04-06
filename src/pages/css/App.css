@@ -195,3 +195,10 @@
   border-bottom: 5px solid #db3d44;
 }
 
+#coin_overview_table thead tr{
+  border-bottom: 5px solid #db3d44;
+}
+
+#coin_overview_table tbody td{
+  border: none;
+}
