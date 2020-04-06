@@ -63,7 +63,7 @@ class Search extends React.Component {
             <InputGroup>
                 <FormControl type='text' list='stockSearch' placeholder="Search for..." ref={input => this.search = input} onChange={this.handleInputChange} />
             </InputGroup>
-            <DisplayTable data={this.state.searchResults} search={true}/>
+            <DisplayTable user={this.props.user} favs={this.props.favs} updateFavs={this.props.updateFavs} data={this.state.searchResults} search={true}/>
         </form>
       )
     }
@@ -71,6 +71,30 @@ class Search extends React.Component {
 
 
 class DisplayTable extends React.Component {
+
+    addFav(e, n, s, p) {
+        e.preventDefault();
+        let favs = this.props.favs;
+        favs.push({stock_symbol: s.toUpperCase()});
+        this.props.updateFavs(favs);
+        
+        axios.post(`/user/stock/add/${this.props.user}`, {
+            stock_name: n,
+            stock_symbol: s,
+            latest_stock_price: p
+        });
+    }
+
+    removeFav(e, c) {
+        e.preventDefault()
+        let favs = this.props.favs;
+        const toRemoveIndex = favs.findIndex(fav => fav.stock_symbol === c.toUpperCase());
+        const toRemove = favs[toRemoveIndex];
+        favs.splice(toRemoveIndex, 1);
+        this.props.updateFavs(favs);
+
+        axios.post(`/user/stock/remove/${this.props.user}/${toRemove._id}`);
+    }
     
     renderTableHeader() {
         const d = this.props.data;
@@ -86,12 +110,32 @@ class DisplayTable extends React.Component {
 
      renderTableBody() {
         const d = this.props.data;
+        const s = this.props.search;
         const styleGreen = {color: '#A5D6A7'};
 
         if (Object.keys(d).length > 0) {
             return Object.keys(d).map(t => {
+                let fav;
+                if (s) {
+                    let favs = this.props.favs;
+                    fav = false;
+                    if (Object.keys(favs).length > 0) {
+                        favs.forEach(e => {
+                            if (Object.values(e).includes(d[t].symbol.toUpperCase())) {
+                                fav = true;
+                            }
+                        });
+                    }
+                }
                 return (
-                    <tr key={d[t].symbol}>
+                        <tr key={d[t].symbol}>
+                        {s 
+                            ? [ fav
+                                ? <td id="fav" onClick={(e) => this.removeFav(e, d[t].symbol)}><i id="favStar" className="fa fa-star" /></td>
+                                : <td id="fav" onClick={(e) => this.addFav(e, d[t].name, d[t].symbol, d[t].price)}><i id="favStar" className="fa fa-star-o" /></td>
+                                ]
+                            : null
+                        }
                         <td>{d[t].name}</td>
                         <td>{d[t].symbol.toUpperCase()}</td>
                         <td>${Number(d[t].price).toLocaleString('en-US', {maximumFractionDigits: 6})}</td>
@@ -127,6 +171,9 @@ class DisplayTable extends React.Component {
             <Table responsive variant="dark">
                 <thead>
                     <tr>
+                    { s &&
+                        <th></th>
+                    }
                         {this.renderTableHeader()}
                     </tr>
                 </thead>
@@ -149,9 +196,12 @@ class StocksPage extends React.Component {
     constructor() {
         super();
         this.state = {
-            stockData: {}
+            stockData: {},
+            user: '',
+            favs: []
         }
 
+        this.updateFavs = this.updateFavs.bind(this);
         this._isMounted = false;
     }
 
@@ -159,17 +209,24 @@ class StocksPage extends React.Component {
         this._isMounted = true;
         let s = await axios.get('/stock/markets');
         s = await s.data;
-
+        let d = await fetch(`/user/email/${this.props.user.email}`);
+        d = await d.json();
+        
         if (this._isMounted) {
-            this.setState({stockData: s});
+            this.setState({stockData: s, user: d[0]._id, favs: d[0].stocks});
         }
     }
 
+    updateFavs(f) {
+        this.setState({ favs: f });
+    }
+
     render() {
+        const user = this.state.user
         return (
             <div>
                 <div>
-                    <Search />
+                    <Search user={user} favs={this.state.favs} updateFavs={this.updateFavs} />
                     <br />
                 </div>
                 <div>
