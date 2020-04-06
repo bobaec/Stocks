@@ -18,10 +18,7 @@ class Profile extends React.Component {
 					<center><h4>Your Profile</h4></center><br/>
 					<Container id="profile_cont">
 						<Col xs={12} md={12} className="profile">
-							<Image src={this.props.user.photoURL} roundedCircle width={150}/>
-							<div>
-								<button className="general_button">Edit</button>
-							</div>
+							<Image src={this.props.user.photoURL} roundedCircle width={150}/><br/><br/>
 							<br/>
 							<div className="user_information">
 								<Table  bordered variant="dark">
