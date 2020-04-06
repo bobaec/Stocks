@@ -1,7 +1,10 @@
 const path = require('path');
 const User = require('../models/user');
 
-// Add a new user
+/**
+ * POST /
+ *  New User.
+ */
 exports.createNewUser = async (req, res) => {
 	try {
 		// Try to handle duplicate email error
@@ -16,6 +19,10 @@ exports.createNewUser = async (req, res) => {
 	}
 };
 
+/**
+ * GET /
+ *  User by Email.
+ */
 exports.getUserByEmail = async (req, res) => {
 	try {
 		res.status(200).send(await User.getByEmail(req.params.email));
@@ -24,6 +31,10 @@ exports.getUserByEmail = async (req, res) => {
 	}
 };
 
+/**
+ * GET /
+ *  User by ID.
+ */
 exports.getUserById = async function (req, res) {
 	try {
 		res.status(200).send(await User.getById(req.params.id));
@@ -32,6 +43,10 @@ exports.getUserById = async function (req, res) {
 	}
 };
 
+/**
+ * GET /
+ *  User by NAME.
+ */
 exports.getUserByName = async function (req, res) {
 	try {
 		res.status(200).send(await User.getByName(req.params.name));
@@ -40,6 +55,11 @@ exports.getUserByName = async function (req, res) {
 	}
 };
 
+
+/**
+ * GET /
+ *  All users.
+ */
 exports.getAllUsers = async function (req, res) {
 	try {
 		res.status(200).send(await User.getAll());
@@ -48,6 +68,11 @@ exports.getAllUsers = async function (req, res) {
 	}
 };
 
+
+/**
+ * POST /
+ *  New Stock to user favourits.
+ */
 exports.addStock = async (req, res) => {
 	try {
 		await User.addFavouriteStock(req.params.id, req.body);
@@ -57,15 +82,25 @@ exports.addStock = async (req, res) => {
 	}
 };
 
+
+/**
+ * DELETE /
+ *  Delete Stock from user favourits.
+ */
 exports.removeStock = async (req, res) => {
 	try {
-		await User.removeFavouriteStock(req.params.id, req.body);
+		await User.removeFavouriteStock(req.params.id, req.params.favId);
 		res.sendStatus(200);
 	} catch (err) {
 		res.sendStatus(500);
 	}
 };
 
+
+/**
+ * POST /
+ *  New CRYPTO to user favourits.
+ */
 exports.addCrypto = async (req, res) => {
 	try {
 		await User.addFavouriteCrypto(req.params.id, req.body);
@@ -75,9 +110,14 @@ exports.addCrypto = async (req, res) => {
 	}
 };
 
+
+/**
+ * DELETE /
+ *  Delete Crypto from user favourits.
+ */
 exports.removeCrypto = async (req, res) => {
 	try {
-		await User.removeFavouriteCrypto(req.params.id, req.body);
+		await User.removeFavouriteCrypto(req.params.id, req.params.favId);
 		res.sendStatus(200);
 	} catch (err) {
 		res.sendStatus(500);

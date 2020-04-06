@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardDeck } from 'react-bootstrap';
 
-export default function News() {
+const News = props => {
     const [data, setData] = useState([]);
-    const [stock, setStock] = useState(''); 
+    const [query] = useState(props); 
 
     const getNews = async query => {
         const response = await fetch(`/news/top/${query}`);
@@ -13,18 +13,18 @@ export default function News() {
     }
     
     useEffect(() => {
-        const query = 'bitcoin';
-        getNews(query);
-    }, []);
+        getNews(query.stock);
+    }, [query.stock]);
 
     return (
-        <><br/>
+        <>
+        <br/>
         <h4>News</h4><br/>
             <CardDeck>
                 {data
                 .filter((i, index) => (index < 3))
-                .map(article => (
-                    <Card>
+                .map((article, idx) => (
+                    <Card key={idx}>
                         <Card.Img variant="top" src={article.urlToImage} style={{width:'100%',height:'50%'}}/>
                         <Card.Body style={{ overflow:'hidden'}}>
                         <Card.Title style={{fontSize:'1rem', color:'black'}}>{article.title}</Card.Title>
@@ -44,3 +44,5 @@ export default function News() {
         </>
       )
 }
+
+export default News;

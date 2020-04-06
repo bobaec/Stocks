@@ -29,18 +29,18 @@ function generateStocksTable(user, numberOfStocks) {
 	let stocksAdd = "";
 	if (numberOfStocks > 0) {
 		for (let i = 0; i < numberOfStocks; i++) {
-			stocksAdd +=
-			"<tr>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].stock_name +
-				"</td>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].stock_symbol +
-				"</td>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">$" +
-					user[i].latest_stock_price +
-				"</td>"+
-			"</tr>"
+			stocksAdd += 
+			'<tr>' +
+				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}' data-item='${user[i]._id}'>
+					${user[i].stock_name}
+				</td>` +
+				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}' data-item='${user[i]._id}'>
+					${user[i].stock_symbol}
+				</td>` + 
+				`<td type='stock' name='${user[i].stock_name}' symbol='${user[i].stock_symbol}' data-item='${user[i]._id}'>
+					$${user[i].latest_stock_price}
+				</td>` +
+			'</tr>';
 		}
 	}
 	document.getElementById("generateStocks").innerHTML = (stocksAdd);
@@ -50,18 +50,18 @@ function generateCryptoTable(user, numberOfCryptos) {
 	let cryptosAdd = "";
 	if (numberOfCryptos > 0) {
 		for (let i = 0; i < numberOfCryptos; i++) {
-			cryptosAdd +=
-			"<tr>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].crypto_name +
-				"</td>" +
-				"<td data-item=" + "'" + user[i]._id + "'" + ">" +
-					user[i].crypto_symbol +
-				"</td>" +
-				"<td data-item=" + "'" + user._id + "'" + ">$" +
-					user[i].latest_crypto_price +
-				"</td>"+
-			"</tr>"
+			cryptosAdd += 
+			'<tr>' +
+				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+					${user[i].crypto_name}
+				</td>` +
+				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+					${user[i].crypto_symbol}
+				</td>` + 
+				`<td type='crypto' name='${user[i].crypto_name}' symbol='${user[i].crypto_symbol}' data-item='${user[i]._id}'>
+					$${user[i].latest_crypto_price}
+				</td>` +
+			'</tr>';
 		}
 	}
 	document.getElementById("generateCryptos").innerHTML = (cryptosAdd);
@@ -78,7 +78,10 @@ class MainPage extends React.Component {
 			currentUserStocks: [],
 			numberOfStocks: 0,
 			currentUserCryptos: [],
-			numberOfCryptos: 0
+			numberOfCryptos: 0,
+			type: "",
+			name: "",
+			symbol: "",
 		}
 	}
 
@@ -106,21 +109,21 @@ class MainPage extends React.Component {
 			}
 
 	        if (this.state.allEmails.includes(this.props.user.email) === false) {
-				console.log(this.props.user.email + " is not in the db, adding now.");
-
-				axios.post('/user/create', {
+				// console.log(this.props.user.email + " is not in the db, adding now.");
+				
+				axios.post('/user/create', { 
 					name: this.props.user.displayName.toString(),
 					email: this.props.user.email.toString()
 				})
 				.then(res => {
-				 	console.log(res.data);
+				 	// console.log(res.data);
 				})
 				.then(function (error) {
-					console.log(error);
+					// console.log(error);
 				})
 			} else {
-				console.log(this.props.user.email + " is already in the db");
-			}
+				// console.log(this.props.user.email + " is already in the db");
+			}			
 
 			for (let i = 0; i < this.state.allUsers.length; i++) {
 				if (this.state.allUsers[i].email === this.props.user.email) {
@@ -161,7 +164,16 @@ class MainPage extends React.Component {
 
 		$("tbody").on("click", "tr", (function(e) {
 			const id = e.target.getAttribute('data-item');
-			this.setState({selected_id: id});
+			const type = e.target.getAttribute('type');
+			const name = e.target.getAttribute('name');
+			const symbol = e.target.getAttribute('symbol');
+
+			this.setState({
+				selected_id: id,
+				type: type,
+				name: name,
+				symbol: symbol
+			});
 			Dashboard.selected_id=this.state.selected_id;
 			this.setState({
 				showComponent: true
@@ -183,7 +195,7 @@ class MainPage extends React.Component {
 						<center><h4>Dashboard</h4></center>
 
 					{/* <Dashboard className="dashboard"/> */}
-					<Dashboard selected_id={this.state.selected_id}/>
+					<Dashboard selected_id={this.state.selected_id} type={this.state.type} name={this.state.name} symbol={this.state.symbol}/>	
 					<Container className="users">
 							<Row style={{marginTop: "10px"}}>
 							{/* Display favorite stocks */}
