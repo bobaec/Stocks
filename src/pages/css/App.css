@@ -109,7 +109,13 @@
 
 .browse_input{
   padding: 50px;
-  width: 50%;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.browse_input_stock{
+  padding: 50px;
+  width: 70% !important;
   margin: 0 auto;
 }
 
@@ -248,7 +254,7 @@
 }
 
 #stock_table{
-  width: 80%;
+  width: 90%;
   text-align: center;
   margin: 0 auto;
 }
@@ -260,4 +266,8 @@
 #stock_table tbody tr:hover td{
   background-color: lightgray;
   color: black !important;
+}
+
+#stock_table{
+  margin-bottom: 20px;
 }

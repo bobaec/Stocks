@@ -60,7 +60,7 @@ class Search extends React.Component {
     render() {
       return (
         <form>
-            <InputGroup>
+            <InputGroup className="browse_input_stock">
                 <FormControl type='text' list='stockSearch' placeholder="Search for..." ref={input => this.search = input} onChange={this.handleInputChange} />
             </InputGroup>
             <DisplayTable data={this.state.searchResults} search={true}/>
@@ -167,14 +167,14 @@ class StocksPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
+            <div className = "mainContent">
+                <div className = "wrapper">
+                    <center><h4>Browse Stock</h4></center>
                     <Search />
-                    <br />
-                </div>
-                <div>
-                    <center><h4>Popular Market Summaries</h4></center><br/>
-                    <DisplayTable data={this.state.stockData} search={false} />
+                    <div>
+                        <center><h4>Popular Market Summaries</h4></center><br/>
+                        <DisplayTable data={this.state.stockData} search={false}/>
+                    </div>
                 </div>
             </div>
         )
