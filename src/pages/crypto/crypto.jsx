@@ -9,10 +9,9 @@ import {
 import 'font-awesome/css/font-awesome.min.css';
 import '../css/App.css';
 import ScrollButton from '../../components/ScrollButton';
-
+import PriceGraph from "./graph";
 let crypto = require('./crypto.js');
 let axios = require('axios');
-import PriceGraph from "./graph";
 
 
 class CoinList extends React.Component {
