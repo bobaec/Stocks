@@ -124,7 +124,7 @@ class DisplayTable extends React.Component {
      render() {
          const s = this.props.search;
          return (
-            <Table responsive variant="dark">
+            <Table id="stock_table" responsive variant="dark">
                 <thead>
                     <tr>
                         {this.renderTableHeader()}
@@ -173,7 +173,7 @@ class StocksPage extends React.Component {
                     <br />
                 </div>
                 <div>
-                    <center><h4>Popular Market Summaries</h4></center>
+                    <center><h4>Popular Market Summaries</h4></center><br/>
                     <DisplayTable data={this.state.stockData} search={false} />
                 </div>
             </div>

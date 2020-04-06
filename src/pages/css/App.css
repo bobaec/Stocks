@@ -246,3 +246,18 @@
 #crypto_table{
   width: 90%;
 }
+
+#stock_table{
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#stock_table thead tr{
+  border-bottom: 5px solid #db3d44;
+}
+
+#stock_table tbody tr:hover td{
+  background-color: lightgray;
+  color: black !important;
+}
