@@ -9,19 +9,19 @@ export default class Dashboard extends Component {
         super();
         this.state = {
             selected_id: '',
-            stock: 'bitcoin'
+            stock: 'bitcoin',
+            days: 1
         };
+        this.updateDays = this.updateDays.bind(this);
+
     }
 
-    // removing not sure why it is being used
-    // componentDidUpdate(prevProp) {
-    //     if (this.state.selected_id === '' || prevProp.selected_id !== this.props.selected_id) {
-    //         this.setState({selected_id: this.props.selected_id});
-    //     }
-    // } 
+    updateDays(d) {
+        this.setState({ days: d });
+    }
 
     getChart = (name, symbol) => ({
-        crypto: <PriceGraph coin={name} days={1} validMarketCap={true} found={true} updateDays={null} />,
+        crypto: <PriceGraph coin={name} days={this.state.days} validMarketCap={true} found={true} updateDays={this.updateDays} />,
         stock: <><Chart stock={symbol} /> <News stock={name} /></>
     });
     

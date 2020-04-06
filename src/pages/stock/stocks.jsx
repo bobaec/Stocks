@@ -60,7 +60,7 @@ class Search extends React.Component {
     render() {
       return (
         <form>
-            <InputGroup>
+            <InputGroup className="browse_input_stock">
                 <FormControl type='text' list='stockSearch' placeholder="Search for..." ref={input => this.search = input} onChange={this.handleInputChange} />
             </InputGroup>
             <DisplayTable user={this.props.user} favs={this.props.favs} updateFavs={this.props.updateFavs} data={this.state.searchResults} search={true}/>
@@ -157,8 +157,8 @@ class DisplayTable extends React.Component {
             const id = d[0].symbol;
             return (
                 <tr>
-                    <td colspan={len}>
-                        <News stock={id} index={5} />
+                    <td colspan={len+1}>
+                        <center><News stock={id} index={5}/></center>
                     </td>
                 </tr>
             )
@@ -168,7 +168,7 @@ class DisplayTable extends React.Component {
      render() {
          const s = this.props.search;
          return (
-            <Table responsive variant="dark">
+            <Table id="stock_table" responsive variant="dark">
                 <thead>
                     <tr>
                     { s &&
@@ -182,7 +182,7 @@ class DisplayTable extends React.Component {
                 </tbody>
                 {
                     s &&
-                    <tfoot align='center'>
+                    <tfoot>
                         {this.renderTableFooter()}
                     </tfoot>
                 }
@@ -224,16 +224,19 @@ class StocksPage extends React.Component {
     render() {
         const user = this.state.user
         return (
-            <div>
-                <div>
+            <div className = "mainContent">
+                <div className= "wrapper">
+                    <center><h4>Browse Stock</h4></center>
+
                     <Search user={user} favs={this.state.favs} updateFavs={this.updateFavs} />
-                    <br />
-                </div>
+                    <br/>
                 <div>
                     <center><h4>Popular Market Summaries</h4></center>
                     <DisplayTable data={this.state.stockData} search={false} />
                 </div>
             </div>
+            </div>
+
         )
     }
 }

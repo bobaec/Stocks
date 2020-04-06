@@ -114,8 +114,8 @@ class MainPage extends React.Component {
 				
 				axios.post('/user/create', { 
 					name: this.props.user.displayName.toString(),
-					email: this.props.user.email.toString() 
-				})	
+					email: this.props.user.email.toString()
+				})
 				.then(res => {
 				 	// console.log(res.data);
 				})
@@ -138,7 +138,7 @@ class MainPage extends React.Component {
 									numberOfStocks: this.state.numberOfStocks + 1
 								})
 							}
-						} 
+						}
 					}
 					for (let j = 0; j < this.state.allUsers[i].cryptos.length; j++) {
 						if (typeof this.state.allUsers[i].cryptos[j] !== "undefined") {
@@ -150,7 +150,7 @@ class MainPage extends React.Component {
 									numberOfCryptos: this.state.numberOfCryptos + 1
 								})
 							}
-						} 
+						}
 					}
 				}
 			}
@@ -184,10 +184,10 @@ class MainPage extends React.Component {
 
 	render() {
 
-		return (			
+		return (
 			<div className = "mainContent">
 			{
-			this.props.user ? 
+			this.props.user ?
 			// if logged in, show all content
 			// all content should be inside this div
 				<div className="main">
@@ -220,8 +220,8 @@ class MainPage extends React.Component {
 					<Container className="users">
 							<Row style={{marginTop: "10px"}}>
 							{/* Display favorite stocks */}
-							<center><h4>Your Favorite Stocks</h4></center>
-							<Table responsive variant="dark" className="dashboard_table">
+							<center><h5 id="favouite_table_label">Your Favorite Stocks</h5></center>
+							<Table id="favourite_table" responsive variant="dark" className="dashboard_table">
 								<thead>
 									<tr>
 										<th>Stock</th>
@@ -234,8 +234,8 @@ class MainPage extends React.Component {
 							</Table>
 
 							{/* Display favorite cryptos */}
-							<center><h4>Your Favorite Cryptos</h4></center>
-							<Table responsive variant="dark" className="dashboard_table">
+							<center><h5 id="favouite_table_label">Your Favorite Cryptos</h5></center>
+							<Table id="favourite_table" responsive variant="dark" className="dashboard_table">
 								<thead>
 									<tr>
 										<th>Crypto</th>
@@ -259,6 +259,6 @@ class MainPage extends React.Component {
 			</div>
 		);
 	}
-} 
+}
 
 export default MainPage;

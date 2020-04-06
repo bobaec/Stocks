@@ -365,9 +365,9 @@ class CryptoList extends React.Component {
             <div>
                 <center>
                     <h4>Top 100 Cryptocurrencies</h4><br/>
-                    <Table striped bordered hover variant="dark">
+                    <Table striped bordered hover variant="dark" id="crypto_table">
                         <thead>
-                            <tr id="crypto_table">
+                            <tr >
                                 <th></th>
                                 <th>#</th>
                                 <th>Coin</th>
